@@ -1,0 +1,16 @@
+{
+    "name": "tmsperera/headless-chat-for-laravel",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Tmsperera\\HeadlessChatForLaravel\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "tmsperera"
+        }
+    ],
+    "require": {}
+}
