@@ -4,7 +4,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Tmsperera\\HeadlessChatForLaravel\\": "src/"
+            "Tmsperera\\HeadlessChatForLaravel\\": "headless-chat/src/"
         }
     },
     "authors": [
@@ -13,10 +13,12 @@
         }
     ],
     "require-dev": {
-        "orchestra/testbench": "^9.8"
+        "orchestra/testbench": "^9.8",
+        "phpunit/phpunit": "^11.5"
     },
     "autoload-dev": {
         "psr-4": {
+            "Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/",
             "Workbench\\Database\\Factories\\": "workbench/database/factories/",
             "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
