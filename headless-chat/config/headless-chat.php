@@ -1,8 +1,8 @@
 <?php
 
-use Tmsperera\HeadlessChatForLaravel\Providers\Models\Conversation;
-use Tmsperera\HeadlessChatForLaravel\Providers\Models\Message;
-use Tmsperera\HeadlessChatForLaravel\Providers\Models\Participation;
+use Tmsperera\HeadlessChatForLaravel\Models\Conversation;
+use Tmsperera\HeadlessChatForLaravel\Models\Message;
+use Tmsperera\HeadlessChatForLaravel\Models\Participation;
 
 return [
     'models' => [

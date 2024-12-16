@@ -5,6 +5,8 @@ namespace Tests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tmsperera\HeadlessChatForLaravel\Models\Conversation;
+use Tmsperera\HeadlessChatForLaravel\Models\Message;
+use Tmsperera\HeadlessChatForLaravel\Models\Participation;
 
 class TestHeadlessChatServiceProvider extends TestCase
 {
@@ -12,7 +14,18 @@ class TestHeadlessChatServiceProvider extends TestCase
 
     public function testConfig()
     {
-        $this->assertIsArray(Config::get('headless-chat'));
+        $this->assertEquals(
+            Conversation::class,
+            Config::get('headless-chat.models.conversation')
+        );
+        $this->assertEquals(
+            Participation::class,
+            Config::get('headless-chat.models.participation')
+        );
+        $this->assertEquals(
+            Message::class,
+            Config::get('headless-chat.models.message')
+        );
     }
 
     public function testMigrations()
