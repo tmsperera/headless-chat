@@ -4,7 +4,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Tmsperera\\HeadlessChatForLaravel\\": "headless-chat/src/"
+            "Tmsperera\\HeadlessChatForLaravel\\": "package/src/"
         }
     },
     "authors": [

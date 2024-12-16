@@ -19,6 +19,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function defineDatabaseMigrations(): void
     {
-        $this->loadMigrationsFrom(__DIR__.'/../headless-chat/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../package/database/migrations');
     }
 }
