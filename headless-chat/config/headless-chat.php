@@ -9,5 +9,5 @@ return [
         'conversation' => Conversation::class,
         'participation' => Participation::class,
         'message' => Message::class,
-    ]
+    ],
 ];

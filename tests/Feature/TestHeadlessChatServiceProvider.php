@@ -12,7 +12,7 @@ class TestHeadlessChatServiceProvider extends TestCase
 {
     use RefreshDatabase;
 
-    public function testConfig()
+    public function test_config()
     {
         $this->assertEquals(
             Conversation::class,
@@ -28,7 +28,7 @@ class TestHeadlessChatServiceProvider extends TestCase
         );
     }
 
-    public function testMigrations()
+    public function test_migrations()
     {
         $this->assertEmpty(Conversation::all());
     }
