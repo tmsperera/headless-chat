@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Workbench\Database\Factories\ConversationFactory;
 
 class Conversation extends Model
 {
@@ -14,11 +13,6 @@ class Conversation extends Model
     use SoftDeletes;
 
     protected $guarded = [];
-
-    protected static function newFactory(): ConversationFactory
-    {
-        return ConversationFactory::new();
-    }
 
     public function participations(): HasMany
     {

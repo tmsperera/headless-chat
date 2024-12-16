@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Workbench\Database\Factories\MessageFactory;
 
 class Message extends Model
 {
@@ -14,11 +13,6 @@ class Message extends Model
     use SoftDeletes;
 
     protected $guarded = [];
-
-    protected static function newFactory(): MessageFactory
-    {
-        return MessageFactory::new();
-    }
 
     public function conversation(): BelongsTo
     {
