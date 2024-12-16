@@ -1,10 +1,10 @@
 laravel: '@testbench'
 
 providers:
-  # - Workbench\App\Providers\WorkbenchServiceProvider
+  - Tmsperera\HeadlessChatForLaravel\Providers\HeadlessChatServiceProvider
 
 migrations:
-  - workbench/database/migrations
+  - headless-chat/database/migrations
 
 seeders:
   - Workbench\Database\Seeders\DatabaseSeeder
