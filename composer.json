@@ -12,5 +12,7 @@
             "name": "tmsperera"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "orchestra/testbench": "^9.8"
+    }
 }
