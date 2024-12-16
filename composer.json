@@ -37,5 +37,12 @@
             "@build",
             "@php vendor/bin/testbench serve --ansi"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tmsperera\\HeadlessChatForLaravel\\Providers\\HeadlessChatServiceProvider"
+            ]
+        }
     }
 }
