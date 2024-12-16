@@ -1,0 +1,30 @@
+laravel: '@testbench'
+
+providers:
+  - Tmsperera\HeadlessChatForLaravel\Providers\HeadlessChatServiceProvider
+
+migrations:
+  - headless-chat/database/migrations
+
+seeders:
+  - Workbench\Database\Seeders\DatabaseSeeder
+
+workbench:
+  start: '/'
+  install: true
+  health: false
+  discovers:
+    web: true
+    api: false
+    commands: false
+    components: false
+    views: false
+  build:
+    - asset-publish
+    - create-sqlite-db
+    - db-wipe
+    - migrate-fresh:
+        --seed: true
+  assets:
+    - laravel-assets
+  sync: []
