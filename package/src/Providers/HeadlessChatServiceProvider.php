@@ -12,9 +12,7 @@ class HeadlessChatServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/headless-chat.php', 'headless-chat'
-        );
+        $this->mergeConfigFrom(__DIR__.'/../../config/headless-chat.php', 'headless-chat');
 
         $this->app->bind(Conversation::class, Config::get('headless-chat.models.conversation'));
         $this->app->bind(Participation::class, Config::get('headless-chat.models.participation'));
