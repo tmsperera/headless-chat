@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tmsperera\HeadlessChatForLaravel\Models\Conversation;
@@ -22,5 +23,7 @@ class TestHeadlessChatServiceProvider extends TestCase
     public function test_migrations()
     {
         $this->assertEmpty(Conversation::all());
+        $this->assertEmpty(Participation::all());
+        $this->assertEmpty(Message::all());
     }
 }
