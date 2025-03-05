@@ -6,9 +6,12 @@ namespace Workbench\App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tmsperera\HeadlessChat\Contracts\Participant;
+use Tmsperera\HeadlessChat\Traits\Chatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Participant
 {
+    use Chatable;
     use HasFactory, Notifiable;
 
     /**

@@ -3,7 +3,7 @@
 namespace Workbench\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Tmsperera\HeadlessChatForLaravel\Models\Message;
+use Tmsperera\HeadlessChat\Models\Message;
 
 class MessageFactory extends Factory
 {

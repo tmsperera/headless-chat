@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Orchestra\Testbench\Concerns\WithWorkbench;
+use Tmsperera\HeadlessChat\Providers\HeadlessChatServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -13,7 +14,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app): array
     {
         return [
-            'Tmsperera\HeadlessChatForLaravel\Providers\HeadlessChatServiceProvider',
+            HeadlessChatServiceProvider::class,
         ];
     }
 

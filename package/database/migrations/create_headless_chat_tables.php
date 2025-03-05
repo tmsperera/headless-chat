@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('type');
             $table->softDeletes();
         });
 

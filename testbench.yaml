@@ -1,7 +1,7 @@
 laravel: '@testbench'
 
 providers:
-  - Tmsperera\HeadlessChatForLaravel\Providers\HeadlessChatServiceProvider
+  - Tmsperera\HeadlessChat\Providers\HeadlessChatServiceProvider
 
 migrations:
   - package/database/migrations

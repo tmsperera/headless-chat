@@ -1,6 +1,6 @@
 <?php
 
-namespace Tmsperera\HeadlessChatForLaravel\Models;
+namespace Tmsperera\HeadlessChat\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

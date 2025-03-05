@@ -3,7 +3,8 @@
 namespace Workbench\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Tmsperera\HeadlessChatForLaravel\Models\Conversation;
+use Tmsperera\HeadlessChat\Enums\ConversationType;
+use Tmsperera\HeadlessChat\Models\Conversation;
 
 class ConversationFactory extends Factory
 {
@@ -14,5 +15,14 @@ class ConversationFactory extends Factory
         return [
             //
         ];
+    }
+
+    public function directMessage(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'type' => ConversationType::DIRECT_MESSAGE,
+            ];
+        });
     }
 }
