@@ -7,6 +7,7 @@ use Tmsperera\HeadlessChat\Enums\ConversationType;
 use Tmsperera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
 use Tmsperera\HeadlessChat\HeadlessChatConfig;
 use Tmsperera\HeadlessChat\Models\Conversation;
+use Tmsperera\HeadlessChat\Models\Message;
 
 class SendDirectMessage
 {
@@ -17,14 +18,14 @@ class SendDirectMessage
     /**
      * @throws ParticipantLimitExceededException
      */
-    public function __invoke(Participant $sender, Participant $recipient, string $content): void
+    public function __invoke(Participant $sender, Participant $recipient, string $content): Message
     {
         $conversation = $this->getExistingConversation($sender, $recipient)
             ?: $this->createConversation($sender, $recipient);
 
         $participation = $conversation->participations->whereParticipant($sender);
 
-        $participation->messages()->create([
+        return $participation->messages()->create([
             'conversation_id' => $sender->getKey(),
             'content' => $content,
         ]);
