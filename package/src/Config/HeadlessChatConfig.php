@@ -8,12 +8,12 @@ use Tmsperera\HeadlessChat\Models\Message;
 use Tmsperera\HeadlessChat\Models\MessageRead;
 use Tmsperera\HeadlessChat\Models\Participation;
 
-class ConfigModels
+class HeadlessChatConfig
 {
     /**
      * @return class-string<Conversation>
      */
-    public static function conversation(): string
+    public static function conversationModelClass(): string
     {
         return Config::get('headless-chat.models.conversation');
     }
@@ -21,7 +21,7 @@ class ConfigModels
     /**
      * @return class-string<Message>
      */
-    public static function message(): string
+    public static function messageModelClass(): string
     {
         return Config::get('headless-chat.models.message');
     }
@@ -29,7 +29,7 @@ class ConfigModels
     /**
      * @return class-string<Participation>
      */
-    public static function participation(): string
+    public static function participationModelClass(): string
     {
         return Config::get('headless-chat.models.participation');
     }
@@ -37,8 +37,28 @@ class ConfigModels
     /**
      * @return class-string<MessageRead>
      */
-    public static function messageRead(): string
+    public static function messageReadModelClass(): string
     {
         return Config::get('headless-chat.models.message_read');
+    }
+
+    public static function newConversationModel(): Conversation
+    {
+        return new (static::conversationModelClass());
+    }
+
+    public static function newMessageModel(): Message
+    {
+        return new (static::messageModelClass());
+    }
+
+    public static function newParticipationModel(): Participation
+    {
+        return new (static::participationModelClass());
+    }
+
+    public static function newMessageReadModel(): MessageRead
+    {
+        return new (static::messageReadModelClass());
     }
 }

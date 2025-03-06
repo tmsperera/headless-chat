@@ -9,7 +9,7 @@ use Tmsperera\HeadlessChat\Exceptions\ReadBySenderException;
 use Tmsperera\HeadlessChat\Models\Message;
 use Tmsperera\HeadlessChat\Models\Participation;
 
-class MarkMessageAsReadAction
+class ReadMessageAction
 {
     /**
      * @throws ReadBySenderException

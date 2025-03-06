@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Tmsperera\HeadlessChat\Config\ConfigModels;
+use Illuminate\Support\Facades\App;
+use Tmsperera\HeadlessChat\Actions\ReadMessageAction;
+use Tmsperera\HeadlessChat\Config\HeadlessChatConfig;
+use Tmsperera\HeadlessChat\Contracts\Participant;
+use Tmsperera\HeadlessChat\Exceptions\InvalidParticipationException;
+use Tmsperera\HeadlessChat\Exceptions\ReadBySenderException;
 
 class Message extends Model
 {
@@ -18,19 +23,30 @@ class Message extends Model
 
     public function conversation(): BelongsTo
     {
-        return $this->belongsTo(ConfigModels::conversation());
+        return $this->belongsTo(HeadlessChatConfig::conversationModelClass());
     }
 
     /**
-     * Message sender Participation
+     * Sender Participation
      */
     public function participation(): BelongsTo
     {
-        return $this->belongsTo(ConfigModels::participation());
+        return $this->belongsTo(HeadlessChatConfig::participationModelClass());
     }
 
     public function messageReads(): HasMany
     {
-        return $this->hasMany(ConfigModels::messageRead());
+        return $this->hasMany(HeadlessChatConfig::messageReadModelClass());
+    }
+
+    /**
+     * @throws ReadBySenderException
+     * @throws InvalidParticipationException
+     */
+    public function read(Participant $reader): void
+    {
+        $readMessage = App::make(ReadMessageAction::class);
+
+        $readMessage(message: $this, reader: $reader);
     }
 }

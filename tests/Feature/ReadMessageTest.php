@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
-use Tmsperera\HeadlessChat\Actions\MarkMessageAsReadAction;
+use Tmsperera\HeadlessChat\Actions\ReadMessageAction;
 use Tmsperera\HeadlessChat\Events\MessageReadEvent;
 use Tmsperera\HeadlessChat\Exceptions\InvalidParticipationException;
 use Tmsperera\HeadlessChat\Exceptions\ReadBySenderException;
@@ -15,7 +15,7 @@ use Workbench\Database\Factories\MessageFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class MakMessageAsReadTest extends TestCase
+class ReadMessageTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -44,8 +44,8 @@ class MakMessageAsReadTest extends TestCase
             ->forParticipation($senderParticipation)
             ->createOne();
 
-        $markMessageAsRead = $this->app->make(MarkMessageAsReadAction::class);
-        $markMessageAsRead($message, $recipient);
+        $readMessage = $this->app->make(ReadMessageAction::class);
+        $readMessage($message, $recipient);
 
         $messageRead = MessageRead::query()
             ->whereKey($message)
@@ -76,9 +76,9 @@ class MakMessageAsReadTest extends TestCase
             ->forParticipation($senderParticipation)
             ->createOne();
 
-        $markMessageAsRead = $this->app->make(MarkMessageAsReadAction::class);
+        $readMessage = $this->app->make(ReadMessageAction::class);
         $this->expectException(ReadBySenderException::class);
-        $markMessageAsRead($message, $sender);
+        $readMessage($message, $sender);
         Event::assertNotDispatched(MessageReadEvent::class);
     }
 
@@ -87,9 +87,9 @@ class MakMessageAsReadTest extends TestCase
         $invalidUser = UserFactory::new()->createOne();
         $message = MessageFactory::new()->createOne();
 
-        $markMessageAsRead = $this->app->make(MarkMessageAsReadAction::class);
+        $readMessage = $this->app->make(ReadMessageAction::class);
         $this->expectException(InvalidParticipationException::class);
-        $markMessageAsRead($message, $invalidUser);
+        $readMessage($message, $invalidUser);
         Event::assertNotDispatched(MessageReadEvent::class);
     }
 }

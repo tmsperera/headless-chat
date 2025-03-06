@@ -20,12 +20,12 @@ class MessageFactory extends Factory
         ];
     }
 
-    public function forConversation(Conversation $conversation): static
+    public function forConversation(Conversation|ConversationFactory $conversation): static
     {
         return $this->for($conversation, 'conversation');
     }
 
-    public function forParticipation(Participation $participation): static
+    public function forParticipation(Participation|ParticipationFactory $participation): static
     {
         return $this->for($participation, 'participation');
     }

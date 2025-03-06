@@ -2,7 +2,7 @@
 
 namespace Tmsperera\HeadlessChat\Actions;
 
-use Tmsperera\HeadlessChat\Config\ConfigModels;
+use Tmsperera\HeadlessChat\Config\HeadlessChatConfig;
 use Tmsperera\HeadlessChat\Contracts\Participant;
 use Tmsperera\HeadlessChat\Enums\ConversationType;
 use Tmsperera\HeadlessChat\Events\MessageSentEvent;
@@ -38,7 +38,7 @@ class SendDirectMessageAction
 
     protected function getExistingConversation(Participant $sender, Participant $recipient): ?Conversation
     {
-        return ConfigModels::conversation()::query()
+        return HeadlessChatConfig::conversationModelClass()::query()
             ->with('participations')
             ->whereDirectMessage()
             ->whereHasParticipant($sender)
@@ -51,7 +51,7 @@ class SendDirectMessageAction
      */
     protected function createConversation(Participant $sender, Participant $recipient): ?Conversation
     {
-        $conversation = ConfigModels::conversation()::query()
+        $conversation = HeadlessChatConfig::conversationModelClass()::query()
             ->create(['type' => ConversationType::DIRECT_MESSAGE]);
 
         ($this->joinConversation)($sender, $conversation);

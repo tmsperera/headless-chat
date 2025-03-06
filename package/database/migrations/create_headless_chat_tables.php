@@ -45,6 +45,8 @@ return new class extends Migration
                 ->constrained(table: 'participations', column: 'id');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['message_id', 'participation_id']);
         });
     }
 
