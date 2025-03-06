@@ -10,16 +10,4 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     use DatabaseTransactions;
     use WithWorkbench;
-
-    protected function getPackageProviders($app): array
-    {
-        return [
-            HeadlessChatServiceProvider::class,
-        ];
-    }
-
-    protected function defineDatabaseMigrations(): void
-    {
-        $this->loadMigrationsFrom(__DIR__.'/../package/database/migrations');
-    }
 }
