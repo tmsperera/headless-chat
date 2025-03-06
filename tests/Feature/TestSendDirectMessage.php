@@ -8,6 +8,8 @@ use Tmsperera\HeadlessChat\Enums\ConversationType;
 use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Participation;
 use Tmsperera\HeadlessChat\Usecases\SendDirectMessage;
+use Workbench\Database\Factories\ConversationFactory;
+use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
 
 class TestSendDirectMessage extends TestCase
@@ -44,5 +46,29 @@ class TestSendDirectMessage extends TestCase
         ]);
     }
 
-    // todo
+    public function test_sending_message_when_has_conversation()
+    {
+        $sender = UserFactory::new()->create();
+        $recipient = UserFactory::new()->create();
+        $conversation = ConversationFactory::new()->directMessage()->create();
+        $senderParticipation = ParticipationFactory::new()
+            ->forConversation($conversation)
+            ->forParticipant($sender)
+            ->create();
+        ParticipationFactory::new()
+            ->forConversation($conversation)
+            ->forParticipant($recipient)
+            ->create();
+
+        $sendDirectMessage = $this->app->make(SendDirectMessage::class);
+        $sendDirectMessage($sender, $recipient, $message = 'test');
+
+        $this->assertDatabaseCount('conversations', 1);
+        $this->assertDatabaseCount('participations', 2);
+        $this->assertDatabaseHas('messages', [
+            'conversation_id' => $conversation->id,
+            'participation_id' => $senderParticipation->id,
+            'content' => $message,
+        ]);
+    }
 }

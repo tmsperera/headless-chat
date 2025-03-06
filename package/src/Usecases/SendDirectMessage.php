@@ -35,7 +35,8 @@ class SendDirectMessage
         return HeadlessChatConfig::conversationModelClass()::query()
             ->with('participations')
             ->whereDirectMessage()
-            ->whereHasAllParticipants([$sender, $recipient])
+            ->whereHasParticipant($sender)
+            ->whereHasParticipant($recipient)
             ->first();
     }
 

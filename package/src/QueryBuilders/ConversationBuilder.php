@@ -3,7 +3,6 @@
 namespace Tmsperera\HeadlessChat\QueryBuilders;
 
 use Illuminate\Database\Eloquent\Builder;
-use InvalidArgumentException;
 use Tmsperera\HeadlessChat\Contracts\Participant;
 use Tmsperera\HeadlessChat\Enums\ConversationType;
 
@@ -14,16 +13,10 @@ class ConversationBuilder extends Builder
         return $this->where('type', ConversationType::DIRECT_MESSAGE);
     }
 
-    public function whereHasAllParticipants(array $participants): ConversationBuilder
+    public function whereHasParticipant(Participant $participant): ConversationBuilder
     {
-        return $this->whereHas('participations', function (Builder $query) use ($participants) {
-            foreach ($participants as $participant) {
-                if (! $participant instanceof Participant) {
-                    throw new InvalidArgumentException;
-                }
-
-                $query->whereMorphedTo('participant', $participant);
-            }
+        return $this->whereHas('participations', function (Builder $query) use ($participant) {
+            $query->whereMorphedTo('participant', $participant);
         });
     }
 }
