@@ -26,7 +26,7 @@ class SendDirectMessage
 
         $participation->messages()->create([
             'conversation_id' => $sender->getKey(),
-            'body' => $content,
+            'content' => $content,
         ]);
     }
 

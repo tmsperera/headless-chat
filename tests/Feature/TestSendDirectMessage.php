@@ -40,7 +40,7 @@ class TestSendDirectMessage extends TestCase
         $this->assertDatabaseHas('messages', [
             'conversation_id' => $conversation->id,
             'participation_id' => $senderParticipation->id,
-            'body' => $message,
+            'content' => $message,
         ]);
     }
 
