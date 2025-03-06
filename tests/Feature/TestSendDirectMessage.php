@@ -16,7 +16,7 @@ class TestSendDirectMessage extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_sending_message_when_no_conversation()
+    public function test_when_no_conversation_exist()
     {
         $sender = UserFactory::new()->create();
         $recipient = UserFactory::new()->create();
@@ -46,7 +46,7 @@ class TestSendDirectMessage extends TestCase
         ]);
     }
 
-    public function test_sending_message_when_has_conversation()
+    public function test_when_conversation_exist()
     {
         $sender = UserFactory::new()->create();
         $recipient = UserFactory::new()->create();

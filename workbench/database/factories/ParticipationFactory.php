@@ -23,7 +23,6 @@ class ParticipationFactory extends Factory
         return $this->for($conversation, 'conversation');
     }
 
-    // todo use contract
     public function forParticipant(Model $model): ParticipationFactory
     {
         return $this->for($model, 'participant');

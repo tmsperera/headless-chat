@@ -22,6 +22,8 @@ return new class extends Migration
             $table->morphs('participant');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['conversation_id', 'participant_type', 'participant_id']);
         });
 
         Schema::create('messages', function (Blueprint $table) {
@@ -38,8 +40,8 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('conversations');
-        Schema::dropIfExists('participations');
         Schema::dropIfExists('messages');
+        Schema::dropIfExists('participations');
+        Schema::dropIfExists('conversations');
     }
 };
