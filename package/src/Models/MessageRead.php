@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Tmsperera\HeadlessChat\HeadlessChatConfig;
 
 class MessageRead extends Model
 {
@@ -16,7 +17,7 @@ class MessageRead extends Model
 
     public function message(): BelongsTo
     {
-        return $this->belongsTo(Message::class);
+        return $this->belongsTo(HeadlessChatConfig::messageModelClass());
     }
 
     /**
@@ -24,6 +25,6 @@ class MessageRead extends Model
      */
     public function participation(): BelongsTo
     {
-        return $this->belongsTo(Participation::class);
+        return $this->belongsTo(HeadlessChatConfig::participationModelClass());
     }
 }

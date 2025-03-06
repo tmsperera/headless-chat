@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Tmsperera\HeadlessChat\HeadlessChatConfig;
 
 class Message extends Model
 {
@@ -17,7 +18,7 @@ class Message extends Model
 
     public function conversation(): BelongsTo
     {
-        return $this->belongsTo(Conversation::class);
+        return $this->belongsTo(HeadlessChatConfig::conversationModelClass());
     }
 
     /**
@@ -25,11 +26,11 @@ class Message extends Model
      */
     public function participation(): BelongsTo
     {
-        return $this->belongsTo(Participation::class);
+        return $this->belongsTo(HeadlessChatConfig::participationModelClass());
     }
 
     public function messageReads(): HasMany
     {
-        return $this->hasMany(MessageRead::class);
+        return $this->hasMany(HeadlessChatConfig::messageReadModelClass());
     }
 }

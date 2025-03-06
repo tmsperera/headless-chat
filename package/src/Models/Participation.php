@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tmsperera\HeadlessChat\Collections\ParticipationCollection;
+use Tmsperera\HeadlessChat\HeadlessChatConfig;
 
 class Participation extends Model
 {
@@ -19,12 +20,12 @@ class Participation extends Model
 
     public function conversation(): BelongsTo
     {
-        return $this->belongsTo(Conversation::class);
+        return $this->belongsTo(HeadlessChatConfig::conversationModelClass());
     }
 
     public function messages(): HasMany
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(HeadlessChatConfig::messageModelClass());
     }
 
     public function participant(): MorphTo
