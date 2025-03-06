@@ -18,12 +18,12 @@ class ParticipationFactory extends Factory
         ];
     }
 
-    public function forConversation(Conversation $conversation): ParticipationFactory
+    public function forConversation(Conversation $conversation): static
     {
         return $this->for($conversation, 'conversation');
     }
 
-    public function forParticipant(Model $model): ParticipationFactory
+    public function forParticipant(Model $model): static
     {
         return $this->for($model, 'participant');
     }

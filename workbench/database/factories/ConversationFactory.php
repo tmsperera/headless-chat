@@ -17,7 +17,7 @@ class ConversationFactory extends Factory
         ];
     }
 
-    public function directMessage(): Factory
+    public function directMessage(): static
     {
         return $this->state(function (array $attributes) {
             return [
