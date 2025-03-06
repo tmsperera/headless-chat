@@ -4,7 +4,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Orchestra\Testbench\Concerns\WithWorkbench;
-use Tmsperera\HeadlessChat\Providers\HeadlessChatServiceProvider;
+use Tmsperera\HeadlessChat\HeadlessChatServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
