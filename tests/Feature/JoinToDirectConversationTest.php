@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tmsperera\HeadlessChat\Actions\JoinConversation;
 use Tmsperera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
-use Tmsperera\HeadlessChat\Usecases\JoinConversation;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;

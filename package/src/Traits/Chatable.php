@@ -4,10 +4,10 @@ namespace Tmsperera\HeadlessChat\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\App;
+use Tmsperera\HeadlessChat\Actions\SendDirectMessage;
 use Tmsperera\HeadlessChat\Contracts\Participant;
 use Tmsperera\HeadlessChat\Models\Message;
 use Tmsperera\HeadlessChat\Models\Participation;
-use Tmsperera\HeadlessChat\Usecases\SendDirectMessage;
 
 trait Chatable
 {

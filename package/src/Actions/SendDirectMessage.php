@@ -1,6 +1,6 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Usecases;
+namespace Tmsperera\HeadlessChat\Actions;
 
 use Tmsperera\HeadlessChat\Contracts\Participant;
 use Tmsperera\HeadlessChat\Enums\ConversationType;

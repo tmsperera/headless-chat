@@ -4,10 +4,10 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tmsperera\HeadlessChat\Actions\SendDirectMessage;
 use Tmsperera\HeadlessChat\Enums\ConversationType;
 use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Participation;
-use Tmsperera\HeadlessChat\Usecases\SendDirectMessage;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
