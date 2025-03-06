@@ -3,10 +3,13 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 use Tmsperera\HeadlessChat\Actions\SendDirectMessage;
 use Tmsperera\HeadlessChat\Enums\ConversationType;
+use Tmsperera\HeadlessChat\Events\MessageSent;
 use Tmsperera\HeadlessChat\Models\Conversation;
+use Tmsperera\HeadlessChat\Models\Message;
 use Tmsperera\HeadlessChat\Models\Participation;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\ParticipationFactory;
@@ -16,13 +19,20 @@ class TestSendDirectMessageTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Event::fake([MessageSent::class]);
+    }
+
     public function test_when_no_conversation_exist()
     {
         $sender = UserFactory::new()->create();
         $recipient = UserFactory::new()->create();
 
         $sendDirectMessage = $this->app->make(SendDirectMessage::class);
-        $sendDirectMessage($sender, $recipient, $message = 'test');
+        $sendDirectMessage($sender, $recipient, $content = 'test');
 
         $this->assertDatabaseCount('conversations', 1);
         $conversation = Conversation::query()
@@ -39,11 +49,14 @@ class TestSendDirectMessageTest extends TestCase
             'participant_type' => $recipient->getMorphClass(),
             'participant_id' => $recipient->id,
         ]);
-        $this->assertDatabaseHas('messages', [
-            'conversation_id' => $conversation->id,
-            'participation_id' => $senderParticipation->id,
-            'content' => $message,
-        ]);
+        $message = Message::query()
+            ->where('conversation_id', $conversation->id)
+            ->where('participation_id', $senderParticipation->id)
+            ->where('content', $content)
+            ->firstOrFail();
+        Event::assertDispatched(function (MessageSent $event) use ($message) {
+            return $event->message->id === $message->id;
+        });
     }
 
     public function test_when_conversation_exist()
@@ -61,14 +74,17 @@ class TestSendDirectMessageTest extends TestCase
             ->create();
 
         $sendDirectMessage = $this->app->make(SendDirectMessage::class);
-        $sendDirectMessage($sender, $recipient, $message = 'test');
+        $sendDirectMessage($sender, $recipient, $content = 'test');
 
         $this->assertDatabaseCount('conversations', 1);
         $this->assertDatabaseCount('participations', 2);
-        $this->assertDatabaseHas('messages', [
-            'conversation_id' => $conversation->id,
-            'participation_id' => $senderParticipation->id,
-            'content' => $message,
-        ]);
+        $message = Message::query()
+            ->where('conversation_id', $conversation->id)
+            ->where('participation_id', $senderParticipation->id)
+            ->where('content', $content)
+            ->firstOrFail();
+        Event::assertDispatched(function (MessageSent $event) use ($message) {
+            return $event->message->id === $message->id;
+        });
     }
 }
