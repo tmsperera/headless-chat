@@ -13,7 +13,7 @@ class ConversationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'type' => $this->faker->randomElement(ConversationType::cases()),
         ];
     }
 

@@ -40,7 +40,7 @@ class MarkMessageAsReadAction
         $message->loadMissing('conversation.participations.participant');
 
         $participation = $message->conversation->participations
-            ->firstOrFail(function (Participation $participation) use ($reader) {
+            ->first(function (Participation $participation) use ($reader) {
                 return $participation->participant->is($reader);
             });
 

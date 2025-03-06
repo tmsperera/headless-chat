@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tmsperera\HeadlessChat\Collections\ParticipationCollection;
+use Tmsperera\HeadlessChat\Config\ConfigModels;
 use Tmsperera\HeadlessChat\Enums\ConversationType;
-use Tmsperera\HeadlessChat\HeadlessChatConfig;
 use Tmsperera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 /**
@@ -32,12 +32,12 @@ class Conversation extends Model
 
     public function participations(): HasMany
     {
-        return $this->hasMany(HeadlessChatConfig::participationModelClass());
+        return $this->hasMany(ConfigModels::participation());
     }
 
     public function messages(): HasMany
     {
-        return $this->hasMany(HeadlessChatConfig::messageModelClass());
+        return $this->hasMany(ConfigModels::message());
     }
 
     public function newEloquentBuilder($query): ConversationBuilder

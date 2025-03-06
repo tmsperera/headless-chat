@@ -1,6 +1,6 @@
 <?php
 
-namespace Tmsperera\HeadlessChat;
+namespace Tmsperera\HeadlessChat\Config;
 
 use Illuminate\Support\Facades\Config;
 use Tmsperera\HeadlessChat\Models\Conversation;
@@ -8,12 +8,12 @@ use Tmsperera\HeadlessChat\Models\Message;
 use Tmsperera\HeadlessChat\Models\MessageRead;
 use Tmsperera\HeadlessChat\Models\Participation;
 
-class HeadlessChatConfig
+class ConfigModels
 {
     /**
      * @return class-string<Conversation>
      */
-    public static function conversationModelClass(): string
+    public static function conversation(): string
     {
         return Config::get('headless-chat.models.conversation');
     }
@@ -21,7 +21,7 @@ class HeadlessChatConfig
     /**
      * @return class-string<Message>
      */
-    public static function messageModelClass(): string
+    public static function message(): string
     {
         return Config::get('headless-chat.models.message');
     }
@@ -29,7 +29,7 @@ class HeadlessChatConfig
     /**
      * @return class-string<Participation>
      */
-    public static function participationModelClass(): string
+    public static function participation(): string
     {
         return Config::get('headless-chat.models.participation');
     }
@@ -37,7 +37,7 @@ class HeadlessChatConfig
     /**
      * @return class-string<MessageRead>
      */
-    public static function messageReadModelClass(): string
+    public static function messageRead(): string
     {
         return Config::get('headless-chat.models.message_read');
     }

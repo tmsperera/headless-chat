@@ -2,11 +2,11 @@
 
 namespace Tmsperera\HeadlessChat\Actions;
 
+use Tmsperera\HeadlessChat\Config\ConfigModels;
 use Tmsperera\HeadlessChat\Contracts\Participant;
 use Tmsperera\HeadlessChat\Enums\ConversationType;
 use Tmsperera\HeadlessChat\Events\MessageSentEvent;
 use Tmsperera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
-use Tmsperera\HeadlessChat\HeadlessChatConfig;
 use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Message;
 
@@ -38,7 +38,7 @@ class SendDirectMessageAction
 
     protected function getExistingConversation(Participant $sender, Participant $recipient): ?Conversation
     {
-        return HeadlessChatConfig::conversationModelClass()::query()
+        return ConfigModels::conversation()::query()
             ->with('participations')
             ->whereDirectMessage()
             ->whereHasParticipant($sender)
@@ -51,7 +51,7 @@ class SendDirectMessageAction
      */
     protected function createConversation(Participant $sender, Participant $recipient): ?Conversation
     {
-        $conversation = HeadlessChatConfig::conversationModelClass()::query()
+        $conversation = ConfigModels::conversation()::query()
             ->create(['type' => ConversationType::DIRECT_MESSAGE]);
 
         ($this->joinConversation)($sender, $conversation);

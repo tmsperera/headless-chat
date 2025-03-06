@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 use Tmsperera\HeadlessChat\Actions\MarkMessageAsReadAction;
 use Tmsperera\HeadlessChat\Events\MessageReadEvent;
+use Tmsperera\HeadlessChat\Exceptions\InvalidParticipationException;
 use Tmsperera\HeadlessChat\Exceptions\ReadBySenderException;
 use Tmsperera\HeadlessChat\Models\MessageRead;
 use Workbench\Database\Factories\ConversationFactory;
@@ -78,6 +79,17 @@ class MakMessageAsReadTest extends TestCase
         $markMessageAsRead = $this->app->make(MarkMessageAsReadAction::class);
         $this->expectException(ReadBySenderException::class);
         $markMessageAsRead($message, $sender);
+        Event::assertNotDispatched(MessageReadEvent::class);
+    }
+
+    public function test_when_read_by_other_invalid_participant()
+    {
+        $invalidUser = UserFactory::new()->createOne();
+        $message = MessageFactory::new()->createOne();
+
+        $markMessageAsRead = $this->app->make(MarkMessageAsReadAction::class);
+        $this->expectException(InvalidParticipationException::class);
+        $markMessageAsRead($message, $invalidUser);
         Event::assertNotDispatched(MessageReadEvent::class);
     }
 }

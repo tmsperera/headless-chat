@@ -15,6 +15,8 @@ class MessageFactory extends Factory
     {
         return [
             'content' => $this->faker->realText(),
+            'conversation_id' => ConversationFactory::new(),
+            'participation_id' => ParticipationFactory::new(),
         ];
     }
 

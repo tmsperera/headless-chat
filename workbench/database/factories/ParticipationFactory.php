@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Participation;
+use Workbench\App\Models\User;
 
 class ParticipationFactory extends Factory
 {
@@ -14,7 +15,11 @@ class ParticipationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'conversation_id' => ConversationFactory::new(),
+            'participant_id' => UserFactory::new(),
+            'participant_type' => function (array $attributes) {
+                return User::query()->find($attributes['participant_id'])->getMorphClass();
+            },
         ];
     }
 
