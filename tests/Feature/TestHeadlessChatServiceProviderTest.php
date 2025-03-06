@@ -8,7 +8,7 @@ use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Message;
 use Tmsperera\HeadlessChat\Models\Participation;
 
-class TestHeadlessChatServiceProvider extends TestCase
+class TestHeadlessChatServiceProviderTest extends TestCase
 {
     use RefreshDatabase;
 

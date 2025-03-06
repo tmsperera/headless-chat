@@ -12,7 +12,7 @@ use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class TestSendDirectMessage extends TestCase
+class TestSendDirectMessageTest extends TestCase
 {
     use RefreshDatabase;
 
