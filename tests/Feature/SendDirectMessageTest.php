@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
-use Tmsperera\HeadlessChat\Actions\SendDirectMessage;
+use Tmsperera\HeadlessChat\Actions\SendDirectMessageAction;
 use Tmsperera\HeadlessChat\Enums\ConversationType;
-use Tmsperera\HeadlessChat\Events\MessageSent;
+use Tmsperera\HeadlessChat\Events\MessageSentEvent;
 use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Message;
 use Tmsperera\HeadlessChat\Models\Participation;
@@ -23,7 +23,7 @@ class SendDirectMessageTest extends TestCase
     {
         parent::setUp();
 
-        Event::fake([MessageSent::class]);
+        Event::fake([MessageSentEvent::class]);
     }
 
     public function test_when_no_conversation_exist()
@@ -31,7 +31,7 @@ class SendDirectMessageTest extends TestCase
         $sender = UserFactory::new()->create();
         $recipient = UserFactory::new()->create();
 
-        $sendDirectMessage = $this->app->make(SendDirectMessage::class);
+        $sendDirectMessage = $this->app->make(SendDirectMessageAction::class);
         $sendDirectMessage($sender, $recipient, $content = 'test');
 
         $this->assertDatabaseCount('conversations', 1);
@@ -54,8 +54,8 @@ class SendDirectMessageTest extends TestCase
             ->where('participation_id', $senderParticipation->id)
             ->where('content', $content)
             ->firstOrFail();
-        Event::assertDispatched(function (MessageSent $event) use ($message) {
-            return $event->message->id === $message->id;
+        Event::assertDispatched(function (MessageSentEvent $event) use ($message) {
+            return $event->message->is($message);
         });
     }
 
@@ -73,7 +73,7 @@ class SendDirectMessageTest extends TestCase
             ->forParticipant($recipient)
             ->create();
 
-        $sendDirectMessage = $this->app->make(SendDirectMessage::class);
+        $sendDirectMessage = $this->app->make(SendDirectMessageAction::class);
         $sendDirectMessage($sender, $recipient, $content = 'test');
 
         $this->assertDatabaseCount('conversations', 1);
@@ -83,8 +83,8 @@ class SendDirectMessageTest extends TestCase
             ->where('participation_id', $senderParticipation->id)
             ->where('content', $content)
             ->firstOrFail();
-        Event::assertDispatched(function (MessageSent $event) use ($message) {
-            return $event->message->id === $message->id;
+        Event::assertDispatched(function (MessageSentEvent $event) use ($message) {
+            return $event->message->is($message);
         });
     }
 }

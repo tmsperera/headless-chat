@@ -36,6 +36,16 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::create('message_reads', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('message_id')
+                ->constrained(table: 'message', column: 'id');
+            $table->foreignId('participation_id')
+                ->constrained(table: 'participations', column: 'id');
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
 
     public function down(): void

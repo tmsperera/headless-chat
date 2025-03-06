@@ -3,7 +3,9 @@
 namespace Workbench\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Message;
+use Tmsperera\HeadlessChat\Models\Participation;
 
 class MessageFactory extends Factory
 {
@@ -12,7 +14,17 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'content' => $this->faker->realText(),
         ];
+    }
+
+    public function forConversation(Conversation $conversation): static
+    {
+        return $this->for($conversation, 'conversation');
+    }
+
+    public function forParticipation(Participation $participation): static
+    {
+        return $this->for($participation, 'participation');
     }
 }

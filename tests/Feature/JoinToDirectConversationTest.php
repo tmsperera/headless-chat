@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Tmsperera\HeadlessChat\Actions\JoinConversation;
+use Tmsperera\HeadlessChat\Actions\JoinConversationAction;
 use Tmsperera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\ParticipationFactory;
@@ -19,7 +19,7 @@ class JoinToDirectConversationTest extends TestCase
         $conversation = ConversationFactory::new()->directMessage()->create();
         $user = UserFactory::new()->create();
 
-        $addParticipantToConversation = $this->app->make(JoinConversation::class);
+        $addParticipantToConversation = $this->app->make(JoinConversationAction::class);
         $addParticipantToConversation($user, $conversation);
 
         $this->assertDatabaseCount('participations', 1);
@@ -40,7 +40,7 @@ class JoinToDirectConversationTest extends TestCase
             ->create();
         $user = UserFactory::new()->create();
 
-        $addParticipantToConversation = $this->app->make(JoinConversation::class);
+        $addParticipantToConversation = $this->app->make(JoinConversationAction::class);
         $addParticipantToConversation($user, $conversation);
 
         $this->assertDatabaseCount('participations', 2);
@@ -67,7 +67,7 @@ class JoinToDirectConversationTest extends TestCase
             ->create();
         $user3 = UserFactory::new()->create();
 
-        $addParticipantToConversation = $this->app->make(JoinConversation::class);
+        $addParticipantToConversation = $this->app->make(JoinConversationAction::class);
         $addParticipantToConversation($user3, $conversation);
     }
 }

@@ -4,16 +4,16 @@ namespace Tmsperera\HeadlessChat\Actions;
 
 use Tmsperera\HeadlessChat\Contracts\Participant;
 use Tmsperera\HeadlessChat\Enums\ConversationType;
-use Tmsperera\HeadlessChat\Events\MessageSent;
+use Tmsperera\HeadlessChat\Events\MessageSentEvent;
 use Tmsperera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
 use Tmsperera\HeadlessChat\HeadlessChatConfig;
 use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Message;
 
-class SendDirectMessage
+class SendDirectMessageAction
 {
     public function __construct(
-        protected JoinConversation $joinConversation,
+        protected JoinConversationAction $joinConversation,
     ) {}
 
     /**
@@ -31,7 +31,7 @@ class SendDirectMessage
             'content' => $content,
         ]);
 
-        MessageSent::dispatch($message);
+        MessageSentEvent::dispatch($message);
 
         return $message;
     }

@@ -5,6 +5,7 @@ namespace Tmsperera\HeadlessChat;
 use Illuminate\Support\Facades\Config;
 use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Message;
+use Tmsperera\HeadlessChat\Models\MessageRead;
 use Tmsperera\HeadlessChat\Models\Participation;
 
 class HeadlessChatConfig
@@ -31,5 +32,13 @@ class HeadlessChatConfig
     public static function participationModelClass(): string
     {
         return Config::get('headless-chat.models.participation');
+    }
+
+    /**
+     * @return class-string<MessageRead>
+     */
+    public static function messageReadModelClass(): string
+    {
+        return Config::get('headless-chat.models.message_read');
     }
 }

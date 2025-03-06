@@ -8,7 +8,7 @@ use Tmsperera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
 use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Participation;
 
-class JoinConversation
+class JoinConversationAction
 {
     /**
      * @throws ParticipantLimitExceededException

@@ -4,7 +4,7 @@ namespace Tmsperera\HeadlessChat\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\App;
-use Tmsperera\HeadlessChat\Actions\SendDirectMessage;
+use Tmsperera\HeadlessChat\Actions\SendDirectMessageAction;
 use Tmsperera\HeadlessChat\Contracts\Participant;
 use Tmsperera\HeadlessChat\Models\Message;
 use Tmsperera\HeadlessChat\Models\Participation;
@@ -18,7 +18,7 @@ trait Chatable
 
     public function sendDirectMessageTo(Participant $recipient, string $message): Message
     {
-        $sendDirectMessage = App::make(SendDirectMessage::class);
+        $sendDirectMessage = App::make(SendDirectMessageAction::class);
 
         return $sendDirectMessage(sender: $this, recipient: $recipient, message: $message);
     }
