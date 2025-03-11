@@ -27,15 +27,15 @@ class ConversationBuilder extends Builder
         $conversationsTable = HeadlessChatConfig::newConversationModel()->getTable();
         $participationsTable = HeadlessChatConfig::newParticipationModel()->getTable();
         $messagesTable = HeadlessChatConfig::newMessageModel()->getTable();
-        $messageReadsTable = HeadlessChatConfig::newMessageReadModel()->getTable();
+        $readReceiptsTable = HeadlessChatConfig::newReadReceiptModel()->getTable();
 
         return $this
             ->select("$conversationsTable.*")
 //            ->selectRaw("COUNT($messagesTable.id) AS total_message_count")
 //            ->selectRaw("SUM(CASE WHEN $messageReadsTable.id IS NULL THEN 1 ELSE 0 END) AS unread_message_count")
             ->selectRaw("COUNT($messagesTable.id) AS total_message_count")
-            ->selectRaw("COUNT($messageReadsTable.id) AS read_message_count")
-            ->selectRaw("COUNT($messagesTable.id) - COUNT($messageReadsTable.id) AS unread_message_count")
+            ->selectRaw("COUNT($readReceiptsTable.id) AS read_message_count")
+            ->selectRaw("COUNT($messagesTable.id) - COUNT($readReceiptsTable.id) AS unread_message_count")
             ->join($participationsTable, function (JoinClause $join) use ($participationsTable, $conversationsTable, $participant) {
                 $join
                     ->on("$participationsTable.conversation_id", '=', "$conversationsTable.id")
@@ -43,9 +43,9 @@ class ConversationBuilder extends Builder
                     ->on("$participationsTable.participant_type", '=', $participant->getMorphClass());
             })
             ->leftJoin($messagesTable, "$messagesTable.conversation_id", '=', "$conversationsTable.id")
-            ->leftJoin($messageReadsTable, function (JoinClause $join) use ($messageReadsTable, $messagesTable, $participationsTable) {
-                $join->on("$messageReadsTable.message_id", '=', "$messagesTable.id")
-                    ->on("$messageReadsTable.participation_id", '=', "$participationsTable.id");
+            ->leftJoin($readReceiptsTable, function (JoinClause $join) use ($readReceiptsTable, $messagesTable, $participationsTable) {
+                $join->on("$readReceiptsTable.message_id", '=', "$messagesTable.id")
+                    ->on("$readReceiptsTable.participation_id", '=', "$participationsTable.id");
             })
             ->groupBy("$conversationsTable.id");
     }

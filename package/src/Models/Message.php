@@ -34,9 +34,9 @@ class Message extends Model
         return $this->belongsTo(HeadlessChatConfig::participationModelClass());
     }
 
-    public function messageReads(): HasMany
+    public function readReceipts(): HasMany
     {
-        return $this->hasMany(HeadlessChatConfig::messageReadModelClass());
+        return $this->hasMany(HeadlessChatConfig::readReceiptModelClass());
     }
 
     /**

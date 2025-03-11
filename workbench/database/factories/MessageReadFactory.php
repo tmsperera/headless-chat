@@ -4,12 +4,12 @@ namespace Workbench\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Tmsperera\HeadlessChat\Models\Message;
-use Tmsperera\HeadlessChat\Models\MessageRead;
+use Tmsperera\HeadlessChat\Models\ReadReceipt;
 use Tmsperera\HeadlessChat\Models\Participation;
 
 class MessageReadFactory extends Factory
 {
-    protected $model = MessageRead::class;
+    protected $model = ReadReceipt::class;
 
     public function definition(): array
     {

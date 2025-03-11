@@ -25,7 +25,7 @@ class ReadMessageAction
             throw new ReadBySenderException;
         }
 
-        $message->messageReads()->create([
+        $message->readReceipts()->create([
             'participation_id' => $participation->getKey(),
         ]);
 

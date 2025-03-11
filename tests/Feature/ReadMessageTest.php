@@ -9,7 +9,7 @@ use Tmsperera\HeadlessChat\Actions\ReadMessageAction;
 use Tmsperera\HeadlessChat\Events\MessageReadEvent;
 use Tmsperera\HeadlessChat\Exceptions\InvalidParticipationException;
 use Tmsperera\HeadlessChat\Exceptions\ReadBySenderException;
-use Tmsperera\HeadlessChat\Models\MessageRead;
+use Tmsperera\HeadlessChat\Models\ReadReceipt;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\MessageFactory;
 use Workbench\Database\Factories\ParticipationFactory;
@@ -47,7 +47,7 @@ class ReadMessageTest extends TestCase
         $readMessage = $this->app->make(ReadMessageAction::class);
         $readMessage($message, $recipient);
 
-        $messageRead = MessageRead::query()
+        $messageRead = ReadReceipt::query()
             ->whereKey($message)
             ->where('participation_id', $recipientParticipation->id)
             ->firstOrFail();

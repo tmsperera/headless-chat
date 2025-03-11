@@ -37,7 +37,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('message_reads', function (Blueprint $table) {
+        Schema::create('read_receipts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('message_id')
                 ->constrained(table: 'message', column: 'id');
@@ -55,5 +55,6 @@ return new class extends Migration
         Schema::dropIfExists('messages');
         Schema::dropIfExists('participations');
         Schema::dropIfExists('conversations');
+        Schema::dropIfExists('read_receipts');
     }
 };

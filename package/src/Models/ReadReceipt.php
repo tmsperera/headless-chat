@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tmsperera\HeadlessChat\Config\HeadlessChatConfig;
 
-class MessageRead extends Model
+class ReadReceipt extends Model
 {
     use HasFactory;
     use SoftDeletes;
