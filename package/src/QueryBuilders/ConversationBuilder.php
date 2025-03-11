@@ -31,8 +31,6 @@ class ConversationBuilder extends Builder
 
         return $this
             ->select("$conversationsTable.*")
-//            ->selectRaw("COUNT($messagesTable.id) AS total_message_count")
-//            ->selectRaw("SUM(CASE WHEN $messageReadsTable.id IS NULL THEN 1 ELSE 0 END) AS unread_message_count")
             ->selectRaw("COUNT($messagesTable.id) AS total_message_count")
             ->selectRaw("COUNT($readReceiptsTable.id) AS read_message_count")
             ->selectRaw("COUNT($messagesTable.id) - COUNT($readReceiptsTable.id) AS unread_message_count")
