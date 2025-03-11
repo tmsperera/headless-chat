@@ -4,8 +4,8 @@ namespace Workbench\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Tmsperera\HeadlessChat\Models\Message;
-use Tmsperera\HeadlessChat\Models\ReadReceipt;
 use Tmsperera\HeadlessChat\Models\Participation;
+use Tmsperera\HeadlessChat\Models\ReadReceipt;
 
 class MessageReadFactory extends Factory
 {

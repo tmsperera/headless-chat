@@ -5,8 +5,8 @@ namespace Tmsperera\HeadlessChat\Config;
 use Illuminate\Support\Facades\Config;
 use Tmsperera\HeadlessChat\Models\Conversation;
 use Tmsperera\HeadlessChat\Models\Message;
-use Tmsperera\HeadlessChat\Models\ReadReceipt;
 use Tmsperera\HeadlessChat\Models\Participation;
+use Tmsperera\HeadlessChat\Models\ReadReceipt;
 
 class HeadlessChatConfig
 {
