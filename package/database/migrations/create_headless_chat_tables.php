@@ -21,7 +21,6 @@ return new class extends Migration
                 ->constrained(table: 'conversations', column: 'id');
             $table->morphs('participant');
             $table->timestamps();
-            $table->softDeletes();
 
             $table->unique(['conversation_id', 'participant_type', 'participant_id']);
         });
@@ -44,7 +43,6 @@ return new class extends Migration
             $table->foreignId('participation_id')
                 ->constrained(table: 'participations', column: 'id');
             $table->timestamps();
-            $table->softDeletes();
 
             $table->unique(['message_id', 'participation_id']);
         });

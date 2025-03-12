@@ -20,4 +20,6 @@ interface Participant
     public function conversationsQuery(): ConversationBuilder;
 
     public function getConversations(): ParticipantConversationCollection;
+
+    public function getUnreadConversationCount(): int;
 }

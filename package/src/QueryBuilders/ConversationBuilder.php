@@ -24,10 +24,10 @@ class ConversationBuilder extends Builder
 
     public function whereForParticipant(Participant $participant): static
     {
-        $conversationsTable = HeadlessChatConfig::newConversationModel()->getTable();
-        $participationsTable = HeadlessChatConfig::newParticipationModel()->getTable();
-        $messagesTable = HeadlessChatConfig::newMessageModel()->getTable();
-        $readReceiptsTable = HeadlessChatConfig::newReadReceiptModel()->getTable();
+        $conversationsTable = HeadlessChatConfig::conversationModel()->getTable();
+        $participationsTable = HeadlessChatConfig::participationModel()->getTable();
+        $messagesTable = HeadlessChatConfig::messageModel()->getTable();
+        $readReceiptsTable = HeadlessChatConfig::readReceiptModel()->getTable();
 
         return $this
             ->select("$conversationsTable.*")
@@ -46,33 +46,5 @@ class ConversationBuilder extends Builder
                     ->on("$readReceiptsTable.participation_id", '=', "$participationsTable.id");
             })
             ->groupBy("$conversationsTable.id");
-        //            ->orderByRaw("MAX($messagesTable.created_at)");
-    }
-
-    //    public function whereUnreadForParticipant(Participant $participant): static
-    //    {
-    //        $conversationsTable = HeadlessChatConfig::newConversationModel()->getTable();
-    //
-    //        $subQuery = (clone $this)->whereForParticipant($participant);
-    //
-    //        return $this
-    //            ->select([
-    //                "$conversationsTable.*",
-    //                'detailed_conversations.total_message_count',
-    //                'detailed_conversations.read_message_count',
-    //                'detailed_conversations.unread_message_count',
-    //            ])
-    //            /** To keep the aggregated data unaffected by other queries */
-    //            ->joinSub($subQuery, 'detailed_conversations', function (JoinClause $join) use ($conversationsTable) {
-    //                $join->on('detailed_conversations.id', '=', "$conversationsTable.id");
-    //            })
-    //            ->where('detailed_conversations.unread_message_count', '>', 0);
-    //    }
-
-    public function whereUnreadForParticipant(Participant $participant): static
-    {
-        return $this
-            ->whereForParticipant($participant)
-            ->having('unread_message_count', '>', 0);
     }
 }

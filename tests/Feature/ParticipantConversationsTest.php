@@ -92,7 +92,6 @@ class ParticipantConversationsTest extends TestCase
 
     public function test_when_there_are_multiple_conversations()
     {
-        $sender = UserFactory::new()->createOne();
         $user = UserFactory::new()->createOne();
         ConversationFactory::new()
             ->hasParticipations(ParticipationFactory::new()->forParticipant($user))
@@ -119,6 +118,7 @@ class ParticipantConversationsTest extends TestCase
         $this->travelTo(now()->subHour());
         $sender = UserFactory::new()->createOne();
         $user = UserFactory::new()->createOne();
+        // Conversation
         $conversation = ConversationFactory::new()->directMessage()->createOne();
         $this->joinConversation($sender, $conversation);
         $userParticipation = $this->joinConversation($user, $conversation);
@@ -128,7 +128,7 @@ class ParticipantConversationsTest extends TestCase
             ->forMessage($readMessage)
             ->forParticipation($userParticipation)
             ->create();
-
+        // Conversation 2
         $this->travelBack();
         $sender2 = UserFactory::new()->createOne();
         $conversation2 = ConversationFactory::new()->directMessage()->createOne();
