@@ -3,12 +3,13 @@
 namespace Tmsperera\HeadlessChat\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Tmsperera\HeadlessChat\Actions\SendDirectMessageAction;
+use Tmsperera\HeadlessChat\Collections\ParticipantConversationCollection;
 use Tmsperera\HeadlessChat\Config\HeadlessChatConfig;
 use Tmsperera\HeadlessChat\Contracts\Participant;
 use Tmsperera\HeadlessChat\Models\Message;
+use Tmsperera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 trait Chatable
 {
@@ -24,24 +25,27 @@ trait Chatable
         return $sendDirectMessage(sender: $this, recipient: $recipient, message: $message);
     }
 
-    public function getConversations(): Collection
+    public function conversationsQuery(): ConversationBuilder
     {
         return HeadlessChatConfig::conversationModelClass()::query()
-            ->whereForParticipant($this)
-            ->get();
+            ->whereForParticipant($this);
     }
 
-    public function getUnreadConversations(): Collection
+    public function getConversations(): ParticipantConversationCollection
     {
-        return HeadlessChatConfig::conversationModelClass()::query()
-            ->whereUnreadForParticipant($this)
+        $messagesTable = HeadlessChatConfig::newMessageModel()->getTable();
+
+        $conversations = $this->conversationsQuery()
+            ->orderByRaw("MAX($messagesTable.created_at) DESC")
             ->get();
+
+        return new ParticipantConversationCollection($conversations);
     }
 
-    public function getUnreadConversationsCount(): int
+    public function getUnreadConversationCount(): int
     {
-        return HeadlessChatConfig::conversationModelClass()::query()
-            ->whereUnreadForParticipant($this)
+        return $this->conversationsQuery()
+            ->having('unread_message_count', '>', 0)
             ->count();
     }
 }

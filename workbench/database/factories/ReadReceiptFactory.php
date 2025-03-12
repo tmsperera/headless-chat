@@ -7,7 +7,7 @@ use Tmsperera\HeadlessChat\Models\Message;
 use Tmsperera\HeadlessChat\Models\Participation;
 use Tmsperera\HeadlessChat\Models\ReadReceipt;
 
-class MessageReadFactory extends Factory
+class ReadReceiptFactory extends Factory
 {
     protected $model = ReadReceipt::class;
 

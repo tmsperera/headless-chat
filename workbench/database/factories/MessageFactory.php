@@ -25,6 +25,9 @@ class MessageFactory extends Factory
         return $this->for($conversation, 'conversation');
     }
 
+    /**
+     * Sender
+     */
     public function forParticipation(Participation|ParticipationFactory $participation): static
     {
         return $this->for($participation, 'participation');

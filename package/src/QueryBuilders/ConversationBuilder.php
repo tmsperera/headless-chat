@@ -34,9 +34,9 @@ class ConversationBuilder extends Builder
             ->selectRaw("COUNT($messagesTable.id) AS total_message_count")
             ->selectRaw("COUNT($readReceiptsTable.id) AS read_message_count")
             ->selectRaw("COUNT($messagesTable.id) - COUNT($readReceiptsTable.id) AS unread_message_count")
+            ->selectRaw("MAX($messagesTable.created_at) AS latest_message_at")
             ->join($participationsTable, function (JoinClause $join) use ($participationsTable, $conversationsTable, $participant) {
-                $join
-                    ->on("$participationsTable.conversation_id", '=', "$conversationsTable.id")
+                $join->on("$participationsTable.conversation_id", '=', "$conversationsTable.id")
                     ->on("$participationsTable.participant_id", '=', $participant->getKey())
                     ->on("$participationsTable.participant_type", '=', $participant->getMorphClass());
             })
@@ -46,20 +46,33 @@ class ConversationBuilder extends Builder
                     ->on("$readReceiptsTable.participation_id", '=', "$participationsTable.id");
             })
             ->groupBy("$conversationsTable.id");
+        //            ->orderByRaw("MAX($messagesTable.created_at)");
     }
+
+    //    public function whereUnreadForParticipant(Participant $participant): static
+    //    {
+    //        $conversationsTable = HeadlessChatConfig::newConversationModel()->getTable();
+    //
+    //        $subQuery = (clone $this)->whereForParticipant($participant);
+    //
+    //        return $this
+    //            ->select([
+    //                "$conversationsTable.*",
+    //                'detailed_conversations.total_message_count',
+    //                'detailed_conversations.read_message_count',
+    //                'detailed_conversations.unread_message_count',
+    //            ])
+    //            /** To keep the aggregated data unaffected by other queries */
+    //            ->joinSub($subQuery, 'detailed_conversations', function (JoinClause $join) use ($conversationsTable) {
+    //                $join->on('detailed_conversations.id', '=', "$conversationsTable.id");
+    //            })
+    //            ->where('detailed_conversations.unread_message_count', '>', 0);
+    //    }
 
     public function whereUnreadForParticipant(Participant $participant): static
     {
-        $conversationsTable = HeadlessChatConfig::newConversationModel()->getTable();
-
-        $subQuery = (clone $this)->whereForParticipant($participant);
-
         return $this
-            ->select(["$conversationsTable.*", 'detailed_conversations.unread_message_count'])
-            /** To keep the aggregated data unaffected by other queries */
-            ->joinSub($subQuery, 'detailed_conversations', function (JoinClause $join) use ($conversationsTable) {
-                $join->on('detailed_conversations.id', '=', "$conversationsTable.id");
-            })
-            ->where('detailed_conversations.unread_message_count', '>', 0);
+            ->whereForParticipant($participant)
+            ->having('unread_message_count', '>', 0);
     }
 }

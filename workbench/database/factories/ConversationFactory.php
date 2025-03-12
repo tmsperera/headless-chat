@@ -25,4 +25,9 @@ class ConversationFactory extends Factory
             ];
         });
     }
+
+    public function hasParticipations(ParticipationFactory $participationFactory): static
+    {
+        return $this->has($participationFactory, 'participations');
+    }
 }

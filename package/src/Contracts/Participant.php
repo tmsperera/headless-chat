@@ -3,7 +3,9 @@
 namespace Tmsperera\HeadlessChat\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Tmsperera\HeadlessChat\Collections\ParticipantConversationCollection;
 use Tmsperera\HeadlessChat\Models\Message;
+use Tmsperera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 interface Participant
 {
@@ -14,4 +16,8 @@ interface Participant
     public function participations(): MorphMany;
 
     public function sendDirectMessageTo(Participant $recipient, string $message): Message;
+
+    public function conversationsQuery(): ConversationBuilder;
+
+    public function getConversations(): ParticipantConversationCollection;
 }
