@@ -5,6 +5,7 @@
     "license": "MIT",
     "description": "Integrate chat for the Laravel applications.",
     "keywords": ["laravel", "chat", "headless", "tmsperera"],
+    "readme": "README.md",
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11"
@@ -16,7 +17,16 @@
     },
     "authors": [
         {
-            "name": "tmsperera"
+            "name": "Mahesh (TMS) Perera",
+            "email": "tmsperera@gmail.com",
+            "homepage": "https://github.com/tmsperera",
+            "role": "Developer"
+        }
+    ],
+    "funding": [
+        {
+            "type": "patreon",
+            "url": "https://patreon.com/tmsperera"
         }
     ],
     "require-dev": {
