@@ -2,6 +2,7 @@
 
 namespace Tmsperera\HeadlessChat\Traits;
 
+use Deprecated;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\JoinClause;
@@ -65,12 +66,21 @@ trait Chatable
             ->groupBy("$conversationsTable.id");
     }
 
+    public function getUnreadConversationCount(): int
+    {
+        return $this->conversationsQuery()
+            ->having('unread_message_count', '>', 0)
+            ->count();
+    }
+
+    #[Deprecated]
     public function conversationsQuery(): ConversationBuilder
     {
         return HeadlessChatConfig::conversationModelClass()::query()
             ->whereForParticipant($this);
     }
 
+    #[Deprecated]
     public function getConversations(): ParticipantConversationCollection
     {
         $messagesTable = HeadlessChatConfig::messageModel()->getTable();
@@ -80,13 +90,6 @@ trait Chatable
             ->get();
 
         return new ParticipantConversationCollection($conversations);
-    }
-
-    public function getUnreadConversationCount(): int
-    {
-        return $this->conversationsQuery()
-            ->having('unread_message_count', '>', 0)
-            ->count();
     }
 
     public function sendDirectMessageTo(Participant $recipient, string $message): Message

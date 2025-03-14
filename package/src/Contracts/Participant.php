@@ -22,9 +22,9 @@ interface Participant
 
     public function conversationsWithMetrics(): BelongsToMany;
 
+    public function getUnreadConversationCount(): int;
+
     public function conversationsQuery(): ConversationBuilder;
 
     public function getConversations(): ParticipantConversationCollection;
-
-    public function getUnreadConversationCount(): int;
 }
