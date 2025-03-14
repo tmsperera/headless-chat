@@ -1,7 +1,14 @@
 {
     "name": "tmsperera/headless-chat",
+    "version": "0.1.0",
     "type": "library",
     "license": "MIT",
+    "description": "Integrate chat for the Laravel applications.",
+    "keywords": ["laravel", "chat", "headless", "tmsperera"],
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^11"
+    },
     "autoload": {
         "psr-4": {
             "Tmsperera\\HeadlessChat\\": "package/src/"
