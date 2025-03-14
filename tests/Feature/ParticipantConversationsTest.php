@@ -31,7 +31,7 @@ class ParticipantConversationsTest extends TestCase
             ->count(2)
             ->create();
 
-        $conversations = $user->getConversations();
+        $conversations = $user->conversationsWithMetrics;
 
         $this->assertCount(1, $conversations);
         $this->assertEquals(2, $conversations[0]->total_message_count);
@@ -60,7 +60,7 @@ class ParticipantConversationsTest extends TestCase
             ->forParticipation($userParticipation)
             ->create();
 
-        $conversations = $user->getConversations();
+        $conversations = $user->conversationsWithMetrics;
 
         $this->assertCount(1, $conversations);
         $this->assertEquals(3, $conversations[0]->total_message_count);
@@ -77,7 +77,7 @@ class ParticipantConversationsTest extends TestCase
             ->count(2)
             ->create();
 
-        $conversations = $user->getConversations();
+        $conversations = $user->conversationsWithMetrics;
 
         $this->assertCount(2, $conversations);
         $this->assertEquals(0, $conversations[0]->total_message_count);
@@ -102,7 +102,7 @@ class ParticipantConversationsTest extends TestCase
             ->directMessage()
             ->createOne();
 
-        $conversations = $user->getConversations();
+        $conversations = $user->conversationsWithMetrics;
 
         $this->assertCount(2, $conversations);
         $this->assertEquals(0, $conversations[0]->total_message_count);
@@ -136,7 +136,7 @@ class ParticipantConversationsTest extends TestCase
         $this->joinConversation($user, $conversation2);
         $lastestMessage = $this->sendMessage($sender2, $conversation2);
 
-        $conversations = $user->getConversations();
+        $conversations = $user->conversationsWithMetrics;
 
         $this->assertCount(2, $conversations);
         $this->assertEquals(1, $conversations[0]->total_message_count);
@@ -162,7 +162,7 @@ class ParticipantConversationsTest extends TestCase
         $this->joinConversation($sender, $conversation2);
         $this->sendMessage($sender, $conversation2);
 
-        $conversations = $user->getConversations();
+        $conversations = $user->conversationsWithMetrics;
 
         $this->assertCount(1, $conversations);
         $this->assertEquals(1, $conversations[0]->total_message_count);

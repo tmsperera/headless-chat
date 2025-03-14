@@ -20,13 +20,6 @@ trait Chatable
         return $this->morphMany(HeadlessChatConfig::participationModelClass(), 'participant');
     }
 
-    public function sendDirectMessageTo(Participant $recipient, string $message): Message
-    {
-        $sendDirectMessage = App::make(SendDirectMessageAction::class);
-
-        return $sendDirectMessage(sender: $this, recipient: $recipient, message: $message);
-    }
-
     public function conversations(): BelongsToMany
     {
         $participationsTable = HeadlessChatConfig::participationModel()->getTable();
@@ -42,6 +35,11 @@ trait Chatable
             ->withTimestamps();
     }
 
+    /**
+     * To get detailed conversation with more metrics.
+     * Results contains aggregated values.
+     * Results contains pivot values of participations table.
+     */
     public function conversationsWithMetrics(): BelongsToMany
     {
         $conversationsTable = HeadlessChatConfig::conversationModel()->getTable();
@@ -55,7 +53,10 @@ trait Chatable
             ->selectRaw("COUNT($readReceiptsTable.id) AS read_message_count")
             ->selectRaw("COUNT($messagesTable.id) - COUNT($readReceiptsTable.id) AS unread_message_count")
             ->selectRaw("MAX($messagesTable.created_at) AS latest_message_at")
-            ->leftJoin($messagesTable, "$messagesTable.conversation_id", '=', "$conversationsTable.id")
+            ->leftJoin($messagesTable, function (JoinClause $join) use ($messagesTable, $conversationsTable) {
+                $join->on("$messagesTable.conversation_id", '=', "$conversationsTable.id")
+                    ->whereNull("$messagesTable.deleted_at");
+            })
             ->leftJoin($readReceiptsTable, function (JoinClause $join) use ($readReceiptsTable, $messagesTable, $participationsTable) {
                 $join->on("$readReceiptsTable.message_id", '=', "$messagesTable.id")
                     ->on("$readReceiptsTable.participation_id", '=', "$participationsTable.id");
@@ -86,5 +87,12 @@ trait Chatable
         return $this->conversationsQuery()
             ->having('unread_message_count', '>', 0)
             ->count();
+    }
+
+    public function sendDirectMessageTo(Participant $recipient, string $message): Message
+    {
+        $sendDirectMessage = App::make(SendDirectMessageAction::class);
+
+        return $sendDirectMessage(sender: $this, recipient: $recipient, message: $message);
     }
 }

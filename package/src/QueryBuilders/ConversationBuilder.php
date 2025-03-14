@@ -40,7 +40,10 @@ class ConversationBuilder extends Builder
                     ->on("$participationsTable.participant_id", '=', $participant->getKey())
                     ->on("$participationsTable.participant_type", '=', $participant->getMorphClass());
             })
-            ->leftJoin($messagesTable, "$messagesTable.conversation_id", '=', "$conversationsTable.id")
+            ->leftJoin($messagesTable, function (JoinClause $join) use ($messagesTable, $conversationsTable) {
+                $join->on("$messagesTable.conversation_id", '=', "$conversationsTable.id")
+                    ->whereNull("$messagesTable.deleted_at");
+            })
             ->leftJoin($readReceiptsTable, function (JoinClause $join) use ($readReceiptsTable, $messagesTable, $participationsTable) {
                 $join->on("$readReceiptsTable.message_id", '=', "$messagesTable.id")
                     ->on("$readReceiptsTable.participation_id", '=', "$participationsTable.id");
