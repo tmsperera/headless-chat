@@ -98,7 +98,7 @@ To swap a database table or model used in package follow the below steps:
     }
     ```
 
-4. Modify Headless Chat configurations to point new model:
+4. Modify Headless Chat configurations to point the new model:
 
     ```php
     return [
