@@ -68,7 +68,7 @@ trait Chatable
 
     public function getUnreadConversationCount(): int
     {
-        return $this->conversationsQuery()
+        return $this->conversationsWithMetrics()
             ->having('unread_message_count', '>', 0)
             ->count();
     }
