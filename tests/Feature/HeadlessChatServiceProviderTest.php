@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Tmsperera\HeadlessChat\Models\Conversation;
-use Tmsperera\HeadlessChat\Models\Message;
-use Tmsperera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Models\Conversation;
+use TMSPerera\HeadlessChat\Models\Message;
+use TMSPerera\HeadlessChat\Models\Participation;
 
 class HeadlessChatServiceProviderTest extends TestCase
 {

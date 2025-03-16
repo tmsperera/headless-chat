@@ -1,11 +1,11 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Models;
+namespace TMSPerera\HeadlessChat\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Tmsperera\HeadlessChat\Config\HeadlessChatConfig;
+use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 
 class ReadReceipt extends Model
 {

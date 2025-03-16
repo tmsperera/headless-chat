@@ -1,5 +1,5 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Exceptions;
+namespace TMSPerera\HeadlessChat\Exceptions;
 
 class InvalidParticipationException extends \Exception {}

@@ -1,12 +1,12 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Actions;
+namespace TMSPerera\HeadlessChat\Actions;
 
-use Tmsperera\HeadlessChat\Contracts\Participant;
-use Tmsperera\HeadlessChat\Enums\ConversationType;
-use Tmsperera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
-use Tmsperera\HeadlessChat\Models\Conversation;
-use Tmsperera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\Enums\ConversationType;
+use TMSPerera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
+use TMSPerera\HeadlessChat\Models\Conversation;
+use TMSPerera\HeadlessChat\Models\Participation;
 
 class JoinConversationAction
 {

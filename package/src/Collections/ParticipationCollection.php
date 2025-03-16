@@ -1,10 +1,10 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Collections;
+namespace TMSPerera\HeadlessChat\Collections;
 
 use Illuminate\Database\Eloquent\Collection;
-use Tmsperera\HeadlessChat\Contracts\Participant;
-use Tmsperera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\Models\Participation;
 
 class ParticipationCollection extends Collection
 {

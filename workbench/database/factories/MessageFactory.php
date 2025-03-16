@@ -3,9 +3,9 @@
 namespace Workbench\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Tmsperera\HeadlessChat\Models\Conversation;
-use Tmsperera\HeadlessChat\Models\Message;
-use Tmsperera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Models\Conversation;
+use TMSPerera\HeadlessChat\Models\Message;
+use TMSPerera\HeadlessChat\Models\Participation;
 
 class MessageFactory extends Factory
 {

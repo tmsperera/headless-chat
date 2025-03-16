@@ -1,6 +1,6 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Events;
+namespace TMSPerera\HeadlessChat\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;

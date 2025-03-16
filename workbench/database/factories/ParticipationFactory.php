@@ -4,8 +4,8 @@ namespace Workbench\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Tmsperera\HeadlessChat\Models\Conversation;
-use Tmsperera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Models\Conversation;
+use TMSPerera\HeadlessChat\Models\Participation;
 use Workbench\App\Models\User;
 
 class ParticipationFactory extends Factory

@@ -1,15 +1,15 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Models;
+namespace TMSPerera\HeadlessChat\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Tmsperera\HeadlessChat\Collections\ParticipationCollection;
-use Tmsperera\HeadlessChat\Config\HeadlessChatConfig;
-use Tmsperera\HeadlessChat\Enums\ConversationType;
-use Tmsperera\HeadlessChat\QueryBuilders\ConversationBuilder;
+use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
+use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
+use TMSPerera\HeadlessChat\Enums\ConversationType;
+use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 /**
  * @method static ConversationBuilder query()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Enums;
+namespace TMSPerera\HeadlessChat\Enums;
 
 enum ConversationType
 {

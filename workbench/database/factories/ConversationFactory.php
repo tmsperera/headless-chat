@@ -3,8 +3,8 @@
 namespace Workbench\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Tmsperera\HeadlessChat\Enums\ConversationType;
-use Tmsperera\HeadlessChat\Models\Conversation;
+use TMSPerera\HeadlessChat\Enums\ConversationType;
+use TMSPerera\HeadlessChat\Models\Conversation;
 
 class ConversationFactory extends Factory
 {

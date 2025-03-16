@@ -1,6 +1,6 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Models;
+namespace TMSPerera\HeadlessChat\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
-use Tmsperera\HeadlessChat\Actions\ReadMessageAction;
-use Tmsperera\HeadlessChat\Config\HeadlessChatConfig;
-use Tmsperera\HeadlessChat\Contracts\Participant;
-use Tmsperera\HeadlessChat\Exceptions\InvalidParticipationException;
-use Tmsperera\HeadlessChat\Exceptions\ReadBySenderException;
+use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
+use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
+use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
+use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 
 class Message extends Model
 {

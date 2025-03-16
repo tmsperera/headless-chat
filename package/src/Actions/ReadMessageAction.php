@@ -1,13 +1,13 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Actions;
+namespace TMSPerera\HeadlessChat\Actions;
 
-use Tmsperera\HeadlessChat\Contracts\Participant;
-use Tmsperera\HeadlessChat\Events\MessageReadEvent;
-use Tmsperera\HeadlessChat\Exceptions\InvalidParticipationException;
-use Tmsperera\HeadlessChat\Exceptions\ReadBySenderException;
-use Tmsperera\HeadlessChat\Models\Message;
-use Tmsperera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\Events\MessageReadEvent;
+use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
+use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
+use TMSPerera\HeadlessChat\Models\Message;
+use TMSPerera\HeadlessChat\Models\Participation;
 
 class ReadMessageAction
 {

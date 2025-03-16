@@ -1,6 +1,6 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Collections;
+namespace TMSPerera\HeadlessChat\Collections;
 
 use Illuminate\Support\Collection;
 

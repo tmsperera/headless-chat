@@ -1,18 +1,18 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Traits;
+namespace TMSPerera\HeadlessChat\Traits;
 
 use Deprecated;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\App;
-use Tmsperera\HeadlessChat\Actions\SendDirectMessageAction;
-use Tmsperera\HeadlessChat\Collections\ParticipantConversationCollection;
-use Tmsperera\HeadlessChat\Config\HeadlessChatConfig;
-use Tmsperera\HeadlessChat\Contracts\Participant;
-use Tmsperera\HeadlessChat\Models\Message;
-use Tmsperera\HeadlessChat\QueryBuilders\ConversationBuilder;
+use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
+use TMSPerera\HeadlessChat\Collections\ParticipantConversationCollection;
+use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
+use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\Models\Message;
+use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 trait Chatable
 {

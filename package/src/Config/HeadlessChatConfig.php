@@ -1,12 +1,12 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Config;
+namespace TMSPerera\HeadlessChat\Config;
 
 use Illuminate\Support\Facades\Config;
-use Tmsperera\HeadlessChat\Models\Conversation;
-use Tmsperera\HeadlessChat\Models\Message;
-use Tmsperera\HeadlessChat\Models\Participation;
-use Tmsperera\HeadlessChat\Models\ReadReceipt;
+use TMSPerera\HeadlessChat\Models\Conversation;
+use TMSPerera\HeadlessChat\Models\Message;
+use TMSPerera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
 class HeadlessChatConfig
 {

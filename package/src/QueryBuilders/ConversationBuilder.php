@@ -1,12 +1,12 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\QueryBuilders;
+namespace TMSPerera\HeadlessChat\QueryBuilders;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
-use Tmsperera\HeadlessChat\Config\HeadlessChatConfig;
-use Tmsperera\HeadlessChat\Contracts\Participant;
-use Tmsperera\HeadlessChat\Enums\ConversationType;
+use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
+use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\Enums\ConversationType;
 
 class ConversationBuilder extends Builder
 {

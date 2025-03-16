@@ -4,10 +4,10 @@ namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Tmsperera\HeadlessChat\Contracts\Participant;
-use Tmsperera\HeadlessChat\Models\Conversation;
-use Tmsperera\HeadlessChat\Models\Message;
-use Tmsperera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\Models\Conversation;
+use TMSPerera\HeadlessChat\Models\Message;
+use TMSPerera\HeadlessChat\Models\Participation;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\MessageFactory;
 use Workbench\Database\Factories\ParticipationFactory;

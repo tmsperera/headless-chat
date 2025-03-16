@@ -1,14 +1,14 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Models;
+namespace TMSPerera\HeadlessChat\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Tmsperera\HeadlessChat\Collections\ParticipationCollection;
-use Tmsperera\HeadlessChat\Config\HeadlessChatConfig;
+use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
+use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 
 class Participation extends Model
 {

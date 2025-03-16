@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Tmsperera\\HeadlessChat\\": "package/src/"
+            "TMSPerera\\HeadlessChat\\": "package/src/"
         }
     },
     "authors": [
@@ -59,7 +59,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Tmsperera\\HeadlessChat\\Providers\\HeadlessChatServiceProvider"
+                "TMSPerera\\HeadlessChat\\Providers\\HeadlessChatServiceProvider"
             ]
         }
     }

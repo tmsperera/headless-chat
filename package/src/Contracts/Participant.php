@@ -1,12 +1,12 @@
 <?php
 
-namespace Tmsperera\HeadlessChat\Contracts;
+namespace TMSPerera\HeadlessChat\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Tmsperera\HeadlessChat\Collections\ParticipantConversationCollection;
-use Tmsperera\HeadlessChat\Models\Message;
-use Tmsperera\HeadlessChat\QueryBuilders\ConversationBuilder;
+use TMSPerera\HeadlessChat\Collections\ParticipantConversationCollection;
+use TMSPerera\HeadlessChat\Models\Message;
+use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 interface Participant
 {
