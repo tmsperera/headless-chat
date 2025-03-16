@@ -15,8 +15,6 @@ A headless package designed to integrate chat functionality into Laravel applica
     composer require tmsperera/headless-chat
     ```
     The package will automatically register itself.
-
-
 2. Publish the migration with:
     ```
     php artisan vendor:publish --tag=headless-chat-migrations
