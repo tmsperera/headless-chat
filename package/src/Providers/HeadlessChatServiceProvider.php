@@ -1,6 +1,6 @@
 <?php
 
-namespace Tmsperera\HeadlessChat;
+namespace Tmsperera\HeadlessChat\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
