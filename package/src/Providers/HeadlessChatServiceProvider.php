@@ -15,10 +15,10 @@ class HeadlessChatServiceProvider extends ServiceProvider
     {
         $this->publishesMigrations([
             __DIR__.'/../../database/migrations' => database_path('migrations'),
-        ]);
+        ], 'headless-chat-migrations');
 
         $this->publishes([
             __DIR__.'/../../config/headless-chat.php' => config_path('headless-chat.php'),
-        ]);
+        ], 'headless-chat-config');
     }
 }
