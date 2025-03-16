@@ -1,1 +1,1 @@
-# headless-chat-for-laravel
+# headless-chat
