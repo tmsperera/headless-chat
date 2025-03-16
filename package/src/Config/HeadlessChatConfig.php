@@ -39,7 +39,7 @@ class HeadlessChatConfig
      */
     public static function readReceiptModelClass(): string
     {
-        return Config::get('headless-chat.models.read_receipts');
+        return Config::get('headless-chat.models.read_receipt');
     }
 
     public static function conversationModel(): Conversation

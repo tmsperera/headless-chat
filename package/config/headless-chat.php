@@ -6,10 +6,13 @@ use TMSPerera\HeadlessChat\Models\Participation;
 use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
 return [
+    /*
+     * The fully qualified class names of models.
+     */
     'models' => [
         'message' => Message::class,
         'conversation' => Conversation::class,
         'participation' => Participation::class,
-        'read_receipts' => ReadReceipt::class,
+        'read_receipt' => ReadReceipt::class,
     ],
 ];
