@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "type": "library",
     "license": "MIT",
-    "description": "Integrate chat for the Laravel applications.",
+    "description": "Integrate chat for Laravel applications.",
     "keywords": ["laravel", "chat", "headless", "tmsperera"],
     "readme": "README.md",
     "require": {
