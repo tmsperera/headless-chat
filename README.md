@@ -113,3 +113,7 @@ To swap a database table or model used in package follow the below steps:
 ### Override Actions
 
 All actions used inside Headless Chat package are resolved from Laravel Service Container. If you ever need to modify the behaviour of any Action used in Headless Chat package, you can add a binding inside your AppServiceProvider.
+
+## References
+
+* [Headless Chat - Packagist](https://packagist.org/packages/tmsperera/headless-chat)
