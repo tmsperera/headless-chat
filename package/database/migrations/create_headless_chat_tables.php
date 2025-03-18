@@ -22,7 +22,7 @@ return new class extends Migration
             $table->morphs('participant');
             $table->timestamps();
 
-            $table->unique(['conversation_id', 'participant_type', 'participant_id']);
+            $table->unique(['conversation_id', 'participant_type', 'participant_id'], 'uq_participation');
         });
 
         Schema::create('messages', function (Blueprint $table) {
@@ -44,7 +44,7 @@ return new class extends Migration
                 ->constrained(table: 'participations', column: 'id');
             $table->timestamps();
 
-            $table->unique(['message_id', 'participation_id']);
+            $table->unique(['message_id', 'participation_id'], 'uq_read_receipt');
         });
     }
 
