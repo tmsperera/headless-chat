@@ -39,7 +39,7 @@ return new class extends Migration
         Schema::create('read_receipts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('message_id')
-                ->constrained(table: 'message', column: 'id');
+                ->constrained(table: 'messages', column: 'id');
             $table->foreignId('participation_id')
                 ->constrained(table: 'participations', column: 'id');
             $table->timestamps();
