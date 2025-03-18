@@ -96,6 +96,6 @@ trait Chatable
     {
         $sendDirectMessage = App::make(SendDirectMessageAction::class);
 
-        return $sendDirectMessage(sender: $this, recipient: $recipient, message: $message);
+        return $sendDirectMessage(sender: $this, recipient: $recipient, content: $message);
     }
 }
