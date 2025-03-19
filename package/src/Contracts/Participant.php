@@ -4,9 +4,7 @@ namespace TMSPerera\HeadlessChat\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use TMSPerera\HeadlessChat\Collections\ParticipantConversationCollection;
 use TMSPerera\HeadlessChat\Models\Message;
-use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 interface Participant
 {
@@ -23,8 +21,4 @@ interface Participant
     public function conversationsWithMetrics(): BelongsToMany;
 
     public function getUnreadConversationCount(): int;
-
-    public function conversationsQuery(): ConversationBuilder;
-
-    public function getConversations(): ParticipantConversationCollection;
 }

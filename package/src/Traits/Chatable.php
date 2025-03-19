@@ -2,12 +2,10 @@
 
 namespace TMSPerera\HeadlessChat\Traits;
 
-use Deprecated;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\JoinClause;
-use TMSPerera\HeadlessChat\Collections\ParticipantConversationCollection;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
@@ -19,7 +17,6 @@ use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
 use TMSPerera\HeadlessChat\Models\ReadReceipt;
-use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 /**
  * @property ParticipationCollection participations
@@ -83,25 +80,6 @@ trait Chatable
         return $this->conversationsWithMetrics()
             ->having('unread_message_count', '>', 0)
             ->count();
-    }
-
-    #[Deprecated]
-    public function conversationsQuery(): ConversationBuilder
-    {
-        return HeadlessChatConfig::conversationModelClass()::query()
-            ->whereForParticipant($this);
-    }
-
-    #[Deprecated]
-    public function getConversations(): ParticipantConversationCollection
-    {
-        $messagesTable = HeadlessChatConfig::messageModel()->getTable();
-
-        $conversations = $this->conversationsQuery()
-            ->orderByRaw("MAX($messagesTable.created_at) DESC")
-            ->get();
-
-        return new ParticipantConversationCollection($conversations);
     }
 
     /**
