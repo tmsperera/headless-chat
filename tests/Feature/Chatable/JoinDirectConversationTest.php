@@ -30,7 +30,7 @@ class JoinDirectConversationTest extends BaseChatableTestCase
     {
         $conversation = ConversationFactory::new()->directMessage()->create();
         $existingUser = UserFactory::new()->create();
-        $this->joinConversation($existingUser, $conversation);
+        $this->joinConversation($conversation, $existingUser);
         $user = UserFactory::new()->create();
 
         $user->joinConversation($conversation);
@@ -48,8 +48,8 @@ class JoinDirectConversationTest extends BaseChatableTestCase
         $conversation = ConversationFactory::new()->directMessage()->create();
         $user1 = UserFactory::new()->create();
         $user2 = UserFactory::new()->create();
-        $this->joinConversation($user1, $conversation);
-        $this->joinConversation($user2, $conversation);
+        $this->joinConversation($conversation, $user1);
+        $this->joinConversation($conversation, $user2);
         $user3 = UserFactory::new()->create();
 
         $this->expectException(ParticipationLimitExceededException::class);

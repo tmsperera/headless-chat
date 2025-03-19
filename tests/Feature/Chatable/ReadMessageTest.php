@@ -29,8 +29,8 @@ class ReadMessageTest extends BaseChatableTestCase
         $sender = UserFactory::new()->createOne();
         $recipient = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = $this->joinConversation($sender, $conversation);
-        $recipientParticipation = $this->joinConversation($recipient, $conversation);
+        $senderParticipation = $this->joinConversation($conversation, $sender);
+        $recipientParticipation = $this->joinConversation($conversation, $recipient);
         $message = $this->sendMessage($senderParticipation, $conversation);
 
         $recipient->readMessage($message);
@@ -51,8 +51,8 @@ class ReadMessageTest extends BaseChatableTestCase
         $sender = UserFactory::new()->createOne();
         $recipient = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = $this->joinConversation($sender, $conversation);
-        $this->joinConversation($recipient, $conversation);
+        $senderParticipation = $this->joinConversation($conversation, $sender);
+        $this->joinConversation($conversation, $recipient);
         $message = $this->sendMessage($senderParticipation, $conversation);
 
         $this->expectException(ReadBySenderException::class);
@@ -77,8 +77,8 @@ class ReadMessageTest extends BaseChatableTestCase
         $sender = UserFactory::new()->createOne();
         $recipient = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = $this->joinConversation($sender, $conversation);
-        $recipientParticipation = $this->joinConversation($recipient, $conversation);
+        $senderParticipation = $this->joinConversation($conversation, $sender);
+        $recipientParticipation = $this->joinConversation($conversation, $recipient);
         $message = $this->sendMessage($senderParticipation, $conversation);
         $this->readMessage($recipientParticipation, $message);
 

@@ -14,11 +14,11 @@ use Workbench\Database\Factories\ReadReceiptFactory;
 
 abstract class BaseChatableTestCase extends TestCase
 {
-    protected function joinConversation(Participant $participant, Conversation $conversation): Participation
+    protected function joinConversation(Conversation $conversation, Participant $participant): Participation
     {
         return ParticipationFactory::new()
-            ->forParticipant($participant)
             ->forConversation($conversation)
+            ->forParticipant($participant)
             ->createOne();
     }
 
