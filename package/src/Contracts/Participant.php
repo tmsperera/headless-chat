@@ -16,7 +16,7 @@ interface Participant
 
     public function participations(): MorphMany;
 
-    public function sendDirectMessageTo(Participant $recipient, string $message): Message;
+    public function sendDirectMessage(Participant $recipient, string $message): Message;
 
     public function conversations(): BelongsToMany;
 

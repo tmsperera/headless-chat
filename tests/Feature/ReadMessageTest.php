@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
-use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
 use TMSPerera\HeadlessChat\Events\MessageReadEvent;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
@@ -44,8 +43,7 @@ class ReadMessageTest extends TestCase
             ->forParticipation($senderParticipation)
             ->createOne();
 
-        $readMessage = $this->app->make(ReadMessageAction::class);
-        $readMessage($message, $recipient);
+        $message->read($recipient);
 
         $messageRead = ReadReceipt::query()
             ->whereKey($message)
@@ -76,9 +74,9 @@ class ReadMessageTest extends TestCase
             ->forParticipation($senderParticipation)
             ->createOne();
 
-        $readMessage = $this->app->make(ReadMessageAction::class);
         $this->expectException(ReadBySenderException::class);
-        $readMessage($message, $sender);
+        $message->read($sender);
+
         Event::assertNotDispatched(MessageReadEvent::class);
     }
 
@@ -87,9 +85,9 @@ class ReadMessageTest extends TestCase
         $invalidUser = UserFactory::new()->createOne();
         $message = MessageFactory::new()->createOne();
 
-        $readMessage = $this->app->make(ReadMessageAction::class);
         $this->expectException(InvalidParticipationException::class);
-        $readMessage($message, $invalidUser);
+        $message->read($invalidUser);
+
         Event::assertNotDispatched(MessageReadEvent::class);
     }
 }

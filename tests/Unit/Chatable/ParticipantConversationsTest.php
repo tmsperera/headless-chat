@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

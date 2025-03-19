@@ -1,16 +1,15 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use TMSPerera\HeadlessChat\Actions\JoinConversationAction;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class JoinToDirectConversationTest extends TestCase
+class JoinDirectConversationTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -19,8 +18,7 @@ class JoinToDirectConversationTest extends TestCase
         $conversation = ConversationFactory::new()->directMessage()->create();
         $user = UserFactory::new()->create();
 
-        $addParticipantToConversation = $this->app->make(JoinConversationAction::class);
-        $addParticipantToConversation($user, $conversation);
+        $user->joinConversation($conversation);
 
         $this->assertDatabaseCount('participations', 1);
         $this->assertDatabaseHas('participations', [
@@ -40,8 +38,7 @@ class JoinToDirectConversationTest extends TestCase
             ->create();
         $user = UserFactory::new()->create();
 
-        $addParticipantToConversation = $this->app->make(JoinConversationAction::class);
-        $addParticipantToConversation($user, $conversation);
+        $user->joinConversation($conversation);
 
         $this->assertDatabaseCount('participations', 2);
         $this->assertDatabaseHas('participations', [
@@ -53,7 +50,6 @@ class JoinToDirectConversationTest extends TestCase
 
     public function test_when_conversation_has_two_participant()
     {
-        $this->expectException(ParticipationLimitExceededException::class);
         $conversation = ConversationFactory::new()->directMessage()->create();
         $user1 = UserFactory::new()->create();
         $user2 = UserFactory::new()->create();
@@ -67,7 +63,7 @@ class JoinToDirectConversationTest extends TestCase
             ->create();
         $user3 = UserFactory::new()->create();
 
-        $addParticipantToConversation = $this->app->make(JoinConversationAction::class);
-        $addParticipantToConversation($user3, $conversation);
+        $this->expectException(ParticipationLimitExceededException::class);
+        $user3->joinConversation($conversation);
     }
 }

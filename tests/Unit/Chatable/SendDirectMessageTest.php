@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
-use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Events\MessageSentEvent;
 use TMSPerera\HeadlessChat\Models\Conversation;
@@ -31,8 +30,7 @@ class SendDirectMessageTest extends TestCase
         $sender = UserFactory::new()->create();
         $recipient = UserFactory::new()->create();
 
-        $sendDirectMessage = $this->app->make(SendDirectMessageAction::class);
-        $sendDirectMessage($sender, $recipient, $content = 'test');
+        $sender->sendDirectMessage($recipient, $content = 'test');
 
         $this->assertDatabaseCount('conversations', 1);
         $conversation = Conversation::query()
@@ -73,8 +71,7 @@ class SendDirectMessageTest extends TestCase
             ->forParticipant($recipient)
             ->create();
 
-        $sendDirectMessage = $this->app->make(SendDirectMessageAction::class);
-        $sendDirectMessage($sender, $recipient, $content = 'test');
+        $sender->sendDirectMessage($recipient, $content = 'test');
 
         $this->assertDatabaseCount('conversations', 1);
         $this->assertDatabaseCount('participations', 2);

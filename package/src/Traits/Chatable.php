@@ -11,7 +11,9 @@ use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\HeadlessChat;
+use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
+use TMSPerera\HeadlessChat\Models\Participation;
 use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 trait Chatable
@@ -95,8 +97,16 @@ trait Chatable
     /**
      * @throws ParticipationLimitExceededException
      */
-    public function sendDirectMessageTo(Participant $recipient, string $message): Message
+    public function sendDirectMessage(Participant $recipient, string $message): Message
     {
         return HeadlessChat::sendDirectMessage(sender: $this, recipient: $recipient, content: $message);
+    }
+
+    /**
+     * @throws ParticipationLimitExceededException
+     */
+    public function joinConversation(Conversation $conversation): Participation
+    {
+        return HeadlessChat::joinConversation(participant: $this, conversation: $conversation);
     }
 }
