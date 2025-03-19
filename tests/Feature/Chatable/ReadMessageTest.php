@@ -85,6 +85,7 @@ class ReadMessageTest extends BaseChatableTestCase
         $this->expectException(MessageAlreadyReadException::class);
         $recipient->readMessage($message);
 
+        $this->assertDatabaseCount('read_receipts', 1);
         Event::assertNotDispatched(MessageReadEvent::class);
     }
 }
