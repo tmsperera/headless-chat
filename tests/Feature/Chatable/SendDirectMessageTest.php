@@ -4,7 +4,6 @@ namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Events\MessageSentEvent;
 use TMSPerera\HeadlessChat\Models\Conversation;
@@ -14,7 +13,7 @@ use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class SendDirectMessageTest extends TestCase
+class SendDirectMessageTest extends BaseChatableTestCase
 {
     use RefreshDatabase;
 
