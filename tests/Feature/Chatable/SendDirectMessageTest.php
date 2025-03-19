@@ -60,8 +60,8 @@ class SendDirectMessageTest extends BaseChatableTestCase
         $sender = UserFactory::new()->create();
         $recipient = UserFactory::new()->create();
         $conversation = ConversationFactory::new()->directMessage()->create();
-        $senderParticipation = $this->joinConversation($conversation, $sender);
-        $this->joinConversation($conversation, $recipient);
+        $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
+        $this->joinConversation(conversation: $conversation, participant: $recipient);
 
         $sender->sendDirectMessage($recipient, $content = 'test');
 

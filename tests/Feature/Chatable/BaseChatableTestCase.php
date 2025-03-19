@@ -30,12 +30,12 @@ abstract class BaseChatableTestCase extends TestCase
             ->where('conversation_id', $conversation->getKey())
             ->firstOrFail();
 
-        return $this->sendMessage(senderParticipation: $participation, conversation: $conversation);
+        return $this->sendMessage(conversation: $conversation, senderParticipation: $participation);
     }
 
     protected function sendMessage(
-        Participation $senderParticipation,
         Conversation $conversation,
+        Participation $senderParticipation,
     ): Message {
         return MessageFactory::new()
             ->forConversation($conversation)
@@ -44,8 +44,8 @@ abstract class BaseChatableTestCase extends TestCase
     }
 
     protected function readMessage(
-        Participation $readerParticipation,
         Message $message,
+        Participation $readerParticipation,
     ): ReadReceipt {
         return ReadReceiptFactory::new()
             ->forParticipation($readerParticipation)

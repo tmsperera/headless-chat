@@ -29,9 +29,9 @@ class ReadMessageTest extends BaseChatableTestCase
         $sender = UserFactory::new()->createOne();
         $recipient = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = $this->joinConversation($conversation, $sender);
-        $recipientParticipation = $this->joinConversation($conversation, $recipient);
-        $message = $this->sendMessage($senderParticipation, $conversation);
+        $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
+        $recipientParticipation = $this->joinConversation(conversation: $conversation, participant: $recipient);
+        $message = $this->sendMessage(conversation: $conversation, senderParticipation: $senderParticipation);
 
         $recipient->readMessage($message);
 
@@ -51,9 +51,9 @@ class ReadMessageTest extends BaseChatableTestCase
         $sender = UserFactory::new()->createOne();
         $recipient = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = $this->joinConversation($conversation, $sender);
-        $this->joinConversation($conversation, $recipient);
-        $message = $this->sendMessage($senderParticipation, $conversation);
+        $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
+        $this->joinConversation(conversation: $conversation, participant: $recipient);
+        $message = $this->sendMessage(conversation: $conversation, senderParticipation: $senderParticipation);
 
         $this->expectException(ReadBySenderException::class);
         $sender->readMessage($message);
@@ -77,10 +77,10 @@ class ReadMessageTest extends BaseChatableTestCase
         $sender = UserFactory::new()->createOne();
         $recipient = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = $this->joinConversation($conversation, $sender);
-        $recipientParticipation = $this->joinConversation($conversation, $recipient);
-        $message = $this->sendMessage($senderParticipation, $conversation);
-        $this->readMessage($recipientParticipation, $message);
+        $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
+        $recipientParticipation = $this->joinConversation(conversation: $conversation, participant: $recipient);
+        $message = $this->sendMessage(conversation: $conversation, senderParticipation: $senderParticipation);
+        $this->readMessage($message, $recipientParticipation);
 
         $this->expectException(MessageAlreadyReadException::class);
         $recipient->readMessage($message);

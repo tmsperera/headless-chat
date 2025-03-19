@@ -18,8 +18,8 @@ class ParticipantConversationsTest extends BaseChatableTestCase
         $user = UserFactory::new()->createOne();
         $sender = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = $this->joinConversation($conversation, $sender);
-        $this->joinConversation($conversation, $user);
+        $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
+        $this->joinConversation(conversation: $conversation, participant: $user);
         MessageFactory::new()
             ->forConversation($conversation)
             ->forParticipation($senderParticipation)
@@ -39,8 +39,8 @@ class ParticipantConversationsTest extends BaseChatableTestCase
         $user = UserFactory::new()->createOne();
         $sender = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = $this->joinConversation($conversation, $sender);
-        $userParticipation = $this->joinConversation($conversation, $user);
+        $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
+        $userParticipation = $this->joinConversation(conversation: $conversation, participant: $user);
         MessageFactory::new()
             ->forConversation($conversation)
             ->forParticipation($senderParticipation)
@@ -115,10 +115,10 @@ class ParticipantConversationsTest extends BaseChatableTestCase
         $user = UserFactory::new()->createOne();
         // Conversation
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = $this->joinConversation($conversation, $sender);
-        $userParticipation = $this->joinConversation($conversation, $user);
-        $this->sendMessage($senderParticipation, $conversation);
-        $readMessage = $this->sendMessage($senderParticipation, $conversation);
+        $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
+        $userParticipation = $this->joinConversation(conversation: $conversation, participant: $user);
+        $this->sendMessage(conversation: $conversation, senderParticipation: $senderParticipation);
+        $readMessage = $this->sendMessage(conversation: $conversation, senderParticipation: $senderParticipation);
         ReadReceiptFactory::new()
             ->forMessage($readMessage)
             ->forParticipation($userParticipation)
@@ -127,9 +127,9 @@ class ParticipantConversationsTest extends BaseChatableTestCase
         $this->travelBack();
         $sender2 = UserFactory::new()->createOne();
         $conversation2 = ConversationFactory::new()->directMessage()->createOne();
-        $sender2Participation = $this->joinConversation($conversation2, $sender2);
-        $this->joinConversation($conversation2, $user);
-        $lastestMessage = $this->sendMessage($sender2Participation, $conversation2);
+        $sender2Participation = $this->joinConversation(conversation: $conversation2, participant: $sender2);
+        $this->joinConversation(conversation: $conversation2, participant: $user);
+        $lastestMessage = $this->sendMessage(conversation: $conversation2, senderParticipation: $sender2Participation);
 
         $conversations = $user->conversationsWithMetrics;
 
@@ -151,11 +151,11 @@ class ParticipantConversationsTest extends BaseChatableTestCase
         $conversation = ConversationFactory::new()->directMessage()->createOne();
         $senderParticipation = $this->joinConversation($conversation, $sender);
         $this->joinConversation($conversation, $user);
-        $this->sendMessage($senderParticipation, $conversation);
+        $this->sendMessage(conversation: $conversation, senderParticipation: $senderParticipation);
         // Conversation 2
         $conversation2 = ConversationFactory::new()->directMessage()->createOne();
         $this->joinConversation($conversation2, $sender);
-        $this->sendMessage($senderParticipation, $conversation2);
+        $this->sendMessage(conversation: $conversation2, senderParticipation: $senderParticipation);
 
         $conversations = $user->conversationsWithMetrics;
 
