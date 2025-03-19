@@ -5,7 +5,6 @@ namespace Tests\Feature\Chatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use Workbench\Database\Factories\ConversationFactory;
-use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
 
 class JoinDirectConversationTest extends BaseChatableTestCase
@@ -31,10 +30,7 @@ class JoinDirectConversationTest extends BaseChatableTestCase
     {
         $conversation = ConversationFactory::new()->directMessage()->create();
         $existingUser = UserFactory::new()->create();
-        ParticipationFactory::new()
-            ->forConversation($conversation)
-            ->forParticipant($existingUser)
-            ->create();
+        $this->joinConversation($existingUser, $conversation);
         $user = UserFactory::new()->create();
 
         $user->joinConversation($conversation);
@@ -52,14 +48,8 @@ class JoinDirectConversationTest extends BaseChatableTestCase
         $conversation = ConversationFactory::new()->directMessage()->create();
         $user1 = UserFactory::new()->create();
         $user2 = UserFactory::new()->create();
-        ParticipationFactory::new()
-            ->forConversation($conversation)
-            ->forParticipant($user1)
-            ->create();
-        ParticipationFactory::new()
-            ->forConversation($conversation)
-            ->forParticipant($user2)
-            ->create();
+        $this->joinConversation($user1, $conversation);
+        $this->joinConversation($user2, $conversation);
         $user3 = UserFactory::new()->create();
 
         $this->expectException(ParticipationLimitExceededException::class);

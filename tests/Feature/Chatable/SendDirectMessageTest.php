@@ -10,7 +10,6 @@ use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
 use Workbench\Database\Factories\ConversationFactory;
-use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
 
 class SendDirectMessageTest extends BaseChatableTestCase
@@ -61,14 +60,8 @@ class SendDirectMessageTest extends BaseChatableTestCase
         $sender = UserFactory::new()->create();
         $recipient = UserFactory::new()->create();
         $conversation = ConversationFactory::new()->directMessage()->create();
-        $senderParticipation = ParticipationFactory::new()
-            ->forConversation($conversation)
-            ->forParticipant($sender)
-            ->create();
-        ParticipationFactory::new()
-            ->forConversation($conversation)
-            ->forParticipant($recipient)
-            ->create();
+        $senderParticipation = $this->joinConversation($sender, $conversation);
+        $this->joinConversation($recipient, $conversation);
 
         $sender->sendDirectMessage($recipient, $content = 'test');
 

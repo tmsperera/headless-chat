@@ -11,7 +11,6 @@ use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\Models\ReadReceipt;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\MessageFactory;
-use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
 
 class ReadMessageTest extends BaseChatableTestCase
@@ -30,18 +29,9 @@ class ReadMessageTest extends BaseChatableTestCase
         $sender = UserFactory::new()->createOne();
         $recipient = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = ParticipationFactory::new()
-            ->forConversation($conversation)
-            ->forParticipant($sender)
-            ->createOne();
-        $recipientParticipation = ParticipationFactory::new()
-            ->forConversation($conversation)
-            ->forParticipant($recipient)
-            ->createOne();
-        $message = MessageFactory::new()
-            ->forConversation($conversation)
-            ->forParticipation($senderParticipation)
-            ->createOne();
+        $senderParticipation = $this->joinConversation($sender, $conversation);
+        $recipientParticipation = $this->joinConversation($recipient, $conversation);
+        $message = $this->sendMessage($senderParticipation, $conversation);
 
         $recipient->readMessage($message);
 
@@ -61,18 +51,9 @@ class ReadMessageTest extends BaseChatableTestCase
         $sender = UserFactory::new()->createOne();
         $recipient = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $senderParticipation = ParticipationFactory::new()
-            ->forConversation($conversation)
-            ->forParticipant($sender)
-            ->createOne();
-        ParticipationFactory::new()
-            ->forConversation($conversation)
-            ->forParticipant($recipient)
-            ->createOne();
-        $message = MessageFactory::new()
-            ->forConversation($conversation)
-            ->forParticipation($senderParticipation)
-            ->createOne();
+        $senderParticipation = $this->joinConversation($sender, $conversation);
+        $this->joinConversation($recipient, $conversation);
+        $message = $this->sendMessage($senderParticipation, $conversation);
 
         $this->expectException(ReadBySenderException::class);
         $sender->readMessage($message);
