@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -43,7 +43,7 @@ class ReadMessageTest extends TestCase
             ->forParticipation($senderParticipation)
             ->createOne();
 
-        $message->read($recipient);
+        $recipient->readMessage($message);
 
         $messageRead = ReadReceipt::query()
             ->whereKey($message)
@@ -75,18 +75,18 @@ class ReadMessageTest extends TestCase
             ->createOne();
 
         $this->expectException(ReadBySenderException::class);
-        $message->read($sender);
+        $sender->readMessage($message);
 
         Event::assertNotDispatched(MessageReadEvent::class);
     }
 
     public function test_when_read_by_other_invalid_participant()
     {
-        $invalidUser = UserFactory::new()->createOne();
+        $user = UserFactory::new()->createOne();
         $message = MessageFactory::new()->createOne();
 
         $this->expectException(InvalidParticipationException::class);
-        $message->read($invalidUser);
+        $user->readMessage($message);
 
         Event::assertNotDispatched(MessageReadEvent::class);
     }

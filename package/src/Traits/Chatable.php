@@ -9,11 +9,14 @@ use Illuminate\Database\Query\JoinClause;
 use TMSPerera\HeadlessChat\Collections\ParticipantConversationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
+use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Models\ReadReceipt;
 use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 trait Chatable
@@ -108,5 +111,14 @@ trait Chatable
     public function joinConversation(Conversation $conversation): Participation
     {
         return HeadlessChat::joinConversation(participant: $this, conversation: $conversation);
+    }
+
+    /**
+     * @throws ReadBySenderException
+     * @throws InvalidParticipationException
+     */
+    public function readMessage(Message $message): ReadReceipt
+    {
+        return HeadlessChat::readMessage(message: $message, reader: $this);
     }
 }
