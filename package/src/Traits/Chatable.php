@@ -6,11 +6,11 @@ use Deprecated;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\JoinClause;
-use Illuminate\Support\Facades\App;
-use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
 use TMSPerera\HeadlessChat\Collections\ParticipantConversationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
+use TMSPerera\HeadlessChat\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
@@ -92,10 +92,11 @@ trait Chatable
         return new ParticipantConversationCollection($conversations);
     }
 
+    /**
+     * @throws ParticipationLimitExceededException
+     */
     public function sendDirectMessageTo(Participant $recipient, string $message): Message
     {
-        $sendDirectMessage = App::make(SendDirectMessageAction::class);
-
-        return $sendDirectMessage(sender: $this, recipient: $recipient, content: $message);
+        return HeadlessChat::sendDirectMessage(sender: $this, recipient: $recipient, content: $message);
     }
 }

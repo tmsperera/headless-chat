@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use TMSPerera\HeadlessChat\Actions\JoinConversationAction;
-use TMSPerera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
+use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
@@ -53,7 +53,7 @@ class JoinToDirectConversationTest extends TestCase
 
     public function test_when_conversation_has_two_participant()
     {
-        $this->expectException(ParticipantLimitExceededException::class);
+        $this->expectException(ParticipationLimitExceededException::class);
         $conversation = ConversationFactory::new()->directMessage()->create();
         $user1 = UserFactory::new()->create();
         $user2 = UserFactory::new()->create();

@@ -6,23 +6,23 @@ use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Events\MessageSentEvent;
-use TMSPerera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
+use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
+use TMSPerera\HeadlessChat\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 
 class SendDirectMessageAction
 {
-    public function __construct(
-        protected JoinConversationAction $joinConversation,
-    ) {}
-
     /**
-     * @throws ParticipantLimitExceededException
+     * @throws ParticipationLimitExceededException
      */
     public function __invoke(Participant $sender, Participant $recipient, string $content): Message
     {
-        $conversation = $this->getExistingConversation($sender, $recipient)
-            ?: $this->createConversation($sender, $recipient);
+        $conversation = $this->getExistingConversation(sender: $sender, recipient: $recipient)
+            ?: HeadlessChat::createConversation(
+                participants: [$sender, $recipient],
+                conversationType: ConversationType::DIRECT_MESSAGE,
+            );
 
         $participation = $conversation->participations->whereParticipant($sender);
 
@@ -44,19 +44,5 @@ class SendDirectMessageAction
             ->whereHasParticipant($sender)
             ->whereHasParticipant($recipient)
             ->first();
-    }
-
-    /**
-     * @throws ParticipantLimitExceededException
-     */
-    protected function createConversation(Participant $sender, Participant $recipient): ?Conversation
-    {
-        $conversation = HeadlessChatConfig::conversationModelClass()::query()
-            ->create(['type' => ConversationType::DIRECT_MESSAGE]);
-
-        ($this->joinConversation)($sender, $conversation);
-        ($this->joinConversation)($recipient, $conversation);
-
-        return $conversation->load('participations');
     }
 }

@@ -4,14 +4,14 @@ namespace TMSPerera\HeadlessChat\Actions;
 
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
-use TMSPerera\HeadlessChat\Exceptions\ParticipantLimitExceededException;
+use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Participation;
 
 class JoinConversationAction
 {
     /**
-     * @throws ParticipantLimitExceededException
+     * @throws ParticipationLimitExceededException
      */
     public function __invoke(Participant $participant, Conversation $conversation): Participation
     {
@@ -24,7 +24,7 @@ class JoinConversationAction
     }
 
     /**
-     * @throws ParticipantLimitExceededException
+     * @throws ParticipationLimitExceededException
      */
     protected function validateParticipation(Conversation $conversation): void
     {
@@ -32,7 +32,7 @@ class JoinConversationAction
             $conversation->type == ConversationType::DIRECT_MESSAGE
             && $conversation->participations->count() >= 2
         ) {
-            throw new ParticipantLimitExceededException;
+            throw new ParticipationLimitExceededException;
         }
     }
 }

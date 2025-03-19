@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\App;
-use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
+use TMSPerera\HeadlessChat\HeadlessChat;
 
 class Message extends Model
 {
@@ -43,10 +42,8 @@ class Message extends Model
      * @throws ReadBySenderException
      * @throws InvalidParticipationException
      */
-    public function read(Participant $reader): void
+    public function read(Participant $reader): ReadReceipt
     {
-        $readMessage = App::make(ReadMessageAction::class);
-
-        $readMessage(message: $this, reader: $reader);
+        return HeadlessChat::readMessage($this, $reader);
     }
 }

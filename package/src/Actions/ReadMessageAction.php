@@ -8,6 +8,7 @@ use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
 class ReadMessageAction
 {
@@ -15,7 +16,7 @@ class ReadMessageAction
      * @throws ReadBySenderException
      * @throws InvalidParticipationException
      */
-    public function __invoke(Message $message, Participant $reader): void
+    public function __invoke(Message $message, Participant $reader): ReadReceipt
     {
         $message->loadMissing('participation');
 
@@ -25,11 +26,13 @@ class ReadMessageAction
             throw new ReadBySenderException;
         }
 
-        $message->readReceipts()->create([
+        $readReceipt = $message->readReceipts()->create([
             'participation_id' => $participation->getKey(),
         ]);
 
         MessageReadEvent::dispatch($message, $reader);
+
+        return $readReceipt;
     }
 
     /**
