@@ -3,18 +3,13 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\Models\Conversation;
-use TMSPerera\HeadlessChat\Models\Message;
-use TMSPerera\HeadlessChat\Models\Participation;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\MessageFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\ReadReceiptFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class ParticipantConversationsTest extends TestCase
+class ParticipantConversationsTest extends BaseChatableTestCase
 {
     use RefreshDatabase;
 
@@ -120,10 +115,10 @@ class ParticipantConversationsTest extends TestCase
         $user = UserFactory::new()->createOne();
         // Conversation
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $this->joinConversation($sender, $conversation);
+        $senderParticipation = $this->joinConversation($sender, $conversation);
         $userParticipation = $this->joinConversation($user, $conversation);
-        $this->sendMessage($sender, $conversation);
-        $readMessage = $this->sendMessage($sender, $conversation);
+        $this->sendMessage($senderParticipation, $conversation);
+        $readMessage = $this->sendMessage($senderParticipation, $conversation);
         ReadReceiptFactory::new()
             ->forMessage($readMessage)
             ->forParticipation($userParticipation)
@@ -132,9 +127,9 @@ class ParticipantConversationsTest extends TestCase
         $this->travelBack();
         $sender2 = UserFactory::new()->createOne();
         $conversation2 = ConversationFactory::new()->directMessage()->createOne();
-        $this->joinConversation($sender2, $conversation2);
+        $sender2Participation = $this->joinConversation($sender2, $conversation2);
         $this->joinConversation($user, $conversation2);
-        $lastestMessage = $this->sendMessage($sender2, $conversation2);
+        $lastestMessage = $this->sendMessage($sender2Participation, $conversation2);
 
         $conversations = $user->conversationsWithMetrics;
 
@@ -154,13 +149,13 @@ class ParticipantConversationsTest extends TestCase
         $sender = UserFactory::new()->createOne();
         // Conversation
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $this->joinConversation($sender, $conversation);
+        $senderParticipation = $this->joinConversation($sender, $conversation);
         $this->joinConversation($user, $conversation);
-        $this->sendMessage($sender, $conversation);
+        $this->sendMessage($senderParticipation, $conversation);
         // Conversation 2
         $conversation2 = ConversationFactory::new()->directMessage()->createOne();
         $this->joinConversation($sender, $conversation2);
-        $this->sendMessage($sender, $conversation2);
+        $this->sendMessage($senderParticipation, $conversation2);
 
         $conversations = $user->conversationsWithMetrics;
 
@@ -168,27 +163,5 @@ class ParticipantConversationsTest extends TestCase
         $this->assertEquals(1, $conversations[0]->total_message_count);
         $this->assertEquals(0, $conversations[0]->read_message_count);
         $this->assertEquals(1, $conversations[0]->unread_message_count);
-    }
-
-    protected function joinConversation(Participant $participant, Conversation $conversation): Participation
-    {
-        return ParticipationFactory::new()
-            ->forParticipant($participant)
-            ->forConversation($conversation)
-            ->createOne();
-    }
-
-    protected function sendMessage(Participant $sender, Conversation $conversation): Message
-    {
-        $sender->refresh();
-
-        $participation = $sender->participations
-            ->where('conversation_id', $conversation->getKey())
-            ->firstOrFail();
-
-        return MessageFactory::new()
-            ->forConversation($conversation)
-            ->forParticipation($participation)
-            ->createOne();
     }
 }
