@@ -4,9 +4,9 @@ namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 use TMSPerera\HeadlessChat\Events\MessageReadEvent;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
+use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\Models\ReadReceipt;
 use Workbench\Database\Factories\ConversationFactory;
@@ -14,7 +14,7 @@ use Workbench\Database\Factories\MessageFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class ReadMessageTest extends TestCase
+class ReadMessageTest extends BaseChatableTestCase
 {
     use RefreshDatabase;
 
@@ -87,6 +87,22 @@ class ReadMessageTest extends TestCase
 
         $this->expectException(InvalidParticipationException::class);
         $user->readMessage($message);
+
+        Event::assertNotDispatched(MessageReadEvent::class);
+    }
+
+    public function test_when_read_again()
+    {
+        $sender = UserFactory::new()->createOne();
+        $recipient = UserFactory::new()->createOne();
+        $conversation = ConversationFactory::new()->directMessage()->createOne();
+        $senderParticipation = $this->joinConversation($sender, $conversation);
+        $recipientParticipation = $this->joinConversation($recipient, $conversation);
+        $message = $this->sendMessage($senderParticipation, $conversation);
+        $this->readMessage($recipientParticipation, $message);
+
+        $this->expectException(MessageAlreadyReadException::class);
+        $recipient->readMessage($message);
 
         Event::assertNotDispatched(MessageReadEvent::class);
     }

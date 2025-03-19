@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 
+/**
+ * @property Message message
+ * @property Participation participation
+ */
 class ReadReceipt extends Model
 {
     use HasFactory;

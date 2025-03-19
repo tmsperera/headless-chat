@@ -2,6 +2,7 @@
 
 namespace TMSPerera\HeadlessChat\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,11 @@ use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\HeadlessChat;
 
+/**
+ * @property Conversation conversation
+ * @property Participation participation
+ * @property Collection readReceipts
+ */
 class Message extends Model
 {
     use HasFactory;

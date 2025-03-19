@@ -2,6 +2,7 @@
 
 namespace TMSPerera\HeadlessChat\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,6 +16,7 @@ use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
  * @method static ConversationBuilder query()
  *
  * @property ParticipationCollection participations
+ * @property Collection messages
  */
 class Conversation extends Model
 {
