@@ -18,7 +18,7 @@ class CreateConversationAction
     {
         $this->validate(participants: $participants, conversationType: $conversationType);
 
-        $conversation = DB::transaction(function () use ($participants, $conversationType) {
+        return DB::transaction(function () use ($participants, $conversationType) {
             $conversation = HeadlessChatConfig::conversationModelClass()::query()
                 ->create(['type' => $conversationType]);
 
@@ -33,8 +33,6 @@ class CreateConversationAction
 
             return $conversation;
         });
-
-        return $conversation->load('participations');
     }
 
     /**
