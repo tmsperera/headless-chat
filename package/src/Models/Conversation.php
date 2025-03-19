@@ -30,6 +30,11 @@ class Conversation extends Model
         ];
     }
 
+    public function newEloquentBuilder($query): ConversationBuilder
+    {
+        return new ConversationBuilder($query);
+    }
+
     public function participations(): HasMany
     {
         return $this->hasMany(HeadlessChatConfig::participationModelClass());
@@ -38,10 +43,5 @@ class Conversation extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(HeadlessChatConfig::messageModelClass());
-    }
-
-    public function newEloquentBuilder($query): ConversationBuilder
-    {
-        return new ConversationBuilder($query);
     }
 }

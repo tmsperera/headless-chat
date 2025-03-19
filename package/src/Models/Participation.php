@@ -16,6 +16,11 @@ class Participation extends Model
 
     protected $guarded = [];
 
+    public function newCollection(array $models = []): ParticipationCollection
+    {
+        return new ParticipationCollection($models);
+    }
+
     public function conversation(): BelongsTo
     {
         return $this->belongsTo(HeadlessChatConfig::conversationModelClass());
@@ -29,10 +34,5 @@ class Participation extends Model
     public function participant(): MorphTo
     {
         return $this->morphTo();
-    }
-
-    public function newCollection(array $models = []): ParticipationCollection
-    {
-        return new ParticipationCollection($models);
     }
 }

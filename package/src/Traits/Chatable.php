@@ -3,10 +3,12 @@
 namespace TMSPerera\HeadlessChat\Traits;
 
 use Deprecated;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\JoinClause;
 use TMSPerera\HeadlessChat\Collections\ParticipantConversationCollection;
+use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
@@ -19,6 +21,11 @@ use TMSPerera\HeadlessChat\Models\Participation;
 use TMSPerera\HeadlessChat\Models\ReadReceipt;
 use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
+/**
+ * @property ParticipationCollection participations
+ * @property Collection conversations
+ * @property Collection conversationsWithMetrics
+ */
 trait Chatable
 {
     public function participations(): MorphMany
