@@ -4,12 +4,15 @@ namespace TMSPerera\HeadlessChat;
 
 use Illuminate\Support\Facades\App;
 use TMSPerera\HeadlessChat\Actions\CreateConversationAction;
+use TMSPerera\HeadlessChat\Actions\DeleteMessageAction;
+use TMSPerera\HeadlessChat\Actions\DeleteSentMessageAction;
 use TMSPerera\HeadlessChat\Actions\JoinConversationAction;
 use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
 use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
+use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\Models\Conversation;
@@ -71,5 +74,29 @@ class HeadlessChat
         $action = App::make(JoinConversationAction::class);
 
         return $action(participant: $participant, conversation: $conversation);
+    }
+
+    public static function deleteMessage(
+        Message $message,
+        Participation $participation,
+    ): void {
+        /** @var DeleteMessageAction $action */
+        $action = App::make(DeleteMessageAction::class);
+
+        $action(message: $message, participation: $participation);
+    }
+
+    /**
+     * @throws InvalidParticipationException
+     * @throws MessageOwnershipException
+     */
+    public static function deleteSentMessage(
+        Message $message,
+        Participant $participant,
+    ): void {
+        /** @var DeleteSentMessageAction $action */
+        $action = App::make(DeleteSentMessageAction::class);
+
+        $action(message: $message, participant: $participant);
     }
 }

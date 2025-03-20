@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
+use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
@@ -45,5 +46,15 @@ class Conversation extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(HeadlessChatConfig::messageModelClass());
+    }
+
+    public function getParticipationOf(Participant $participant): ?Participation
+    {
+        $this->loadMissing('participations.participant');
+
+        return $this->participations
+            ->first(function (Participation $participation) use ($participant) {
+                return $participation->participant->is($participant);
+            });
     }
 }

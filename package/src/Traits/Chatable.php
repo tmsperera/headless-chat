@@ -10,6 +10,7 @@ use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
+use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\HeadlessChat;
@@ -82,6 +83,11 @@ trait Chatable
             ->count();
     }
 
+    public function getParticipationIn(Conversation $conversation): ?Participation
+    {
+        return $conversation->getParticipationOf($this);
+    }
+
     /**
      * @throws ParticipationLimitExceededException
      */
@@ -105,5 +111,14 @@ trait Chatable
     public function readMessage(Message $message): ReadReceipt
     {
         return HeadlessChat::readMessage(message: $message, reader: $this);
+    }
+
+    /**
+     * @throws InvalidParticipationException
+     * @throws MessageOwnershipException
+     */
+    public function deleteSentMessage(Message $message): void
+    {
+        HeadlessChat::deleteSentMessage(message: $message, participant: $this);
     }
 }
