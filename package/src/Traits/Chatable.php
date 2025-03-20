@@ -97,14 +97,6 @@ trait Chatable
     }
 
     /**
-     * @throws ParticipationLimitExceededException
-     */
-    public function joinConversation(Conversation $conversation): Participation
-    {
-        return HeadlessChat::joinConversation(participant: $this, conversation: $conversation);
-    }
-
-    /**
      * @throws ReadBySenderException
      * @throws InvalidParticipationException
      */
@@ -120,5 +112,13 @@ trait Chatable
     public function deleteSentMessage(Message $message): void
     {
         HeadlessChat::deleteSentMessage(message: $message, participant: $this);
+    }
+
+    /**
+     * @throws ParticipationLimitExceededException
+     */
+    public function joinConversation(Conversation $conversation): Participation
+    {
+        return HeadlessChat::joinConversation(participant: $this, conversation: $conversation);
     }
 }
