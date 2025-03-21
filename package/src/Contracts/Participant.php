@@ -25,7 +25,7 @@ interface Participant
 
     public function getParticipationIn(Conversation $conversation): ?Participation;
 
-    public function sendDirectMessage(Participant $recipient, string $message, array $metadata = []): Message;
+    public function sendDirectMessage(Participant $recipient, string $message, array $messageMetadata = []): Message;
 
     public function readMessage(Message $message): ReadReceipt;
 
