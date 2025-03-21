@@ -10,26 +10,32 @@ A headless package designed to integrate chat functionality into Laravel applica
 
 ## Installation
 
-1. Install the package via composer:
+1. Install the package via composer
 
     ```
-    composer require tmsperera/headless-chat
+    composer require tmsperera/headless-chat:dev-main
     ```
     The package will automatically register itself.
 
-2. Publish the migration with:
+2. Publish the migration with
 
     ```
     php artisan vendor:publish --tag=headless-chat-migrations
     ```
 
-3. Run migrations
+3. Publish config (Optional)
+
+    ```
+    php artisan vendor:publish --tag=headless-chat-config
+    ```
+
+4. Run migrations
 
     ```
     php artisan migrate
     ```
 
-4. Implement your Use model from [Participant]([Chatable](/package/src/Contracts/Participant.php)) contract:
+5. Implement your Use model from [Participant]([Chatable](/package/src/Contracts/Participant.php)) contract
 
     ```php
     use TMSPerera\HeadlessChat\Contracts\Participant;
