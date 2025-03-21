@@ -12,6 +12,7 @@ use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
+use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
@@ -28,11 +29,16 @@ class HeadlessChat
     public static function createConversation(
         array $participants,
         ConversationType $conversationType,
+        array $conversationMetadata = [],
     ): Conversation {
         /** @var CreateConversationAction $action */
         $action = App::make(CreateConversationAction::class);
 
-        return $action(participants: $participants, conversationType: $conversationType);
+        return $action(
+            participants: $participants,
+            conversationType: $conversationType,
+            conversationMetadata: $conversationMetadata,
+        );
     }
 
     /**
@@ -42,16 +48,23 @@ class HeadlessChat
         Participant $sender,
         Participant $recipient,
         string $content,
+        array $messageMetadata = [],
     ): Message {
         /** @var SendDirectMessageAction $action */
         $action = App::make(SendDirectMessageAction::class);
 
-        return $action(sender: $sender, recipient: $recipient, content: $content);
+        return $action(
+            sender: $sender,
+            recipient: $recipient,
+            content: $content,
+            messageMetadata: $messageMetadata,
+        );
     }
 
     /**
      * @throws ReadBySenderException
      * @throws InvalidParticipationException
+     * @throws MessageAlreadyReadException
      */
     public static function readMessage(
         Message $message,
@@ -68,12 +81,17 @@ class HeadlessChat
      */
     public static function joinConversation(
         Participant $participant,
-        Conversation $conversation
+        Conversation $conversation,
+        array $participationMetadata = [],
     ): Participation {
         /** @var JoinConversationAction $action */
         $action = App::make(JoinConversationAction::class);
 
-        return $action(participant: $participant, conversation: $conversation);
+        return $action(
+            participant: $participant,
+            conversation: $conversation,
+            participationMetadata: $participationMetadata,
+        );
     }
 
     public static function deleteMessage(

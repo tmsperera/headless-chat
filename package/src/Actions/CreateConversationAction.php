@@ -14,13 +14,19 @@ class CreateConversationAction
     /**
      * @throws ParticipationLimitExceededException
      */
-    public function __invoke(array $participants, ConversationType $conversationType): Conversation
-    {
+    public function __invoke(
+        array $participants,
+        ConversationType $conversationType,
+        array $conversationMetadata = [],
+    ): Conversation {
         $this->validate(participants: $participants, conversationType: $conversationType);
 
-        return DB::transaction(function () use ($participants, $conversationType) {
+        return DB::transaction(function () use ($participants, $conversationType, $conversationMetadata) {
             $conversation = HeadlessChatConfig::conversationModelClass()::query()
-                ->create(['type' => $conversationType]);
+                ->create([
+                    'type' => $conversationType,
+                    'metadata' => $conversationMetadata,
+                ]);
 
             $participations = array_map(function (Participant $participant) {
                 return [
