@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
@@ -17,6 +18,8 @@ use TMSPerera\HeadlessChat\Contracts\Participant;
  * @property Collection messages
  * @property Participant participant
  * @property array metadata
+ * @property Carbon created_at
+ * @property Carbon updated_at
  */
 class Participation extends Model
 {

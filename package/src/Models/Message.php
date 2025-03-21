@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
@@ -20,6 +21,9 @@ use TMSPerera\HeadlessChat\HeadlessChat;
  * @property Collection readReceipts
  * @property string content
  * @property array metadata
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ * @property Carbon deleted_at
  */
 class Message extends Model
 {

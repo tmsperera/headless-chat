@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
@@ -20,6 +21,9 @@ use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
  * @property Collection messages
  * @property ConversationType type
  * @property array metadata
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ * @property Carbon deleted_at
  */
 class Conversation extends Model
 {
