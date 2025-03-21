@@ -97,7 +97,7 @@ To swap a database table or model used in package follow the below steps:
     });
     ```
 
-3. Create new custom Model extending from the existing [models](/package/src/Models) defined in Headless Chat package.
+3. Create new custom Model extending from the [Models](/package/src/Models) defined in Headless Chat package.
 
     ```php
     use TMSPerera\HeadlessChat\Models\Message;
