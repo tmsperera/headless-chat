@@ -1,4 +1,4 @@
-# Headless Chat for Laravel
+# 💬 Headless Chat for Laravel
 
 A headless package designed to integrate chat functionality into Laravel applications.
 
@@ -13,7 +13,7 @@ A headless package designed to integrate chat functionality into Laravel applica
 1. Install the package via composer:
 
     ```
-    composer require tmsperera/headless-chat
+    composer require tmsperera/headless-chat:dev-main
     ```
     The package will automatically register itself.
 
