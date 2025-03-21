@@ -1,11 +1,11 @@
 # 💬 Headless Chat for Laravel
 
-A headless package designed to integrate chat functionality into Laravel applications.
+A flexible, customizable and headless package designed to integrate chat functionality into Laravel applications.
 
 ## Key Features
 
- - Models and database tables can be overridden 
  - Emits Events
+ - Models and database tables can be overridden 
  - Uses Actions resolved from Service Container
 
 ## Installation
