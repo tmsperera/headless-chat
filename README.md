@@ -23,7 +23,7 @@ A flexible, customizable and headless package designed to integrate chat functio
     php artisan vendor:publish --tag=headless-chat-migrations
     ```
 
-3. Publish configurations using (Optional): 
+3. (Optional) Publish configurations using: 
 
     ```
     php artisan vendor:publish --tag=headless-chat-config
