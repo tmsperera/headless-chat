@@ -62,14 +62,17 @@ A headless package designed to integrate chat functionality into Laravel applica
 
 ## Usage
 
-Having **Chatable** trait inside the User model gives you important abilities. And also this package provides standalone **Actions** to use anywhere your application needs.
+Having [Chatable](/package/src/Traits/Chatable.php) trait inside the User model gives you important abilities. And also this package provides standalone [Actions](package/src/Actions) to use anywhere your application needs.
 
 🏗️ Feel free to refer following until the documentation gets completed
 
 - [Participant](/package/src/Contracts/Participant.php) Contract
 - [Chatable](/package/src/Traits/Chatable.php) Trait
-- [Actions](package/src/Actions) Directory
-- [Events](package/src/Events) Directory
+- [HeadlessChat](/package/src/HeadlessChat.php) Class
+- [Actions/](package/src/Actions) Directory
+- [Events/](package/src/Events) Directory
+
+> More details are coming soon...
 
 ## Advanced Usage
 
