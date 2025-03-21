@@ -13,13 +13,17 @@ class JoinConversationAction
     /**
      * @throws ParticipationLimitExceededException
      */
-    public function __invoke(Participant $participant, Conversation $conversation): Participation
-    {
+    public function __invoke(
+        Participant $participant,
+        Conversation $conversation,
+        array $participationMetadata = [],
+    ): Participation {
         $this->validateParticipation($conversation);
 
         return $conversation->participations()->create([
             'participant_type' => $participant->getMorphClass(),
             'participant_id' => $participant->getKey(),
+            'metadata' => $participationMetadata,
         ]);
     }
 

@@ -18,6 +18,8 @@ use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
  *
  * @property ParticipationCollection participations
  * @property Collection messages
+ * @property ConversationType type
+ * @property array metadata
  */
 class Conversation extends Model
 {
@@ -30,6 +32,7 @@ class Conversation extends Model
     {
         return [
             'type' => ConversationType::class,
+            'metadata' => 'array',
         ];
     }
 

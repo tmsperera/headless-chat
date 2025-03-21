@@ -10,6 +10,7 @@ use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
+use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
@@ -91,14 +92,23 @@ trait Chatable
     /**
      * @throws ParticipationLimitExceededException
      */
-    public function sendDirectMessage(Participant $recipient, string $message): Message
-    {
-        return HeadlessChat::sendDirectMessage(sender: $this, recipient: $recipient, content: $message);
+    public function sendDirectMessage(
+        Participant $recipient,
+        string $message,
+        array $messageMetadata = [],
+    ): Message {
+        return HeadlessChat::sendDirectMessage(
+            sender: $this,
+            recipient: $recipient,
+            content: $message,
+            messageMetadata: $messageMetadata,
+        );
     }
 
     /**
      * @throws ReadBySenderException
      * @throws InvalidParticipationException
+     * @throws MessageAlreadyReadException
      */
     public function readMessage(Message $message): ReadReceipt
     {
@@ -117,8 +127,12 @@ trait Chatable
     /**
      * @throws ParticipationLimitExceededException
      */
-    public function joinConversation(Conversation $conversation): Participation
+    public function joinConversation(Conversation $conversation, array $participationMetadata = []): Participation
     {
-        return HeadlessChat::joinConversation(participant: $this, conversation: $conversation);
+        return HeadlessChat::joinConversation(
+            participant: $this,
+            conversation: $conversation,
+            participationMetadata: $participationMetadata,
+        );
     }
 }

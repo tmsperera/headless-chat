@@ -16,8 +16,12 @@ class SendDirectMessageAction
     /**
      * @throws ParticipationLimitExceededException
      */
-    public function __invoke(Participant $sender, Participant $recipient, string $content): Message
-    {
+    public function __invoke(
+        Participant $sender,
+        Participant $recipient,
+        string $content,
+        array $messageMetadata = [],
+    ): Message {
         $conversation = $this->getExistingConversation(sender: $sender, recipient: $recipient)
             ?: HeadlessChat::createConversation(
                 participants: [$sender, $recipient],
@@ -29,6 +33,7 @@ class SendDirectMessageAction
         $message = $participation->messages()->create([
             'conversation_id' => $sender->getKey(),
             'content' => $content,
+            'metadata' => $messageMetadata,
         ]);
 
         MessageSentEvent::dispatch($message);

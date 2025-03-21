@@ -16,12 +16,20 @@ use TMSPerera\HeadlessChat\Contracts\Participant;
  * @property Conversation conversation
  * @property Collection messages
  * @property Participant participant
+ * @property array metadata
  */
 class Participation extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+
+    protected function casts(): array
+    {
+        return [
+            'metadata' => 'array',
+        ];
+    }
 
     public function newCollection(array $models = []): ParticipationCollection
     {

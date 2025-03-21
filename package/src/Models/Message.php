@@ -18,6 +18,8 @@ use TMSPerera\HeadlessChat\HeadlessChat;
  * @property Conversation conversation
  * @property Participation participation
  * @property Collection readReceipts
+ * @property string content
+ * @property array metadata
  */
 class Message extends Model
 {
@@ -25,6 +27,13 @@ class Message extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    protected function casts(): array
+    {
+        return [
+            'metadata' => 'array',
+        ];
+    }
 
     public function conversation(): BelongsTo
     {

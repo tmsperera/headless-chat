@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('type');
+            $table->json('metadata')->default(json_encode([]));
             $table->softDeletes();
         });
 
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->foreignId('conversation_id')
                 ->constrained(table: 'conversations', column: 'id');
             $table->morphs('participant');
+            $table->json('metadata')->default(json_encode([]));
             $table->timestamps();
 
             $table->unique(['conversation_id', 'participant_type', 'participant_id'], 'uq_participation');
@@ -32,6 +34,7 @@ return new class extends Migration
             $table->foreignId('conversation_id')
                 ->constrained(table: 'conversations', column: 'id');
             $table->text('content');
+            $table->json('metadata')->default(json_encode([]));
             $table->timestamps();
             $table->softDeletes();
         });
