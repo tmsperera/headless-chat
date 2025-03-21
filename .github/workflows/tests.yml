@@ -18,7 +18,7 @@ jobs:
           tools: composer:v2
 
       - name: Install Dependencies
-        run: composer install -q --no-interactions
+        run: composer install --quiet --no-interaction
 
       - name: Run Tests
         run: ./vendor/bin/phpunit
