@@ -13,7 +13,7 @@ A flexible, customizable and headless package designed to integrate chat functio
 1. Install the package via composer.
 
     ```
-    composer require tmsperera/headless-chat:dev-main
+    composer require tmsperera/headless-chat
     ```
    > Package will automatically register itself.
 
