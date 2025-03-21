@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
   steps:
-    - name: Checkout
+    - name: Checkout Code
       uses: actions/checkout@v4.2.2
 
     - name: Setup PHP and Composer
