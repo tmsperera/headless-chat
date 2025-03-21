@@ -10,11 +10,12 @@ A headless package designed to integrate chat functionality into Laravel applica
 
 ## Installation
 
-1. Install the package via composer. Package will automatically register itself.
+1. Install the package via composer.
 
     ```
     composer require tmsperera/headless-chat:dev-main
     ```
+   > Package will automatically register itself.
 
 2. Publish migrations using:
 
@@ -22,7 +23,7 @@ A headless package designed to integrate chat functionality into Laravel applica
     php artisan vendor:publish --tag=headless-chat-migrations
     ```
 
-3. Publish configs using (Optional): 
+3. Publish configurations using (Optional): 
 
     ```
     php artisan vendor:publish --tag=headless-chat-config
@@ -34,7 +35,7 @@ A headless package designed to integrate chat functionality into Laravel applica
     php artisan migrate
     ```
 
-5. Implement your Use model from [Participant]([Chatable](/package/src/Contracts/Participant.php)) contract.
+5. Implement your "User" Model from [Participant]([Chatable](/package/src/Contracts/Participant.php)) contract.
 
     ```php
     use TMSPerera\HeadlessChat\Contracts\Participant;
@@ -44,6 +45,7 @@ A headless package designed to integrate chat functionality into Laravel applica
         ...
     }
     ```
+   > Any Eloquent Model can be used as a Participant
 
 5. Use [Chatable](/package/src/Traits/Chatable.php) trait in User Model.
 
@@ -83,7 +85,7 @@ To swap a database table or model used in package follow the below steps:
     php artisan vendor:publish --tag=headless-chat-config
     ```
 
-2. Modify the published migrations in **create_headless_chat_tables** to set custom database table name.
+2. Modify the published migrations in `create_headless_chat_tables.php` to set custom database table name.
 
     ```php
     // Schema::create('messages', function (Blueprint $table) {
@@ -92,7 +94,7 @@ To swap a database table or model used in package follow the below steps:
     });
     ```
 
-3. Create new custom model extending from the [models](/package/src/Models) defined in Headless Chat package.
+3. Create new custom Model extending from the existing [models](/package/src/Models) defined in Headless Chat package.
 
     ```php
     use TMSPerera\HeadlessChat\Models\Message;
@@ -103,7 +105,7 @@ To swap a database table or model used in package follow the below steps:
     }
     ```
 
-4. Modify Headless Chat configurations to point the new model.
+4. Modify `config/headless-chat.php` to point the new model.
 
     ```php
     return [
