@@ -14,33 +14,33 @@ class HeadlessChatConfig
     /**
      * @return class-string<Conversation>
      */
-    public static function conversationModelClass(): string
+    protected static function conversationModelClass(): string
     {
-        return Config::get('headless-chat.models.conversation');
-    }
-
-    /**
-     * @return class-string<Message>
-     */
-    public static function messageModelClass(): string
-    {
-        return Config::get('headless-chat.models.message');
+        return Config::get('headless-chat.models.conversation', Conversation::class);
     }
 
     /**
      * @return class-string<Participation>
      */
-    public static function participationModelClass(): string
+    protected static function participationModelClass(): string
     {
-        return Config::get('headless-chat.models.participation');
+        return Config::get('headless-chat.models.participation', Participation::class);
+    }
+
+    /**
+     * @return class-string<Message>
+     */
+    protected static function messageModelClass(): string
+    {
+        return Config::get('headless-chat.models.message', Message::class);
     }
 
     /**
      * @return class-string<ReadReceipt>
      */
-    public static function readReceiptModelClass(): string
+    protected static function readReceiptModelClass(): string
     {
-        return Config::get('headless-chat.models.read_receipt');
+        return Config::get('headless-chat.models.read_receipt', ReadReceipt::class);
     }
 
     public static function conversationInstance(): Conversation
@@ -48,14 +48,14 @@ class HeadlessChatConfig
         return App::make(static::conversationModelClass());
     }
 
-    public static function messageInstance(): Message
-    {
-        return App::make(static::messageModelClass());
-    }
-
     public static function participationInstance(): Participation
     {
         return App::make(static::participationModelClass());
+    }
+
+    public static function messageInstance(): Message
+    {
+        return App::make(static::messageModelClass());
     }
 
     public static function readReceiptInstance(): ReadReceipt

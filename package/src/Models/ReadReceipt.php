@@ -23,7 +23,7 @@ class ReadReceipt extends Model
     public function message(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::messageModelClass(),
+            related: HeadlessChatConfig::messageInstance()::class,
             foreignKey: 'message_id',
         );
     }
@@ -34,7 +34,7 @@ class ReadReceipt extends Model
     public function participation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::participationModelClass(),
+            related: HeadlessChatConfig::participationInstance()::class,
             foreignKey: 'participation_id',
         );
     }

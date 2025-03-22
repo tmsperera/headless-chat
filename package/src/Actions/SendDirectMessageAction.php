@@ -43,7 +43,7 @@ class SendDirectMessageAction
 
     protected function getExistingConversation(Participant $sender, Participant $recipient): ?Conversation
     {
-        return HeadlessChatConfig::conversationModelClass()::query()
+        return HeadlessChatConfig::conversationInstance()->newQuery()
             ->with('participations')
             ->whereDirectMessage()
             ->whereHasParticipant($sender)
