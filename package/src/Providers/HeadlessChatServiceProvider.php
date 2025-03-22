@@ -13,21 +13,24 @@ class HeadlessChatServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->publishMigrations();
-        $this->publishConfig();
-    }
+        $this->publishesMigrations(
+            [
+                __DIR__.'/../../database/migrations' => database_path('migrations'),
+            ],
+            [
+                'headless-chat',
+                'headless-chat-migrations',
+            ],
+        );
 
-    protected function publishMigrations(): void
-    {
-        $this->publishesMigrations([
-            __DIR__.'/../../database/migrations' => database_path('migrations'),
-        ], 'headless-chat-migrations');
-    }
-
-    protected function publishConfig(): void
-    {
-        $this->publishes([
-            __DIR__.'/../../config/headless-chat.php' => config_path('headless-chat.php'),
-        ], 'headless-chat-config');
+        $this->publishes(
+            [
+                __DIR__.'/../../config/headless-chat.php' => config_path('headless-chat.php'),
+            ],
+            [
+                'headless-chat',
+                'headless-chat-config',
+            ],
+        );
     }
 }
