@@ -16,7 +16,7 @@ class ConversationBuilder extends Builder
 
     public function whereHasParticipant(Participant $participant): static
     {
-        $participation = HeadlessChatConfig::newParticipationInstance();
+        $participation = HeadlessChatConfig::participationInstance();
 
         return $this->whereHas('participations', function (Builder $query) use ($participant, $participation) {
             $query->whereMorphedTo($participation->participant()->getRelationName(), $participant);

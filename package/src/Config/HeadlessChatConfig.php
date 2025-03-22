@@ -43,22 +43,22 @@ class HeadlessChatConfig
         return Config::get('headless-chat.models.read_receipt');
     }
 
-    public static function newConversationInstance(): Conversation
+    public static function conversationInstance(): Conversation
     {
         return App::make(static::conversationModelClass());
     }
 
-    public static function newMessageInstance(): Message
+    public static function messageInstance(): Message
     {
         return App::make(static::messageModelClass());
     }
 
-    public static function newParticipationInstance(): Participation
+    public static function participationInstance(): Participation
     {
         return App::make(static::participationModelClass());
     }
 
-    public static function newReadReceiptInstance(): ReadReceipt
+    public static function readReceiptInstance(): ReadReceipt
     {
         return App::make(static::readReceiptModelClass());
     }
