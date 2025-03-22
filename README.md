@@ -88,12 +88,20 @@ To swap a database table or model used in package follow the below steps:
     php artisan vendor:publish --tag=headless-chat-config
     ```
 
-2. Modify the published migrations in `create_headless_chat_tables.php` to set custom database table name.
+2. Modify the published migrations in `create_headless_chat_tables.php` to set custom database table name and foreign key constrains.
 
     ```php
     // Schema::create('messages', function (Blueprint $table) {
     Schema::create('custom_messages', function (Blueprint $table) {
         ...
+    });
+   
+    Schema::create('read_receipts', function (Blueprint $table) {
+       ...
+       $table->foreignId('message_id')
+          // ->constrained(table: 'messages', column: 'id');
+          ->constrained(table: 'custom_messages', column: 'id');
+       ...
     });
     ```
 
