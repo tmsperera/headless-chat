@@ -17,17 +17,23 @@ A flexible, customizable and headless package designed to integrate chat functio
     ```
    > Package will automatically register itself.
 
-2. Publish migrations using:
+2. Publish migrations and config using:
 
     ```
-    php artisan vendor:publish --tag=headless-chat-migrations
+    php artisan vendor:publish --tag=headless-chat
     ```
+   
+   * To publish only migrations:
 
-3. (Optional) Publish configurations using: 
+       ```
+       php artisan vendor:publish --tag=headless-chat-migrations
+       ```
+     
+   * To publish only configurations: 
 
-    ```
-    php artisan vendor:publish --tag=headless-chat-config
-    ```
+       ```
+       php artisan vendor:publish --tag=headless-chat-config
+       ```
 
 4. Run migrations.
 
@@ -128,9 +134,47 @@ To swap a database table or model used in package follow the below steps:
     ];
     ```
 
+   > 💡 Ultimately the models are resolved from Laravel Service Container, so you can also override the Model class inside the `register` method of your `AppServiceProvider` instead of modifying or even publishing the `headless-chat` config. just as below
+   > 
+   > ```php
+   > namespace App\Providers;
+   > 
+   > use Illuminate\Support\ServiceProvider;
+   > use App\Models\CustomMessage;
+   > use TMSPerera\HeadlessChat\Models\Message;
+   > 
+   > class AppServiceProvider extends ServiceProvider
+   > {
+   >       public function register(): void
+   >       {
+   >           $this->app->bind(Message::class, function ($app) {
+   >               return $app->make(CustomMessage::class);
+   >           });
+   >       }
+   > }
+   > ```
+
 ### Override Actions
 
-All actions used inside Headless Chat package are resolved from Laravel Service Container. If you ever need to modify the behaviour of any Action used in Headless Chat package, you can add a binding inside your AppServiceProvider.
+All actions used inside Headless Chat package are resolved from Laravel Service Container. If you ever need to modify the behaviour of any Action used in Headless Chat package, you can add a binding inside `register` method of your `AppServiceProvider`.
+
+```php
+namespace App\Providers;
+
+use App\Actions\CustomSendDirectMessageAction;
+use Illuminate\Support\ServiceProvider;
+use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
+
+class AppServiceProvider extends ServiceProvider
+{
+      public function register(): void
+      {
+          $this->app->bind(SendDirectMessageAction::class, function ($app) {
+              return $app->make(CustomSendDirectMessageAction::class);
+          });
+      }
+}
+```
 
 ## References
 
