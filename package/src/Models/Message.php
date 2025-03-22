@@ -41,7 +41,11 @@ class Message extends Model
 
     public function conversation(): BelongsTo
     {
-        return $this->belongsTo(HeadlessChatConfig::conversationModelClass());
+        return $this->belongsTo(
+            related: HeadlessChatConfig::conversationModelClass(),
+            foreignKey: 'conversation_id',
+            ownerKey: $this->getKeyName(),
+        );
     }
 
     /**
@@ -49,7 +53,11 @@ class Message extends Model
      */
     public function participation(): BelongsTo
     {
-        return $this->belongsTo(HeadlessChatConfig::participationModelClass());
+        return $this->belongsTo(
+            related: HeadlessChatConfig::participationModelClass(),
+            foreignKey: 'participation_id',
+            ownerKey: $this->getKeyName(),
+        );
     }
 
     public function readReceipts(): HasMany
