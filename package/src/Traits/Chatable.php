@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
@@ -34,17 +36,17 @@ trait Chatable
 
     public function conversations(): BelongsToMany
     {
-        $rawParticipation = HeadlessChatConfig::participationModel();
-        $participantTypeColumn = $rawParticipation->getTable().'.'.$rawParticipation->participant()->getMorphType();
+        $conversation = HeadlessChatConfig::conversationModel();
+        $participation = HeadlessChatConfig::participationModel();
 
         return $this
             ->belongsToMany(
-                related: HeadlessChatConfig::conversationModelClass(),
-                table: $rawParticipation->getTable(),
-                foreignPivotKey: $rawParticipation->participant()->getForeignKeyName(),
-                relatedPivotKey: $rawParticipation->conversation()->getForeignKeyName(),
+                related: $conversation::class,
+                table: $participation->getTable(),
+                foreignPivotKey: $participation->participant()->getForeignKeyName(),
+                relatedPivotKey: $participation->conversation()->getForeignKeyName(),
             )
-            ->where($participantTypeColumn, static::class)
+            ->where($participation->qualifyColumn($participation->participant()->getMorphType()), static::class)
             ->withTimestamps();
     }
 
