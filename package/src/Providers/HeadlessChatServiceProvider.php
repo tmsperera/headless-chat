@@ -2,7 +2,6 @@
 
 namespace TMSPerera\HeadlessChat\Providers;
 
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class HeadlessChatServiceProvider extends ServiceProvider
@@ -20,17 +19,9 @@ class HeadlessChatServiceProvider extends ServiceProvider
 
     protected function publishMigrations(): void
     {
-        $configPath = 'database.migrations.update_date_on_publish';
-
-        $originalConfigValue = Config::get($configPath);
-
-        Config::set($configPath, true);
-
         $this->publishesMigrations([
             __DIR__.'/../../database/migrations' => database_path('migrations'),
         ], 'headless-chat-migrations');
-
-        Config::set($configPath, $originalConfigValue);
     }
 
     protected function publishConfig(): void
