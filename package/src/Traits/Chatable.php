@@ -34,8 +34,8 @@ trait Chatable
 
     public function conversations(): BelongsToMany
     {
-        $conversation = HeadlessChatConfig::conversationModel();
-        $participation = HeadlessChatConfig::participationModel();
+        $conversation = HeadlessChatConfig::newConversationInstance();
+        $participation = HeadlessChatConfig::newParticipationInstance();
 
         return $this
             ->belongsToMany(
@@ -55,10 +55,10 @@ trait Chatable
      */
     public function conversationsWithMetrics(): BelongsToMany
     {
-        $conversation = HeadlessChatConfig::conversationModel();
-        $participation = HeadlessChatConfig::participationModel();
-        $message = HeadlessChatConfig::messageModel();
-        $readReceipt = HeadlessChatConfig::readReceiptModel();
+        $conversation = HeadlessChatConfig::newConversationInstance();
+        $participation = HeadlessChatConfig::newParticipationInstance();
+        $message = HeadlessChatConfig::newMessageInstance();
+        $readReceipt = HeadlessChatConfig::newReadReceiptInstance();
 
         return $this->conversations()
             ->select($conversation->qualifyColumn('*'))
