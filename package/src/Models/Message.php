@@ -42,7 +42,7 @@ class Message extends Model
     public function conversation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::conversationModelClass(),
+            related: HeadlessChatConfig::conversationInstance()::class,
             foreignKey: 'conversation_id',
             ownerKey: $this->getKeyName(),
         );
@@ -54,7 +54,7 @@ class Message extends Model
     public function participation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::participationModelClass(),
+            related: HeadlessChatConfig::participationInstance()::class,
             foreignKey: 'participation_id',
         );
     }
@@ -62,7 +62,7 @@ class Message extends Model
     public function readReceipts(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChatConfig::readReceiptModelClass(),
+            related: HeadlessChatConfig::readReceiptInstance()::class,
             foreignKey: 'message_id',
         );
     }

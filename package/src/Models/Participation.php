@@ -42,7 +42,7 @@ class Participation extends Model
     public function conversation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::conversationModelClass(),
+            related: HeadlessChatConfig::conversationInstance()::class,
             foreignKey: 'conversation_id',
         );
     }
@@ -50,7 +50,7 @@ class Participation extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChatConfig::messageModelClass(),
+            related: HeadlessChatConfig::messageInstance()::class,
             foreignKey: 'participation_id',
         );
     }

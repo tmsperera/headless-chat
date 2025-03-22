@@ -29,7 +29,10 @@ trait Chatable
 {
     public function participations(): MorphMany
     {
-        return $this->morphMany(HeadlessChatConfig::participationModelClass(), 'participant');
+        return $this->morphMany(
+            related: HeadlessChatConfig::participationInstance()::class,
+            name: 'participant',
+        );
     }
 
     public function conversations(): BelongsToMany
