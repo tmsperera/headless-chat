@@ -50,7 +50,6 @@ class Conversation extends Model
         return $this->hasMany(
             related: HeadlessChatConfig::participationModelClass(),
             foreignKey: 'conversation_id',
-            localKey: $this->getKeyName(),
         );
     }
 
@@ -59,7 +58,6 @@ class Conversation extends Model
         return $this->hasMany(
             related: HeadlessChatConfig::messageModelClass(),
             foreignKey: 'conversation_id',
-            localKey: $this->getKeyName(),
         );
     }
 

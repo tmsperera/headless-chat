@@ -25,7 +25,6 @@ class ReadReceipt extends Model
         return $this->belongsTo(
             related: HeadlessChatConfig::messageModelClass(),
             foreignKey: 'message_id',
-            ownerKey: $this->getKeyName(),
         );
     }
 
@@ -37,7 +36,6 @@ class ReadReceipt extends Model
         return $this->belongsTo(
             related: HeadlessChatConfig::participationModelClass(),
             foreignKey: 'participation_id',
-            ownerKey: $this->getKeyName(),
         );
     }
 }

@@ -56,13 +56,15 @@ class Message extends Model
         return $this->belongsTo(
             related: HeadlessChatConfig::participationModelClass(),
             foreignKey: 'participation_id',
-            ownerKey: $this->getKeyName(),
         );
     }
 
     public function readReceipts(): HasMany
     {
-        return $this->hasMany(HeadlessChatConfig::readReceiptModelClass());
+        return $this->hasMany(
+            related: HeadlessChatConfig::readReceiptModelClass(),
+            foreignKey: 'message_id',
+        );
     }
 
     /**

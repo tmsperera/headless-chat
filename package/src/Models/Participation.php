@@ -44,7 +44,6 @@ class Participation extends Model
         return $this->belongsTo(
             related: HeadlessChatConfig::conversationModelClass(),
             foreignKey: 'conversation_id',
-            ownerKey: $this->getKeyName(),
         );
     }
 
@@ -53,7 +52,6 @@ class Participation extends Model
         return $this->hasMany(
             related: HeadlessChatConfig::messageModelClass(),
             foreignKey: 'participation_id',
-            localKey: $this->getKeyName(),
         );
     }
 
