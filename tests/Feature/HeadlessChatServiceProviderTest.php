@@ -7,6 +7,7 @@ use Tests\TestCase;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
+use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
 class HeadlessChatServiceProviderTest extends TestCase
 {
@@ -17,5 +18,6 @@ class HeadlessChatServiceProviderTest extends TestCase
         $this->assertEmpty(Conversation::all());
         $this->assertEmpty(Participation::all());
         $this->assertEmpty(Message::all());
+        $this->assertEmpty(ReadReceipt::all());
     }
 }
