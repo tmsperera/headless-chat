@@ -23,17 +23,16 @@ A flexible, customizable and headless package designed to integrate chat functio
     php artisan vendor:publish --tag=headless-chat
     ```
    
-   * To publish only migrations:
-
-       ```
-       php artisan vendor:publish --tag=headless-chat-migrations
-       ```
-     
-   * To publish only configurations: 
-
-       ```
-       php artisan vendor:publish --tag=headless-chat-config
-       ```
+   > ℹ️ 
+   > 
+   > To publish only migrations:
+   > ```
+   > php artisan vendor:publish --tag=headless-chat-migrations
+   > ```
+   > To publish only configurations:
+   > ```
+   > php artisan vendor:publish --tag=headless-chat-config
+   > ```
 
 4. Run migrations.
 
@@ -51,7 +50,10 @@ A flexible, customizable and headless package designed to integrate chat functio
         ...
     }
     ```
+   > ℹ️
+   > 
    > Any Eloquent Model can be used as a Participant
+   > 
 
 5. Use [Chatable](/package/src/Traits/Chatable.php) trait in User Model.
 
@@ -134,7 +136,9 @@ To swap a database table or model used in package follow the below steps:
     ];
     ```
 
-   > 💡 Ultimately the models are resolved from Laravel Service Container, so you can also override the Model class inside the `register` method of your `AppServiceProvider` instead of modifying or even publishing the `headless-chat` config just as below.
+   > 💡 
+   > 
+   > Ultimately the models are resolved from Laravel Service Container, so you can also override the Model class inside the `register` method of your `AppServiceProvider` instead of modifying or even publishing the `headless-chat` config just as below.
    > 
    > ```php
    > namespace App\Providers;
