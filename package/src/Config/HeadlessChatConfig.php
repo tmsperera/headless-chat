@@ -2,6 +2,7 @@
 
 namespace TMSPerera\HeadlessChat\Config;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
@@ -44,21 +45,21 @@ class HeadlessChatConfig
 
     public static function conversationModel(): Conversation
     {
-        return new (static::conversationModelClass());
+        return App::make(static::conversationModelClass());
     }
 
     public static function messageModel(): Message
     {
-        return new (static::messageModelClass());
+        return App::make(static::messageModelClass());
     }
 
     public static function participationModel(): Participation
     {
-        return new (static::participationModelClass());
+        return App::make(static::participationModelClass());
     }
 
     public static function readReceiptModel(): ReadReceipt
     {
-        return new (static::readReceiptModelClass());
+        return App::make(static::readReceiptModelClass());
     }
 }
