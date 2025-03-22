@@ -41,12 +41,18 @@ class Participation extends Model
 
     public function conversation(): BelongsTo
     {
-        return $this->belongsTo(HeadlessChatConfig::conversationModelClass());
+        return $this->belongsTo(
+            related: HeadlessChatConfig::conversationModelClass(),
+            foreignKey: 'conversation_id',
+        );
     }
 
     public function messages(): HasMany
     {
-        return $this->hasMany(HeadlessChatConfig::messageModelClass());
+        return $this->hasMany(
+            related: HeadlessChatConfig::messageModelClass(),
+            foreignKey: 'participation_id',
+        );
     }
 
     public function participant(): MorphTo

@@ -34,16 +34,17 @@ trait Chatable
 
     public function conversations(): BelongsToMany
     {
-        $participationsTable = HeadlessChatConfig::participationModel()->getTable();
+        $conversation = HeadlessChatConfig::conversationInstance();
+        $participation = HeadlessChatConfig::participationInstance();
 
         return $this
             ->belongsToMany(
-                related: HeadlessChatConfig::conversationModelClass(),
-                table: $participationsTable,
-                foreignPivotKey: 'participant_id',
-                relatedPivotKey: 'conversation_id'
+                related: $conversation::class,
+                table: $participation->getTable(),
+                foreignPivotKey: $participation->participant()->getForeignKeyName(),
+                relatedPivotKey: $participation->conversation()->getForeignKeyName(),
             )
-            ->where("$participationsTable.participant_type", static::class)
+            ->where($participation->qualifyColumn($participation->participant()->getMorphType()), static::class)
             ->withTimestamps();
     }
 
@@ -54,27 +55,41 @@ trait Chatable
      */
     public function conversationsWithMetrics(): BelongsToMany
     {
-        $conversationsTable = HeadlessChatConfig::conversationModel()->getTable();
-        $participationsTable = HeadlessChatConfig::participationModel()->getTable();
-        $messagesTable = HeadlessChatConfig::messageModel()->getTable();
-        $readReceiptsTable = HeadlessChatConfig::readReceiptModel()->getTable();
+        $conversation = HeadlessChatConfig::conversationInstance();
+        $participation = HeadlessChatConfig::participationInstance();
+        $message = HeadlessChatConfig::messageInstance();
+        $readReceipt = HeadlessChatConfig::readReceiptInstance();
 
         return $this->conversations()
-            ->select("$conversationsTable.*")
-            ->selectRaw("COUNT($messagesTable.id) AS total_message_count")
-            ->selectRaw("COUNT($readReceiptsTable.id) AS read_message_count")
-            ->selectRaw("COUNT($messagesTable.id) - COUNT($readReceiptsTable.id) AS unread_message_count")
-            ->selectRaw("MAX($messagesTable.created_at) AS latest_message_at")
-            ->leftJoin($messagesTable, function (JoinClause $join) use ($messagesTable, $conversationsTable) {
-                $join->on("$messagesTable.conversation_id", '=', "$conversationsTable.id")
-                    ->whereNull("$messagesTable.deleted_at");
+            ->select($conversation->qualifyColumn('*'))
+            ->selectRaw('COUNT('.$message->getQualifiedKeyName().') AS total_message_count')
+            ->selectRaw('COUNT('.$readReceipt->getQualifiedKeyName().') AS read_message_count')
+            ->selectRaw('COUNT('.$message->getQualifiedKeyName().') - COUNT('.$readReceipt->getQualifiedKeyName().') AS unread_message_count')
+            ->selectRaw('MAX('.$message->getQualifiedCreatedAtColumn().') AS latest_message_at')
+            ->leftJoin($message->getTable(), function (JoinClause $join) use ($message, $conversation) {
+                $join
+                    ->on(
+                        $message->qualifyColumn($message->conversation()->getForeignKeyName()),
+                        '=',
+                        $conversation->getQualifiedKeyName(),
+                    )
+                    ->whereNull($message->getQualifiedDeletedAtColumn());
             })
-            ->leftJoin($readReceiptsTable, function (JoinClause $join) use ($readReceiptsTable, $messagesTable, $participationsTable) {
-                $join->on("$readReceiptsTable.message_id", '=', "$messagesTable.id")
-                    ->on("$readReceiptsTable.participation_id", '=', "$participationsTable.id");
+            ->leftJoin($readReceipt->getTable(), function (JoinClause $join) use ($readReceipt, $message, $participation) {
+                $join
+                    ->on(
+                        $readReceipt->qualifyColumn($readReceipt->message()->getForeignKeyName()),
+                        '=',
+                        $message->getQualifiedKeyName(),
+                    )
+                    ->on(
+                        $readReceipt->qualifyColumn($readReceipt->participation()->getForeignKeyName()),
+                        '=',
+                        $participation->getQualifiedKeyName(),
+                    );
             })
-            ->orderByRaw("MAX($messagesTable.created_at) DESC")
-            ->groupBy("$conversationsTable.id");
+            ->orderByRaw('MAX('.$message->getQualifiedCreatedAtColumn().') DESC')
+            ->groupBy($conversation->getQualifiedKeyName());
     }
 
     public function getUnreadConversationCount(): int

@@ -2,6 +2,7 @@
 
 namespace TMSPerera\HeadlessChat\Config;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
@@ -42,23 +43,23 @@ class HeadlessChatConfig
         return Config::get('headless-chat.models.read_receipt');
     }
 
-    public static function conversationModel(): Conversation
+    public static function conversationInstance(): Conversation
     {
-        return new (static::conversationModelClass());
+        return App::make(static::conversationModelClass());
     }
 
-    public static function messageModel(): Message
+    public static function messageInstance(): Message
     {
-        return new (static::messageModelClass());
+        return App::make(static::messageModelClass());
     }
 
-    public static function participationModel(): Participation
+    public static function participationInstance(): Participation
     {
-        return new (static::participationModelClass());
+        return App::make(static::participationModelClass());
     }
 
-    public static function readReceiptModel(): ReadReceipt
+    public static function readReceiptInstance(): ReadReceipt
     {
-        return new (static::readReceiptModelClass());
+        return App::make(static::readReceiptModelClass());
     }
 }

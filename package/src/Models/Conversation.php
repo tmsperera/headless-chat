@@ -47,12 +47,18 @@ class Conversation extends Model
 
     public function participations(): HasMany
     {
-        return $this->hasMany(HeadlessChatConfig::participationModelClass());
+        return $this->hasMany(
+            related: HeadlessChatConfig::participationModelClass(),
+            foreignKey: 'conversation_id',
+        );
     }
 
     public function messages(): HasMany
     {
-        return $this->hasMany(HeadlessChatConfig::messageModelClass());
+        return $this->hasMany(
+            related: HeadlessChatConfig::messageModelClass(),
+            foreignKey: 'conversation_id',
+        );
     }
 
     public function getParticipationOf(Participant $participant): ?Participation
