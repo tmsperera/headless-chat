@@ -32,6 +32,10 @@ class Message extends Model
 
     protected $guarded = [];
 
+    protected $attributes = [
+        'metadata' => '[]',
+    ];
+
     protected function casts(): array
     {
         return [
