@@ -34,16 +34,17 @@ trait Chatable
 
     public function conversations(): BelongsToMany
     {
-        $participationsTable = HeadlessChatConfig::participationModel()->getTable();
+        $rawParticipation = HeadlessChatConfig::participationModel();
+        $participantTypeColumn = $rawParticipation->getTable().'.'.$rawParticipation->participant()->getMorphType();
 
         return $this
             ->belongsToMany(
                 related: HeadlessChatConfig::conversationModelClass(),
-                table: $participationsTable,
-                foreignPivotKey: 'participant_id',
-                relatedPivotKey: 'conversation_id'
+                table: $rawParticipation->getTable(),
+                foreignPivotKey: $rawParticipation->participant()->getForeignKeyName(),
+                relatedPivotKey: $rawParticipation->conversation()->getForeignKeyName(),
             )
-            ->where("$participationsTable.participant_type", static::class)
+            ->where($participantTypeColumn, static::class)
             ->withTimestamps();
     }
 
