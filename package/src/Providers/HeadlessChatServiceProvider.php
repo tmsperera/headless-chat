@@ -8,7 +8,10 @@ class HeadlessChatServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../../config/headless-chat.php', 'headless-chat');
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/headless-chat.php',
+            'headless-chat',
+        );
     }
 
     public function boot(): void
