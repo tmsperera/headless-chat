@@ -15,6 +15,8 @@ A flexible, customizable and headless package designed to integrate chat functio
     ```
     composer require tmsperera/headless-chat
     ```
+   > ℹ️
+   > 
    > Package will automatically register itself.
 
 2. Publish migrations and config using:
