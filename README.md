@@ -134,7 +134,7 @@ To swap a database table or model used in package follow the below steps:
     ];
     ```
 
-   > 💡 Ultimately the models are resolved from Laravel Service Container, so you can also override the Model class inside the `register` method of your `AppServiceProvider` instead of modifying or even publishing the `headless-chat` config. just as below
+   > 💡 Ultimately the models are resolved from Laravel Service Container, so you can also override the Model class inside the `register` method of your `AppServiceProvider` instead of modifying or even publishing the `headless-chat` config just as below.
    > 
    > ```php
    > namespace App\Providers;
