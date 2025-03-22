@@ -15,14 +15,14 @@ class HeadlessChatConfig
         return App::make(Conversation::class);
     }
 
-    public static function messageInstance(): Message
-    {
-        return App::make(Message::class);
-    }
-
     public static function participationInstance(): Participation
     {
         return App::make(Participation::class);
+    }
+
+    public static function messageInstance(): Message
+    {
+        return App::make(Message::class);
     }
 
     public static function readReceiptInstance(): ReadReceipt
