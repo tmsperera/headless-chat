@@ -15,9 +15,7 @@ A flexible, customizable and headless package designed to integrate chat functio
     ```
     composer require tmsperera/headless-chat
     ```
-   > ℹ️
-   > 
-   > Package will automatically register itself.
+   > ℹ️ Package will automatically register itself.
 
 2. Publish migrations and config using:
 
@@ -25,13 +23,12 @@ A flexible, customizable and headless package designed to integrate chat functio
     php artisan vendor:publish --tag=headless-chat
     ```
    
-   > ℹ️ 
-   > 
-   > To publish only migrations:
+   > ℹ️ To publish only migrations:
    > ```
    > php artisan vendor:publish --tag=headless-chat-migrations
    > ```
-   > To publish only configurations:
+
+   > ℹ️ To publish only configurations:
    > ```
    > php artisan vendor:publish --tag=headless-chat-config
    > ```
@@ -52,10 +49,7 @@ A flexible, customizable and headless package designed to integrate chat functio
         ...
     }
     ```
-   > ℹ️
-   > 
-   > Any Eloquent Model can be used as a Participant
-   > 
+   > ℹ️ Any Eloquent Model can be used as a Participant
 
 5. Use [Chatable](/package/src/Traits/Chatable.php) trait in User Model.
 
@@ -138,27 +132,25 @@ To swap a database table or model used in package follow the below steps:
     ];
     ```
 
-   > 💡 
-   > 
-   > Ultimately the models are resolved from Laravel Service Container, so you can also override the Model class inside the `register` method of your `AppServiceProvider` instead of modifying or even publishing the `headless-chat` config just as below.
-   > 
-   > ```php
-   > namespace App\Providers;
-   > 
-   > use Illuminate\Support\ServiceProvider;
-   > use App\Models\CustomMessage;
-   > use TMSPerera\HeadlessChat\Models\Message;
-   > 
-   > class AppServiceProvider extends ServiceProvider
-   > {
-   >       public function register(): void
-   >       {
-   >           $this->app->bind(Message::class, function ($app) {
-   >               return $app->make(CustomMessage::class);
-   >           });
-   >       }
-   > }
-   > ```
+💡 Ultimately, the models are resolved from Laravel Service Container, so you can also override the Model class inside the `register` method of your `AppServiceProvider` instead of modifying or even publishing the `headless-chat` config just as below.
+
+```php
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use App\Models\CustomMessage;
+use TMSPerera\HeadlessChat\Models\Message;
+
+class AppServiceProvider extends ServiceProvider
+{
+      public function register(): void
+      {
+          $this->app->bind(Message::class, function ($app) {
+              return $app->make(CustomMessage::class);
+          });
+      }
+}
+```
 
 ### Override Actions
 
