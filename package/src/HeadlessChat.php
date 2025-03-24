@@ -8,7 +8,6 @@ use TMSPerera\HeadlessChat\Actions\DeleteMessageAction;
 use TMSPerera\HeadlessChat\Actions\DeleteSentMessageAction;
 use TMSPerera\HeadlessChat\Actions\JoinConversationAction;
 use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
-use TMSPerera\HeadlessChat\Actions\ReplyToMessageAction;
 use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
 use TMSPerera\HeadlessChat\Actions\SendMessageAction;
 use TMSPerera\HeadlessChat\Contracts\Participant;
@@ -136,6 +135,27 @@ class HeadlessChat
 
         return $action(
             conversation: $conversation,
+            sender: $sender,
+            content: $content,
+            messageMetadata: $messageMetadata,
+            parentMessage: $parentMessage,
+        );
+    }
+
+    /**
+     * @throws InvalidParticipationException
+     */
+    public static function replyToMessage(
+        Message $parentMessage,
+        Participant $sender,
+        string $content,
+        array $messageMetadata = [],
+    ): Message {
+        /** @var SendMessageAction $action */
+        $action = App::make(SendMessageAction::class);
+
+        return $action(
+            conversation: $parentMessage->conversation,
             sender: $sender,
             content: $content,
             messageMetadata: $messageMetadata,

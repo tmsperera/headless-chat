@@ -19,8 +19,11 @@ use TMSPerera\HeadlessChat\HeadlessChat;
  * @property Conversation conversation
  * @property Participation participation
  * @property Collection readReceipts
+ * @property Message parentMessage
+ * @property Collection replyMessages
  * @property string content
  * @property array metadata
+ * @property int|string parent_id
  * @property Carbon created_at
  * @property Carbon updated_at
  * @property Carbon deleted_at
@@ -68,6 +71,22 @@ class Message extends Model
         return $this->hasMany(
             related: HeadlessChatConfig::readReceiptInstance()::class,
             foreignKey: 'message_id',
+        );
+    }
+
+    public function parentMessage(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: static::class,
+            foreignKey: 'parent_id',
+        );
+    }
+
+    public function replyMessages(): HasMany
+    {
+        return $this->hasMany(
+            related: static::class,
+            foreignKey: 'parent_id',
         );
     }
 
