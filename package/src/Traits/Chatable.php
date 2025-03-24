@@ -34,8 +34,8 @@ trait Chatable
      */
     public static function bootChatable(): void
     {
-        if (!new (static::class) instanceof Model) {
-            throw new Exception(__TRAIT__." trait can only be used in ". Model::class .' instance.');
+        if (! new (static::class) instanceof Model) {
+            throw new Exception(__TRAIT__.' trait can only be used in '.Model::class.' instance.');
         }
     }
 
