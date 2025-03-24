@@ -21,9 +21,9 @@ use TMSPerera\HeadlessChat\Models\Participation;
 use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
 /**
- * @property ParticipationCollection participations
- * @property Collection conversations
- * @property Collection conversationsWithMetrics
+ * @property ParticipationCollection $participations
+ * @property Collection $conversations
+ * @property Collection $conversationsWithMetrics
  */
 trait Chatable
 {

@@ -17,17 +17,17 @@ use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\HeadlessChat;
 
 /**
- * @property Conversation conversation
- * @property Participation participation
- * @property Collection readReceipts
- * @property Message parentMessage
- * @property Collection replyMessages
- * @property string content
- * @property array metadata
- * @property int|string parent_id
- * @property Carbon created_at
- * @property Carbon updated_at
- * @property Carbon deleted_at
+ * @property Conversation $conversation
+ * @property Participation $participation
+ * @property Collection $readReceipts
+ * @property Message $parentMessage
+ * @property Collection $replyMessages
+ * @property string $content
+ * @property array $metadata
+ * @property int|string $parent_id
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
  */
 class Message extends Model
 {
