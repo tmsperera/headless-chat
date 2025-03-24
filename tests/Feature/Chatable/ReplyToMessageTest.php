@@ -53,18 +53,18 @@ class ReplyToMessageTest extends BaseChatableTestCase
         });
     }
 
-    public function test_when_reply_by_recipient()
+    public function test_when_reply_by_participant()
     {
-        /** @var User|Participant $participant1 */
-        $participant1 = UserFactory::new()->createOne();
-        /** @var User|Participant $participant2 */
-        $participant2 = UserFactory::new()->createOne();
+        /** @var User|Participant $sender */
+        $sender = UserFactory::new()->createOne();
+        /** @var User|Participant $participant */
+        $participant = UserFactory::new()->createOne();
         $conversation = ConversationFactory::new()->directMessage()->createOne();
-        $participation1 = $this->joinConversation(conversation: $conversation, participant: $participant1);
-        $participation2 = $this->joinConversation(conversation: $conversation, participant: $participant2);
+        $participation1 = $this->joinConversation(conversation: $conversation, participant: $sender);
+        $participation2 = $this->joinConversation(conversation: $conversation, participant: $participant);
         $parentMessage = $this->sendMessage(conversation: $conversation, senderParticipation: $participation1);
 
-        $messageReply = $participant2->replyToMessage(
+        $messageReply = $participant->replyToMessage(
             parentMessage: $parentMessage,
             content: $content = 'Hello World!',
             messageMetadata: $metadata = ['foo' => 'bar'],
