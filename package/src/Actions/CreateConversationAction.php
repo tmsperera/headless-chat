@@ -48,7 +48,7 @@ class CreateConversationAction
     protected function validate(array $participants, ConversationType $conversationType): void
     {
         if (
-            $conversationType == ConversationType::DIRECT_MESSAGE
+            $conversationType === ConversationType::DIRECT_MESSAGE
             && count($participants) > 2
         ) {
             throw new ParticipationLimitExceededException;

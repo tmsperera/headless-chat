@@ -15,6 +15,8 @@ interface Participant
 
     public function getMorphClass();
 
+    public function is($model);
+
     public function participations(): MorphMany;
 
     public function conversations(): BelongsToMany;

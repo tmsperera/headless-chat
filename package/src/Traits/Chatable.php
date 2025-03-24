@@ -2,7 +2,9 @@
 
 namespace TMSPerera\HeadlessChat\Traits;
 
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\JoinClause;
@@ -27,6 +29,16 @@ use TMSPerera\HeadlessChat\Models\ReadReceipt;
  */
 trait Chatable
 {
+    /**
+     * @throws Exception
+     */
+    public static function bootChatable(): void
+    {
+        if (!new (static::class) instanceof Model) {
+            throw new Exception(__TRAIT__." trait can only be used in ". Model::class .' instance.');
+        }
+    }
+
     public function participations(): MorphMany
     {
         return $this->morphMany(
