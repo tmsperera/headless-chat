@@ -15,7 +15,7 @@ use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 /**
- * @method static ConversationBuilder query()
+ * @method ConversationBuilder newQuery()
  *
  * @property ParticipationCollection $participations
  * @property Collection $messages
