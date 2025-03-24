@@ -8,11 +8,11 @@ use TMSPerera\HeadlessChat\Models\Participation;
 
 class ParticipationCollection extends Collection
 {
-    public function whereParticipant(Participant $participant): Participation
+    public function whereParticipant(Participant $participant): static
     {
-        return $this->firstOrFail(function (Participation $participation) use ($participant) {
-            return $participation->getAttribute('participant_type') == $participant->getMorphClass()
-                && $participation->getAttribute('participant_id') == $participant->getKey();
+        return $this->find(function (Participation $participation) use ($participant) {
+            return $participation->participant->getMorphClass() == $participant->getMorphClass()
+                && $participation->participant->getKey() == $participant->getKey();
         });
     }
 }

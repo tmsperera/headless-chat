@@ -28,7 +28,7 @@ class SendDirectMessageAction
                 conversationType: ConversationType::DIRECT_MESSAGE,
             );
 
-        $participation = $conversation->participations->whereParticipant($sender);
+        $participation = $conversation->participations->whereParticipant($sender)->first();
 
         $message = $participation->messages()->create([
             'conversation_id' => $sender->getKey(),
