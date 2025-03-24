@@ -10,7 +10,7 @@ class ParticipationCollection extends Collection
 {
     public function whereParticipant(Participant $participant): static
     {
-        return $this->find(function (Participation $participation) use ($participant) {
+        return $this->filter(function (Participation $participation) use ($participant) {
             return $participation->participant->getMorphClass() == $participant->getMorphClass()
                 && $participation->participant->getKey() == $participant->getKey();
         });
