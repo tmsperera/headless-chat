@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
+use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\HeadlessChat;
 
@@ -93,9 +94,26 @@ class Message extends Model
     /**
      * @throws ReadBySenderException
      * @throws InvalidParticipationException
+     * @throws MessageAlreadyReadException
      */
     public function read(Participant $reader): ReadReceipt
     {
         return HeadlessChat::readMessage($this, $reader);
+    }
+
+    /**
+     * @throws InvalidParticipationException
+     */
+    public function reply(
+        Participant $sender,
+        string $content,
+        array $messageMetadata = [],
+    ): Message {
+        return HeadlessChat::replyToMessage(
+            parentMessage: $this,
+            sender: $sender,
+            content: $content,
+            messageMetadata: $messageMetadata,
+        );
     }
 }
