@@ -14,12 +14,12 @@ use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 
 /**
- * @property Conversation conversation
- * @property Collection messages
- * @property Participant participant
- * @property array metadata
- * @property Carbon created_at
- * @property Carbon updated_at
+ * @property Conversation $conversation
+ * @property Collection $messages
+ * @property Participant $participant
+ * @property array $metadata
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class Participation extends Model
 {

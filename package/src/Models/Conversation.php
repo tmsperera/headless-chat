@@ -15,15 +15,15 @@ use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 /**
- * @method static ConversationBuilder query()
+ * @method ConversationBuilder newQuery()
  *
- * @property ParticipationCollection participations
- * @property Collection messages
- * @property ConversationType type
- * @property array metadata
- * @property Carbon created_at
- * @property Carbon updated_at
- * @property Carbon deleted_at
+ * @property ParticipationCollection $participations
+ * @property Collection $messages
+ * @property ConversationType $type
+ * @property array $metadata
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
  */
 class Conversation extends Model
 {

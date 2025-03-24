@@ -33,7 +33,7 @@ class JoinConversationAction
     protected function validateParticipation(Conversation $conversation): void
     {
         if (
-            $conversation->type == ConversationType::DIRECT_MESSAGE
+            $conversation->type === ConversationType::DIRECT_MESSAGE
             && $conversation->participations->count() >= 2
         ) {
             throw new ParticipationLimitExceededException;

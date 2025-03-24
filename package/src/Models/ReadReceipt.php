@@ -9,10 +9,10 @@ use Illuminate\Support\Carbon;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 
 /**
- * @property Message message
- * @property Participation participation
- * @property Carbon created_at
- * @property Carbon updated_at
+ * @property Message $message
+ * @property Participation $participation
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class ReadReceipt extends Model
 {

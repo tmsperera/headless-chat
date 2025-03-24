@@ -1,0 +1,22 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
+parameters:
+
+    paths:
+        - package/
+
+    # Level 10 is the highest level
+    level: 5
+
+    databaseMigrationsPath:
+        - package/database/migrations
+
+    ignoreErrors:
+        -
+            identifier: trait.unused
+            path: package/src/Traits/Chatable.php
+
+#    excludePaths:
+#        - ./*/*/FileToBeExcluded.php
