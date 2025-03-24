@@ -64,7 +64,8 @@
             "Composer\\Config::disableProcessTimeout",
             "@build",
             "@php vendor/bin/testbench serve --ansi"
-        ]
+        ],
+        "larastan": "vendor/bin/phpstan analyse --memory-limit=2G"
     },
     "extra": {
         "laravel": {
