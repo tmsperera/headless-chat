@@ -109,6 +109,7 @@ trait Chatable
 
     /**
      * @throws ParticipationLimitExceededException
+     * @throws InvalidParticipationException
      */
     public function sendDirectMessage(
         Participant $recipient,

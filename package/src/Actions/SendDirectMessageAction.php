@@ -5,7 +5,7 @@ namespace TMSPerera\HeadlessChat\Actions;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
-use TMSPerera\HeadlessChat\Events\MessageSentEvent;
+use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
@@ -15,6 +15,7 @@ class SendDirectMessageAction
 {
     /**
      * @throws ParticipationLimitExceededException
+     * @throws InvalidParticipationException
      */
     public function __invoke(
         Participant $sender,
@@ -28,17 +29,12 @@ class SendDirectMessageAction
                 conversationType: ConversationType::DIRECT_MESSAGE,
             );
 
-        $participation = $conversation->participations->whereParticipant($sender)->first();
-
-        $message = $participation->messages()->create([
-            'conversation_id' => $sender->getKey(),
-            'content' => $content,
-            'metadata' => $messageMetadata,
-        ]);
-
-        MessageSentEvent::dispatch($message);
-
-        return $message;
+        return HeadlessChat::sendMessage(
+            conversation: $conversation,
+            sender: $sender,
+            content: $content,
+            messageMetadata: $messageMetadata,
+        );
     }
 
     protected function getExistingConversation(Participant $sender, Participant $recipient): ?Conversation
