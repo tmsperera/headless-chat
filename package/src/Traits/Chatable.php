@@ -109,6 +109,7 @@ trait Chatable
 
     /**
      * @throws ParticipationLimitExceededException
+     * @throws InvalidParticipationException
      */
     public function sendDirectMessage(
         Participant $recipient,
@@ -151,6 +152,22 @@ trait Chatable
             participant: $this,
             conversation: $conversation,
             participationMetadata: $participationMetadata,
+        );
+    }
+
+    /**
+     * @throws InvalidParticipationException
+     */
+    public function replyToMessage(
+        Message $parentMessage,
+        string $content,
+        array $messageMetadata = [],
+    ): Message {
+        return HeadlessChat::replyToMessage(
+            parentMessage: $parentMessage,
+            sender: $this,
+            content: $content,
+            messageMetadata: $messageMetadata,
         );
     }
 }

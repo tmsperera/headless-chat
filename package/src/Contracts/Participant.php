@@ -25,11 +25,24 @@ interface Participant
 
     public function getParticipationIn(Conversation $conversation): ?Participation;
 
-    public function sendDirectMessage(Participant $recipient, string $message, array $messageMetadata = []): Message;
+    public function sendDirectMessage(
+        Participant $recipient,
+        string $message,
+        array $messageMetadata = [],
+    ): Message;
 
     public function readMessage(Message $message): ReadReceipt;
 
     public function deleteSentMessage(Message $message): void;
 
-    public function joinConversation(Conversation $conversation, array $participationMetadata = []): Participation;
+    public function joinConversation(
+        Conversation $conversation,
+        array $participationMetadata = [],
+    ): Participation;
+
+    public function replyToMessage(
+        Message $parentMessage,
+        string $content,
+        array $messageMetadata = [],
+    ): Message;
 }

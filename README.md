@@ -120,6 +120,8 @@ To swap a database table or model used in package follow the below steps:
     }
     ```
 
+   > ⚠️ You need to keep relationship names same as in Headless Chat Models in order to function the package. However, the referenced column names of relationships can be modified as per your custom database table columns.
+
 4. Modify `config/headless-chat.php` to point the new model.
 
     ```php
