@@ -29,6 +29,8 @@ class SendDirectMessageAction
                 conversationType: ConversationType::DIRECT_MESSAGE,
             );
 
+        $conversation->load('participations.participant');
+
         return HeadlessChat::sendMessage(
             conversation: $conversation,
             sender: $sender,
@@ -40,7 +42,6 @@ class SendDirectMessageAction
     protected function getExistingConversation(Participant $sender, Participant $recipient): ?Conversation
     {
         return HeadlessChatConfig::conversationInstance()->newQuery()
-            ->with('participations')
             ->whereDirectMessage()
             ->whereHasParticipant($sender)
             ->whereHasParticipant($recipient)

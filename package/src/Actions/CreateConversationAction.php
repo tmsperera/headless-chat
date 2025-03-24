@@ -22,6 +22,7 @@ class CreateConversationAction
         $this->validate(participants: $participants, conversationType: $conversationType);
 
         return DB::transaction(function () use ($participants, $conversationType, $conversationMetadata) {
+            /** @var Conversation $conversation */
             $conversation = HeadlessChatConfig::conversationInstance()->newQuery()
                 ->create([
                     'type' => $conversationType,
