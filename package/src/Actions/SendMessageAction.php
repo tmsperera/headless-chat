@@ -24,10 +24,10 @@ class SendMessageAction
         $participation = $this->resolveParticipation(participant: $sender, conversation: $conversation);
 
         $message = $participation->messages()->create([
-            'conversation_id' => $sender->getKey(),
-            'parent_id' => $parentMessage?->getKey(),
+            'conversation_id' => $conversation->getKey(),
             'content' => $content,
             'metadata' => $messageMetadata,
+            'parent_id' => $parentMessage?->getKey(),
         ]);
 
         MessageSentEvent::dispatch($message);
@@ -40,6 +40,8 @@ class SendMessageAction
      */
     protected function resolveParticipation(Participant $participant, Conversation $conversation): Participation
     {
+        $conversation->loadMissing('participations.participant');
+
         $participation = $conversation->participations->whereParticipant($participant)->first();
 
         if (! $participation) {
