@@ -13,8 +13,10 @@ parameters:
     databaseMigrationsPath:
         - package/database/migrations
 
-#    ignoreErrors:
-#        - '#PHPDoc tag @var#'
-#
+    ignoreErrors:
+        -
+            identifier: trait.unused
+            path: package/src/Traits/Chatable.php
+
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php
