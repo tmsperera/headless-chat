@@ -65,6 +65,8 @@
             "@build",
             "@php vendor/bin/testbench serve --ansi"
         ],
+        "pint": "vendor/bin/pint",
+        "test": "vendor/bin/phpunit --colors=always",
         "larastan": "vendor/bin/phpstan analyse --memory-limit=2G"
     },
     "extra": {
