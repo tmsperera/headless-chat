@@ -15,10 +15,10 @@ A flexible, customizable and headless package designed to integrate chat functio
   - [Send a direct message](#send-a-direct-message)
   - [Delete a sent message](#delete-a-sent-message)
   - [Mark message as read](#mark-message-as-read)
+  - [Reply to a message](#reply-to-a-message)
   - [Get conversations](#get-conversations)
   - [Get conversations with metrics](#get-conversations-with-metrics)
   - [Get unread conversation count](#get-unread-conversation-count)
-  - [Message reply](#message-reply)
 - [Advanced Usage](#advanced-usage)
   - [Override Models](#override-models)
   - [Override Actions](#override-actions)
@@ -169,6 +169,33 @@ public function readMessage(Message $message): ReadReceipt;
 
 - `TMSPerera\HeadlessChat\Events\MessageReadEvent`
 
+## Reply to a message
+
+Headless Chat also supports message replies.
+
+### Example:
+
+```php
+$sender = User::query()->find(1);
+$message = $sender->conversations->messages->first();
+
+$sender->replyToMessage(
+    parentMessage: $message,
+    content: 'Reply Message',
+    messageMetadata: [ 'foo' => 'bar' ],
+);
+```
+
+### Signature:
+
+```php
+public function replyToMessage(
+   Message $parentMessage, // The parent message the reply should relate to
+   string $message, // Message content
+   array $messageMetadata = [], // Metadata to be stored in messages table
+): Message;
+```
+
 ## Get conversations
 
 Conversations for a particular Participant can be accessed by an Eloquent Relationship.
@@ -230,33 +257,6 @@ $sender->getUnreadConversationCount();
 
 ```php
 public function getUnreadConversationCount(): int;
-```
-
-## Message reply
-
-Headless Chat also supports message replies.
-
-### Example:
-
-```php
-$sender = User::query()->find(1);
-$message = $sender->conversations->messages->first();
-
-$sender->replyToMessage(
-    parentMessage: $message,
-    content: 'Reply Message',
-    messageMetadata: [ 'foo' => 'bar' ],
-);
-```
-
-### Signature:
-
-```php
-public function replyToMessage(
-   Message $parentMessage, // The parent message the reply should relate to
-   string $message, // Message content
-   array $messageMetadata = [], // Metadata to be stored in messages table
-): Message;
 ```
 
 # Advanced Usage
