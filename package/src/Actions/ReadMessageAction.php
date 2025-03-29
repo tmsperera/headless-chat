@@ -46,10 +46,7 @@ class ReadMessageAction
      */
     protected function getParticipation(Message $message, Participant $reader): Participation
     {
-        $participation = $message->conversation->participations
-            ->first(function (Participation $participation) use ($reader) {
-                return $participation->participant->is($reader);
-            });
+        $participation = $message->conversation->participations->whereParticipant($reader)->first();
 
         if (! $participation) {
             throw new InvalidParticipationException;
