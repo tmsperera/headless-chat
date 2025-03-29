@@ -69,9 +69,6 @@ class Conversation extends Model
     {
         $this->loadMissing('participations.participant');
 
-        return $this->participations
-            ->first(function (Participation $participation) use ($participant) {
-                return $participation->participant->is($participant);
-            });
+        return $this->participations->whereParticipant($participant)->first();
     }
 }

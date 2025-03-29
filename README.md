@@ -68,13 +68,22 @@ A flexible, customizable and headless package designed to integrate chat functio
 
 Having [Chatable](/package/src/Traits/Chatable.php) trait inside the User model gives you important abilities. And also this package provides standalone [Actions](package/src/Actions) to use anywhere your application needs.
 
-🏗️ Feel free to refer following until the documentation gets completed
+🏗️ Feel free to refer the following until the documentation gets completed
 
 - [Participant](/package/src/Contracts/Participant.php) Contract
 - [Chatable](/package/src/Traits/Chatable.php) Trait
 - [HeadlessChat](/package/src/HeadlessChat.php) Class
 - [Actions/](package/src/Actions) Directory
 - [Events/](package/src/Events) Directory
+
+### Send Direct Message
+
+```php
+    $sender = User::query()->find(1);
+    $recipient = User::query()->find(2);
+    
+    $sender->sendDirectMessage(recipient: $recipient, message: 'Hello World!');
+```
 
 > More details are coming soon...
 

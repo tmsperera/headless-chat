@@ -9,14 +9,8 @@ use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
 use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
-interface Participant
+interface Participant extends EloquentModel
 {
-    public function getKey();
-
-    public function getMorphClass();
-
-    public function is($model);
-
     public function participations(): MorphMany;
 
     public function conversations(): BelongsToMany;
