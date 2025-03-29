@@ -2,13 +2,13 @@
 
 A flexible, customizable and headless package designed to integrate chat functionality into Laravel applications.
 
-## Key Features
+# Key Features
 
  - Emits Events
  - Models and database tables can be overridden 
  - Uses Actions resolved from Service Container
 
-## Installation
+# Installation
 
 1. Install the package via composer.
 
@@ -64,7 +64,7 @@ A flexible, customizable and headless package designed to integrate chat functio
     }
     ```
 
-## Usage
+# Usage
 
 Having [Chatable](/package/src/Traits/Chatable.php) trait inside the User model gives you important abilities. And also this package provides standalone [Actions](package/src/Actions) to use anywhere your application needs.
 
@@ -76,20 +76,177 @@ Having [Chatable](/package/src/Traits/Chatable.php) trait inside the User model 
 - [Actions/](package/src/Actions) Directory
 - [Events/](package/src/Events) Directory
 
-### Send Direct Message
+## Send a direct message
+
+Sends a message using the chat package.
+
+### Example: 
 
 ```php
-    $sender = User::query()->find(1);
-    $recipient = User::query()->find(2);
-    
-    $sender->sendDirectMessage(recipient: $recipient, message: 'Hello World!');
+$sender = User::query()->find(1);
+$recipient = User::query()->find(2);
+
+$message = $sender->sendDirectMessage(
+   recipient: $recipient, 
+   message: 'Hello World!', 
+   messageMetadata: [ 'foo' => 'bar' ],
+);
 ```
 
-> More details are coming soon...
+### Signature:
 
-## Advanced Usage
+```php
+public function sendDirectMessage(
+   Participant $recipient, // Recipient
+   string $message, // Message content
+   array $messageMetadata = [], // Metadata to be stored in messages table
+): Message;
+```
 
-### Override Models
+### Events
+
+- `TMSPerera\HeadlessChat\Events\MessageSentEvent`
+
+## Delete a sent message
+
+Delete a message sent by a Participant.
+
+### Example:
+
+```php
+$sender = User::query()->find(1);
+$message = $sender->conversations->messages->first();
+
+$sender->deleteSentMessage($message);
+```
+
+### Signature:
+
+```php
+public function deleteSentMessage(Message $message): void;
+```
+
+### Events
+
+- `TMSPerera\HeadlessChat\Events\MessageDeletedEvent`
+
+## Mark message as read
+
+Marks a message as read.
+
+### Example:
+
+```php
+$sender = User::query()->find(1);
+$message = $sender->conversations->messages->first();
+$recipient = User::query()->find(2);
+
+$recipient->readMessage($message);
+```
+
+### Signature:
+
+```php
+public function readMessage(Message $message): ReadReceipt;
+```
+
+### Events
+
+- `TMSPerera\HeadlessChat\Events\MessageReadEvent`
+
+## Get conversations
+
+Conversations for a particular Participant can be accessed by an Eloquent Relationship.
+
+### Example:
+
+```php
+$sender = User::query()->find(1);
+
+$sender->conversations;
+```
+
+### Signature:
+
+```php
+public function conversations(): BelongsToMany;
+```
+
+## Get conversations with metrics
+
+Just as conversations, you also can retrieve conversations with useful metrics using `conversationsWithMetrics` relation. 
+
+### Example:
+
+```php
+$sender = User::query()->find(1);
+
+$sender->conversationsWithMetrics;
+```
+
+### Signature:
+
+```php
+public function conversationsWithMetrics(): BelongsToMany;
+```
+
+### Returns
+
+`conversationsWithMetrics` will return a collection of Conversations with each Conversation including special attributes which are...
+
+ - `total_message_count`: Total messages for Conversation
+ - `read_message_count`: Total **read** messages for Conversation
+ - `unread_message_count`: Total **unread** messages for Conversation
+ - `latest_message_at`: Created at of the latest message for Conversation
+
+## Get unread conversation count
+
+Returns count of unread conversations for a Participant.
+
+### Example:
+
+```php
+$sender = User::query()->find(1);
+
+$sender->getUnreadConversationCount();
+```
+
+### Signature:
+
+```php
+public function getUnreadConversationCount(): int;
+```
+
+## Message reply
+
+Headless Chat also supports message replies.
+
+### Example:
+
+```php
+$sender = User::query()->find(1);
+$message = $sender->conversations->messages->first();
+
+$sender->replyToMessage(
+    parentMessage: $message,
+    content: 'Reply Message',
+    messageMetadata: [ 'foo' => 'bar' ],
+);
+```
+
+### Signature:
+
+```php
+public function replyToMessage(
+   Message $parentMessage, // The parent message the reply should relate to
+   string $message, // Message content
+   array $messageMetadata = [], // Metadata to be stored in messages table
+): Message;
+```
+
+# Advanced Usage
+
+## Override Models
 
 Some applications may not be able to use the default database tables provided by Headless Chat package. In such cases you can swap the database tables or even models to be used by this package. 
 
@@ -163,7 +320,7 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-### Override Actions
+## Override Actions
 
 All actions used inside Headless Chat package are resolved from Laravel Service Container. If you ever need to modify the behaviour of any Action used in Headless Chat package, you can add a binding inside `register` method of your `AppServiceProvider`.
 
@@ -185,6 +342,6 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-## References
+# References
 
 * [Headless Chat - Packagist](https://packagist.org/packages/tmsperera/headless-chat)
