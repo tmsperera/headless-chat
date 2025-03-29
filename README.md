@@ -4,6 +4,14 @@ A flexible, customizable and headless package designed to integrate chat functio
 
 # Key Features
 
+- Direct messages
+- Message replies
+- Read receipts
+- Message deletion
+- Conversation with metrics
+
+# Why Headless Chat?
+
  - Emits Events
  - Models and database tables can be overridden 
  - Uses Actions resolved from Service Container
