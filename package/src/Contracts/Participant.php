@@ -22,9 +22,9 @@ interface Participant extends EloquentModel
     public function getParticipationIn(Conversation $conversation): ?Participation;
 
     public function sendDirectMessage(
-        Participant $recipient,
-        string $message,
-        array $messageMetadata = [],
+        Participant $recipient, // Recipient
+        string $message, // Message content
+        array $messageMetadata = [], // Metadata to be stored in messages table
     ): Message;
 
     public function readMessage(Message $message): ReadReceipt;
@@ -37,8 +37,8 @@ interface Participant extends EloquentModel
     ): Participation;
 
     public function replyToMessage(
-        Message $parentMessage,
-        string $content,
-        array $messageMetadata = [],
+        Message $parentMessage, // The parent message the reply should relate to
+        string $message, // Message content
+        array $messageMetadata = [], // Metadata to be stored in messages table
     ): Message;
 }
