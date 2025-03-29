@@ -2,19 +2,26 @@
 
 A flexible, customizable and headless package designed to integrate chat functionality into Laravel applications.
 
-# Key Features
-
-- Direct messages
-- Message replies
-- Read receipts
-- Message deletion
-- Conversation with metrics
-
 # Why Headless Chat?
 
  - Emits Events
  - Models and database tables can be overridden 
  - Uses Actions resolved from Service Container
+
+# Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Send a direct message](#send-a-direct-message)
+  - [Delete a sent message](#delete-a-sent-message)
+  - [Mark message as read](#mark-message-as-read)
+  - [Get conversations](#get-conversations)
+  - [Get conversations with metrics](#get-conversations-with-metrics)
+  - [Get unread conversation count](#get-unread-conversation-count)
+  - [Message reply](#message-reply)
+- [Advanced Usage](#advanced-usage)
+  - [Override Models](#override-models)
+  - [Override Actions](#override-actions)
 
 # Installation
 
