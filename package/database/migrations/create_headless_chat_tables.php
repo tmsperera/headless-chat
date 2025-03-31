@@ -35,6 +35,7 @@ return new class extends Migration
                 ->constrained(table: 'conversations', column: 'id');
             $table->foreignId('parent_id')->nullable()
                 ->constrained(table: 'messages', column: 'id');
+            $table->string('type');
             $table->text('content');
             $table->json('metadata')->nullable();
             $table->timestamps();

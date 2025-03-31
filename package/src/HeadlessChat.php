@@ -11,6 +11,7 @@ use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
 use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
 use TMSPerera\HeadlessChat\Actions\SendMessageAction;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
@@ -48,8 +49,7 @@ class HeadlessChat
     public static function sendMessage(
         Conversation $conversation,
         Participant $sender,
-        string $messageContent,
-        array $messageMetadata = [],
+        MessageDto $messageDto,
         ?Message $parentMessage = null,
     ): Message {
         /** @var SendMessageAction $action */
@@ -58,8 +58,7 @@ class HeadlessChat
         return $action(
             conversation: $conversation,
             sender: $sender,
-            messageContent: $messageContent,
-            messageMetadata: $messageMetadata,
+            messageDto: $messageDto,
             parentMessage: $parentMessage,
         );
     }
@@ -71,8 +70,7 @@ class HeadlessChat
     public static function sendDirectMessage(
         Participant $sender,
         Participant $recipient,
-        string $messageContent,
-        array $messageMetadata = [],
+        MessageDto $messageDto,
     ): Message {
         /** @var SendDirectMessageAction $action */
         $action = App::make(SendDirectMessageAction::class);
@@ -80,8 +78,7 @@ class HeadlessChat
         return $action(
             sender: $sender,
             recipient: $recipient,
-            messageContent: $messageContent,
-            messageMetadata: $messageMetadata,
+            messageDto: $messageDto,
         );
     }
 
@@ -91,8 +88,7 @@ class HeadlessChat
     public static function replyToMessage(
         Message $parentMessage,
         Participant $sender,
-        string $messageContent,
-        array $messageMetadata = [],
+        MessageDto $messageDto,
     ): Message {
         /** @var SendMessageAction $action */
         $action = App::make(SendMessageAction::class);
@@ -100,8 +96,7 @@ class HeadlessChat
         return $action(
             conversation: $parentMessage->conversation,
             sender: $sender,
-            messageContent: $messageContent,
-            messageMetadata: $messageMetadata,
+            messageDto: $messageDto,
             parentMessage: $parentMessage,
         );
     }

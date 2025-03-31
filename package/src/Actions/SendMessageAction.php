@@ -3,6 +3,7 @@
 namespace TMSPerera\HeadlessChat\Actions;
 
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Events\MessageSentEvent;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Models\Conversation;
@@ -17,17 +18,17 @@ class SendMessageAction
     public function __invoke(
         Conversation $conversation,
         Participant $sender,
-        string $messageContent,
-        array $messageMetadata = [],
+        MessageDto $messageDto,
         ?Message $parentMessage = null,
     ): Message {
         $participation = $this->resolveParticipation(participant: $sender, conversation: $conversation);
 
         $message = $participation->messages()->create([
             'conversation_id' => $conversation->getKey(),
-            'content' => $messageContent,
-            'metadata' => $messageMetadata,
             'parent_id' => $parentMessage?->getKey(),
+            'type' => $messageDto->type,
+            'content' => $messageDto->content,
+            'metadata' => $messageDto->metadata,
         ]);
 
         MessageSentEvent::dispatch($message);

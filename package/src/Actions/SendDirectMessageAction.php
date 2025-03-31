@@ -4,6 +4,7 @@ namespace TMSPerera\HeadlessChat\Actions;
 
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
@@ -20,8 +21,7 @@ class SendDirectMessageAction
     public function __invoke(
         Participant $sender,
         Participant $recipient,
-        string $messageContent,
-        array $messageMetadata = [],
+        MessageDto $messageDto,
     ): Message {
         $conversation = $this->getExistingConversation(sender: $sender, recipient: $recipient)
             ?: HeadlessChat::createConversation(
@@ -34,8 +34,7 @@ class SendDirectMessageAction
         return HeadlessChat::sendMessage(
             conversation: $conversation,
             sender: $sender,
-            messageContent: $messageContent,
-            messageMetadata: $messageMetadata,
+            messageDto: $messageDto,
         );
     }
 
