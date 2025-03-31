@@ -125,13 +125,13 @@ trait Chatable
      */
     public function sendDirectMessage(
         Participant $recipient,
-        string $message,
+        string $messageContent,
         array $messageMetadata = [],
     ): Message {
         return HeadlessChat::sendDirectMessage(
             sender: $this,
             recipient: $recipient,
-            messageContent: $message,
+            messageContent: $messageContent,
             messageMetadata: $messageMetadata,
         );
     }
