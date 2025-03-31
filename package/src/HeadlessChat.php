@@ -43,13 +43,35 @@ class HeadlessChat
     }
 
     /**
+     * @throws InvalidParticipationException
+     */
+    public static function sendMessage(
+        Conversation $conversation,
+        Participant $sender,
+        string $messageContent,
+        array $messageMetadata = [],
+        ?Message $parentMessage = null,
+    ): Message {
+        /** @var SendMessageAction $action */
+        $action = App::make(SendMessageAction::class);
+
+        return $action(
+            conversation: $conversation,
+            sender: $sender,
+            messageContent: $messageContent,
+            messageMetadata: $messageMetadata,
+            parentMessage: $parentMessage,
+        );
+    }
+
+    /**
      * @throws ParticipationLimitExceededException
      * @throws InvalidParticipationException
      */
     public static function sendDirectMessage(
         Participant $sender,
         Participant $recipient,
-        string $content,
+        string $messageContent,
         array $messageMetadata = [],
     ): Message {
         /** @var SendDirectMessageAction $action */
@@ -58,8 +80,29 @@ class HeadlessChat
         return $action(
             sender: $sender,
             recipient: $recipient,
-            content: $content,
+            messageContent: $messageContent,
             messageMetadata: $messageMetadata,
+        );
+    }
+
+    /**
+     * @throws InvalidParticipationException
+     */
+    public static function replyToMessage(
+        Message $parentMessage,
+        Participant $sender,
+        string $messageContent,
+        array $messageMetadata = [],
+    ): Message {
+        /** @var SendMessageAction $action */
+        $action = App::make(SendMessageAction::class);
+
+        return $action(
+            conversation: $parentMessage->conversation,
+            sender: $sender,
+            messageContent: $messageContent,
+            messageMetadata: $messageMetadata,
+            parentMessage: $parentMessage,
         );
     }
 
@@ -118,48 +161,5 @@ class HeadlessChat
         $action = App::make(DeleteSentMessageAction::class);
 
         $action(message: $message, participant: $participant);
-    }
-
-    /**
-     * @throws InvalidParticipationException
-     */
-    public static function sendMessage(
-        Conversation $conversation,
-        Participant $sender,
-        string $content,
-        array $messageMetadata = [],
-        ?Message $parentMessage = null,
-    ): Message {
-        /** @var SendMessageAction $action */
-        $action = App::make(SendMessageAction::class);
-
-        return $action(
-            conversation: $conversation,
-            sender: $sender,
-            content: $content,
-            messageMetadata: $messageMetadata,
-            parentMessage: $parentMessage,
-        );
-    }
-
-    /**
-     * @throws InvalidParticipationException
-     */
-    public static function replyToMessage(
-        Message $parentMessage,
-        Participant $sender,
-        string $content,
-        array $messageMetadata = [],
-    ): Message {
-        /** @var SendMessageAction $action */
-        $action = App::make(SendMessageAction::class);
-
-        return $action(
-            conversation: $parentMessage->conversation,
-            sender: $sender,
-            content: $content,
-            messageMetadata: $messageMetadata,
-            parentMessage: $parentMessage,
-        );
     }
 }

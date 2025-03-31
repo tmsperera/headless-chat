@@ -20,7 +20,7 @@ class SendDirectMessageAction
     public function __invoke(
         Participant $sender,
         Participant $recipient,
-        string $content,
+        string $messageContent,
         array $messageMetadata = [],
     ): Message {
         $conversation = $this->getExistingConversation(sender: $sender, recipient: $recipient)
@@ -34,7 +34,7 @@ class SendDirectMessageAction
         return HeadlessChat::sendMessage(
             conversation: $conversation,
             sender: $sender,
-            content: $content,
+            messageContent: $messageContent,
             messageMetadata: $messageMetadata,
         );
     }

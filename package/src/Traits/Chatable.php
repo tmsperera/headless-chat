@@ -131,7 +131,23 @@ trait Chatable
         return HeadlessChat::sendDirectMessage(
             sender: $this,
             recipient: $recipient,
-            content: $message,
+            messageContent: $message,
+            messageMetadata: $messageMetadata,
+        );
+    }
+
+    /**
+     * @throws InvalidParticipationException
+     */
+    public function replyToMessage(
+        Message $parentMessage,
+        string $content,
+        array $messageMetadata = [],
+    ): Message {
+        return HeadlessChat::replyToMessage(
+            parentMessage: $parentMessage,
+            sender: $this,
+            messageContent: $content,
             messageMetadata: $messageMetadata,
         );
     }
@@ -164,22 +180,6 @@ trait Chatable
             participant: $this,
             conversation: $conversation,
             participationMetadata: $participationMetadata,
-        );
-    }
-
-    /**
-     * @throws InvalidParticipationException
-     */
-    public function replyToMessage(
-        Message $parentMessage,
-        string $content,
-        array $messageMetadata = [],
-    ): Message {
-        return HeadlessChat::replyToMessage(
-            parentMessage: $parentMessage,
-            sender: $this,
-            content: $content,
-            messageMetadata: $messageMetadata,
         );
     }
 }

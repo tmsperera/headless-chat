@@ -112,7 +112,7 @@ class Message extends Model
         return HeadlessChat::replyToMessage(
             parentMessage: $this,
             sender: $sender,
-            content: $content,
+            messageContent: $content,
             messageMetadata: $messageMetadata,
         );
     }

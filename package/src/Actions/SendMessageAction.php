@@ -17,7 +17,7 @@ class SendMessageAction
     public function __invoke(
         Conversation $conversation,
         Participant $sender,
-        string $content,
+        string $messageContent,
         array $messageMetadata = [],
         ?Message $parentMessage = null,
     ): Message {
@@ -25,7 +25,7 @@ class SendMessageAction
 
         $message = $participation->messages()->create([
             'conversation_id' => $conversation->getKey(),
-            'content' => $content,
+            'content' => $messageContent,
             'metadata' => $messageMetadata,
             'parent_id' => $parentMessage?->getKey(),
         ]);

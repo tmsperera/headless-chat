@@ -23,7 +23,13 @@ interface Participant extends EloquentModel
 
     public function sendDirectMessage(
         Participant $recipient, // Recipient
-        string $message, // Message content
+        string $messageContent, // Message content
+        array $messageMetadata = [], // Metadata to be stored in messages table
+    ): Message;
+
+    public function replyToMessage(
+        Message $parentMessage, // The parent message the reply should relate to
+        string $messageContent, // Message content
         array $messageMetadata = [], // Metadata to be stored in messages table
     ): Message;
 
@@ -35,10 +41,4 @@ interface Participant extends EloquentModel
         Conversation $conversation,
         array $participationMetadata = [],
     ): Participation;
-
-    public function replyToMessage(
-        Message $parentMessage, // The parent message the reply should relate to
-        string $message, // Message content
-        array $messageMetadata = [], // Metadata to be stored in messages table
-    ): Message;
 }
