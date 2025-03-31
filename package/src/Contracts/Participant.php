@@ -22,15 +22,15 @@ interface Participant extends EloquentModel
     public function getParticipationIn(Conversation $conversation): ?Participation;
 
     public function sendDirectMessage(
-        Participant $recipient, // Recipient
-        string $messageContent, // Message content
-        array $messageMetadata = [], // Metadata to be stored in messages table
+        Participant $recipient,
+        string $messageContent,
+        array $messageMetadata = [],
     ): Message;
 
     public function replyToMessage(
-        Message $parentMessage, // The parent message the reply should relate to
-        string $messageContent, // Message content
-        array $messageMetadata = [], // Metadata to be stored in messages table
+        Message $parentMessage,
+        string $messageContent,
+        array $messageMetadata = [],
     ): Message;
 
     public function readMessage(Message $message): ReadReceipt;
