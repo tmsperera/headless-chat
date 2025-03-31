@@ -106,13 +106,13 @@ class Message extends Model
      */
     public function reply(
         Participant $sender,
-        string $content,
+        string $messageContent,
         array $messageMetadata = [],
     ): Message {
         return HeadlessChat::replyToMessage(
             parentMessage: $this,
             sender: $sender,
-            messageContent: $content,
+            messageContent: $messageContent,
             messageMetadata: $messageMetadata,
         );
     }
