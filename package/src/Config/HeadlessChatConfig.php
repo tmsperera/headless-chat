@@ -11,6 +11,26 @@ use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
 class HeadlessChatConfig
 {
+    public static function conversationInstance(): Conversation
+    {
+        return App::make(static::conversationModelClass());
+    }
+
+    public static function participationInstance(): Participation
+    {
+        return App::make(static::participationModelClass());
+    }
+
+    public static function messageInstance(): Message
+    {
+        return App::make(static::messageModelClass());
+    }
+
+    public static function readReceiptInstance(): ReadReceipt
+    {
+        return App::make(static::readReceiptModelClass());
+    }
+
     /**
      * @return class-string<Conversation>
      */
@@ -41,25 +61,5 @@ class HeadlessChatConfig
     protected static function readReceiptModelClass(): string
     {
         return Config::get('headless-chat.models.read_receipt', ReadReceipt::class);
-    }
-
-    public static function conversationInstance(): Conversation
-    {
-        return App::make(static::conversationModelClass());
-    }
-
-    public static function participationInstance(): Participation
-    {
-        return App::make(static::participationModelClass());
-    }
-
-    public static function messageInstance(): Message
-    {
-        return App::make(static::messageModelClass());
-    }
-
-    public static function readReceiptInstance(): ReadReceipt
-    {
-        return App::make(static::readReceiptModelClass());
     }
 }
