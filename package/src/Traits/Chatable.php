@@ -121,8 +121,10 @@ trait Chatable
     }
 
     /**
-     * @throws ParticipationLimitExceededException
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
+     * @throws ParticipationLimitExceededException
      */
     public function sendDirectMessage(
         Participant $recipient,
@@ -138,6 +140,8 @@ trait Chatable
     }
 
     /**
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
      */
     public function replyToMessage(

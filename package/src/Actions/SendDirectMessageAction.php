@@ -15,8 +15,10 @@ use TMSPerera\HeadlessChat\Models\Message;
 class SendDirectMessageAction
 {
     /**
-     * @throws ParticipationLimitExceededException
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
+     * @throws ParticipationLimitExceededException
      */
     public function __invoke(
         Participant $sender,

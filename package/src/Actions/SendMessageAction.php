@@ -13,6 +13,8 @@ use TMSPerera\HeadlessChat\Models\Participation;
 class SendMessageAction
 {
     /**
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
      */
     public function __invoke(

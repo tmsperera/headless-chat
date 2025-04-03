@@ -44,6 +44,8 @@ class HeadlessChat
     }
 
     /**
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
      */
     public static function sendMessage(
@@ -66,8 +68,10 @@ class HeadlessChat
     }
 
     /**
-     * @throws ParticipationLimitExceededException
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
+     * @throws ParticipationLimitExceededException
      */
     public static function sendDirectMessage(
         Participant $sender,
@@ -87,6 +91,8 @@ class HeadlessChat
     }
 
     /**
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
      */
     public static function replyToMessage(
