@@ -25,11 +25,13 @@ interface Participant extends EloquentModel
     public function sendDirectMessage(
         Participant $recipient,
         MessageDto $messageDto,
+        ?callable $afterMessageCreated = null,
     ): Message;
 
     public function replyToMessage(
         Message $parentMessage,
         MessageDto $messageDto,
+        ?callable $afterMessageCreated = null,
     ): Message;
 
     public function readMessage(Message $message): ReadReceipt;
