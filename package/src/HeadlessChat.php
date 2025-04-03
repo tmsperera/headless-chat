@@ -51,6 +51,7 @@ class HeadlessChat
         Participant $sender,
         MessageDto $messageDto,
         ?Message $parentMessage = null,
+        callable $afterMessageCreated = null,
     ): Message {
         /** @var SendMessageAction $action */
         $action = App::make(SendMessageAction::class);
@@ -60,6 +61,7 @@ class HeadlessChat
             sender: $sender,
             messageDto: $messageDto,
             parentMessage: $parentMessage,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 
@@ -71,6 +73,7 @@ class HeadlessChat
         Participant $sender,
         Participant $recipient,
         MessageDto $messageDto,
+        callable $afterMessageCreated = null,
     ): Message {
         /** @var SendDirectMessageAction $action */
         $action = App::make(SendDirectMessageAction::class);
@@ -79,6 +82,7 @@ class HeadlessChat
             sender: $sender,
             recipient: $recipient,
             messageDto: $messageDto,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 
@@ -89,6 +93,7 @@ class HeadlessChat
         Message $parentMessage,
         Participant $sender,
         MessageDto $messageDto,
+        callable $afterMessageCreated = null,
     ): Message {
         /** @var SendMessageAction $action */
         $action = App::make(SendMessageAction::class);
@@ -98,6 +103,7 @@ class HeadlessChat
             sender: $sender,
             messageDto: $messageDto,
             parentMessage: $parentMessage,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 

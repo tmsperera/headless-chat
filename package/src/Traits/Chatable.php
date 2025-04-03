@@ -127,11 +127,13 @@ trait Chatable
     public function sendDirectMessage(
         Participant $recipient,
         MessageDto $messageDto,
+        callable $afterMessageCreated = null,
     ): Message {
         return HeadlessChat::sendDirectMessage(
             sender: $this,
             recipient: $recipient,
             messageDto: $messageDto,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 
@@ -141,11 +143,13 @@ trait Chatable
     public function replyToMessage(
         Message $parentMessage,
         MessageDto $messageDto,
+        callable $afterMessageCreated = null,
     ): Message {
         return HeadlessChat::replyToMessage(
             parentMessage: $parentMessage,
             sender: $this,
             messageDto: $messageDto,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 

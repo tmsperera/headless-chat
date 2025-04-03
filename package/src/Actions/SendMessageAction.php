@@ -20,6 +20,7 @@ class SendMessageAction
         Participant $sender,
         MessageDto $messageDto,
         ?Message $parentMessage = null,
+        callable $afterMessageCreated = null,
     ): Message {
         $participation = $this->resolveParticipation(participant: $sender, conversation: $conversation);
 
@@ -30,6 +31,10 @@ class SendMessageAction
             'content' => $messageDto->content,
             'metadata' => $messageDto->metadata,
         ]);
+
+        if($afterMessageCreated) {
+            $afterMessageCreated($message);
+        }
 
         MessageSentEvent::dispatch($message);
 
