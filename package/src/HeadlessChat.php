@@ -51,7 +51,7 @@ class HeadlessChat
         Participant $sender,
         MessageDto $messageDto,
         ?Message $parentMessage = null,
-        callable $afterMessageCreated = null,
+        ?callable $afterMessageCreated = null,
     ): Message {
         /** @var SendMessageAction $action */
         $action = App::make(SendMessageAction::class);
@@ -73,7 +73,7 @@ class HeadlessChat
         Participant $sender,
         Participant $recipient,
         MessageDto $messageDto,
-        callable $afterMessageCreated = null,
+        ?callable $afterMessageCreated = null,
     ): Message {
         /** @var SendDirectMessageAction $action */
         $action = App::make(SendDirectMessageAction::class);
@@ -93,7 +93,7 @@ class HeadlessChat
         Message $parentMessage,
         Participant $sender,
         MessageDto $messageDto,
-        callable $afterMessageCreated = null,
+        ?callable $afterMessageCreated = null,
     ): Message {
         /** @var SendMessageAction $action */
         $action = App::make(SendMessageAction::class);

@@ -108,7 +108,7 @@ class Message extends Model
     public function reply(
         Participant $sender,
         MessageDto $messageDto,
-        callable $afterMessageCreated = null,
+        ?callable $afterMessageCreated = null,
     ): Message {
         return HeadlessChat::replyToMessage(
             parentMessage: $this,

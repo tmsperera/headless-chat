@@ -20,7 +20,7 @@ class SendMessageAction
         Participant $sender,
         MessageDto $messageDto,
         ?Message $parentMessage = null,
-        callable $afterMessageCreated = null,
+        ?callable $afterMessageCreated = null,
     ): Message {
         $participation = $this->resolveParticipation(participant: $sender, conversation: $conversation);
 
@@ -32,7 +32,7 @@ class SendMessageAction
             'metadata' => $messageDto->metadata,
         ]);
 
-        if($afterMessageCreated) {
+        if ($afterMessageCreated) {
             $afterMessageCreated($message);
         }
 

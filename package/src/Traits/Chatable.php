@@ -127,7 +127,7 @@ trait Chatable
     public function sendDirectMessage(
         Participant $recipient,
         MessageDto $messageDto,
-        callable $afterMessageCreated = null,
+        ?callable $afterMessageCreated = null,
     ): Message {
         return HeadlessChat::sendDirectMessage(
             sender: $this,
@@ -143,7 +143,7 @@ trait Chatable
     public function replyToMessage(
         Message $parentMessage,
         MessageDto $messageDto,
-        callable $afterMessageCreated = null,
+        ?callable $afterMessageCreated = null,
     ): Message {
         return HeadlessChat::replyToMessage(
             parentMessage: $parentMessage,

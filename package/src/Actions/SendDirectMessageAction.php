@@ -22,7 +22,7 @@ class SendDirectMessageAction
         Participant $sender,
         Participant $recipient,
         MessageDto $messageDto,
-        callable $afterMessageCreated = null,
+        ?callable $afterMessageCreated = null,
     ): Message {
         $conversation = $this->getExistingConversation(sender: $sender, recipient: $recipient)
             ?: HeadlessChat::createConversation(
