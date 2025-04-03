@@ -16,7 +16,6 @@ class MessageFactory extends Factory
         return [
             'type' => 'text',
             'content' => $this->faker->realText(),
-            'metadata' => null,
             'conversation_id' => ConversationFactory::new(),
             'participation_id' => ParticipationFactory::new(),
         ];
