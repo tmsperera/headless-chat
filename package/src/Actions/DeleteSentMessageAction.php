@@ -3,7 +3,6 @@
 namespace TMSPerera\HeadlessChat\Actions;
 
 use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\Events\MessageDeletedEvent;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
 use TMSPerera\HeadlessChat\HeadlessChat;
@@ -15,11 +14,11 @@ class DeleteSentMessageAction
      * @throws InvalidParticipationException
      * @throws MessageOwnershipException
      */
-    public function __invoke(Message $message, Participant $participant): void
+    public function __invoke(Message $message, Participant $deleter): void
     {
-        $message->load(['conversation.participations.participant']);
+        $message->loadMissing(['conversation.participations.participant']);
 
-        $participation = $participant->getParticipationIn($message->conversation);
+        $participation = $message->conversation->getParticipationOf($deleter);
 
         if (! $participation) {
             throw new InvalidParticipationException;
@@ -29,8 +28,6 @@ class DeleteSentMessageAction
             throw new MessageOwnershipException;
         }
 
-        HeadlessChat::deleteMessage(message: $message, participation: $participation);
-
-        MessageDeletedEvent::dispatch($message, $participation);
+        HeadlessChat::deleteMessage(message: $message, deleterParticipation: $participation);
     }
 }

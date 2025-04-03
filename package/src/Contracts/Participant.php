@@ -22,14 +22,22 @@ interface Participant extends EloquentModel
 
     public function getParticipationIn(Conversation $conversation): ?Participation;
 
+    /**
+     * @param  null|callable(Message):void  $afterMessageCreated
+     */
     public function sendDirectMessage(
         Participant $recipient,
         MessageDto $messageDto,
+        ?callable $afterMessageCreated = null,
     ): Message;
 
+    /**
+     * @param  null|callable(Message):void  $afterMessageCreated
+     */
     public function replyToMessage(
         Message $parentMessage,
         MessageDto $messageDto,
+        ?callable $afterMessageCreated = null,
     ): Message;
 
     public function readMessage(Message $message): ReadReceipt;

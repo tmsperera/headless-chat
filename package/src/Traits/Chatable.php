@@ -121,31 +121,39 @@ trait Chatable
     }
 
     /**
-     * @throws ParticipationLimitExceededException
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
+     * @throws ParticipationLimitExceededException
      */
     public function sendDirectMessage(
         Participant $recipient,
         MessageDto $messageDto,
+        ?callable $afterMessageCreated = null,
     ): Message {
         return HeadlessChat::sendDirectMessage(
             sender: $this,
             recipient: $recipient,
             messageDto: $messageDto,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 
     /**
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
      */
     public function replyToMessage(
         Message $parentMessage,
         MessageDto $messageDto,
+        ?callable $afterMessageCreated = null,
     ): Message {
         return HeadlessChat::replyToMessage(
             parentMessage: $parentMessage,
             sender: $this,
             messageDto: $messageDto,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 
@@ -165,7 +173,7 @@ trait Chatable
      */
     public function deleteSentMessage(Message $message): void
     {
-        HeadlessChat::deleteSentMessage(message: $message, participant: $this);
+        HeadlessChat::deleteSentMessage(message: $message, deleter: $this);
     }
 
     /**

@@ -44,6 +44,8 @@ class HeadlessChat
     }
 
     /**
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
      */
     public static function sendMessage(
@@ -51,6 +53,7 @@ class HeadlessChat
         Participant $sender,
         MessageDto $messageDto,
         ?Message $parentMessage = null,
+        ?callable $afterMessageCreated = null,
     ): Message {
         /** @var SendMessageAction $action */
         $action = App::make(SendMessageAction::class);
@@ -60,17 +63,21 @@ class HeadlessChat
             sender: $sender,
             messageDto: $messageDto,
             parentMessage: $parentMessage,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 
     /**
-     * @throws ParticipationLimitExceededException
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
+     * @throws ParticipationLimitExceededException
      */
     public static function sendDirectMessage(
         Participant $sender,
         Participant $recipient,
         MessageDto $messageDto,
+        ?callable $afterMessageCreated = null,
     ): Message {
         /** @var SendDirectMessageAction $action */
         $action = App::make(SendDirectMessageAction::class);
@@ -79,16 +86,20 @@ class HeadlessChat
             sender: $sender,
             recipient: $recipient,
             messageDto: $messageDto,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 
     /**
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
      */
     public static function replyToMessage(
         Message $parentMessage,
         Participant $sender,
         MessageDto $messageDto,
+        ?callable $afterMessageCreated = null,
     ): Message {
         /** @var SendMessageAction $action */
         $action = App::make(SendMessageAction::class);
@@ -98,6 +109,7 @@ class HeadlessChat
             sender: $sender,
             messageDto: $messageDto,
             parentMessage: $parentMessage,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 
@@ -136,12 +148,12 @@ class HeadlessChat
 
     public static function deleteMessage(
         Message $message,
-        Participation $participation,
+        Participation $deleterParticipation,
     ): void {
         /** @var DeleteMessageAction $action */
         $action = App::make(DeleteMessageAction::class);
 
-        $action(message: $message, participation: $participation);
+        $action(message: $message, deleterParticipation: $deleterParticipation);
     }
 
     /**
@@ -150,11 +162,11 @@ class HeadlessChat
      */
     public static function deleteSentMessage(
         Message $message,
-        Participant $participant,
+        Participant $deleter,
     ): void {
         /** @var DeleteSentMessageAction $action */
         $action = App::make(DeleteSentMessageAction::class);
 
-        $action(message: $message, participant: $participant);
+        $action(message: $message, deleter: $deleter);
     }
 }

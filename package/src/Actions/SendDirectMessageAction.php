@@ -15,13 +15,16 @@ use TMSPerera\HeadlessChat\Models\Message;
 class SendDirectMessageAction
 {
     /**
-     * @throws ParticipationLimitExceededException
+     * @param  null|callable(Message):void  $afterMessageCreated
+     *
      * @throws InvalidParticipationException
+     * @throws ParticipationLimitExceededException
      */
     public function __invoke(
         Participant $sender,
         Participant $recipient,
         MessageDto $messageDto,
+        ?callable $afterMessageCreated = null,
     ): Message {
         $conversation = $this->getExistingConversation(sender: $sender, recipient: $recipient)
             ?: HeadlessChat::createConversation(
@@ -35,6 +38,7 @@ class SendDirectMessageAction
             conversation: $conversation,
             sender: $sender,
             messageDto: $messageDto,
+            afterMessageCreated: $afterMessageCreated,
         );
     }
 
