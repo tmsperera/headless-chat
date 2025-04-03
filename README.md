@@ -98,13 +98,18 @@ Sends a message using the chat package.
 ### Example: 
 
 ```php
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
+
 $sender = User::query()->find(1);
 $recipient = User::query()->find(2);
 
 $message = $sender->sendDirectMessage(
-   recipient: $recipient, 
-   messageContent: 'Hello World!', 
-   messageMetadata: [ 'foo' => 'bar' ],
+    recipient: $recipient, 
+    messageDto: new MessageDto(
+        type: 'text',
+        content: 'Hello!',
+        metadata: [ 'foo' => 'bar' ],
+    ), 
 );
 ```
 
@@ -113,8 +118,7 @@ $message = $sender->sendDirectMessage(
 ```php
 public function sendDirectMessage(
     Participant $recipient,
-    string $messageContent,
-    array $messageMetadata = [],
+    MessageDto $messageDto,
 ): Message;
 ```
 
@@ -129,13 +133,18 @@ Headless Chat also supports message replies.
 ### Example:
 
 ```php
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
+
 $sender = User::query()->find(1);
 $message = $sender->conversations->messages->first();
 
 $sender->replyToMessage(
     parentMessage: $message,
-    messageContent: 'Reply Message',
-    messageMetadata: [ 'foo' => 'bar' ],
+    messageDto: new MessageDto(
+        type: 'text',
+        content: 'Reply Message',
+        metadata: [ 'foo' => 'bar' ],
+    ), 
 );
 ```
 
@@ -144,8 +153,7 @@ $sender->replyToMessage(
 ```php
 public function replyToMessage(
     Message $parentMessage,
-    string $messageContent,
-    array $messageMetadata = [],
+    MessageDto $messageDto,
 ): Message;
 ```
 
