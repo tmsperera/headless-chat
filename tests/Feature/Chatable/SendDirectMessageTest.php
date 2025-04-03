@@ -32,7 +32,7 @@ class SendDirectMessageTest extends BaseChatableTestCase
         $recipient = UserFactory::new()->create();
         $messageDto = new MessageDto(
             type: 'text',
-            content: 'test',
+            content: 'Hello World!',
         );
 
         $sender->sendDirectMessage(recipient: $recipient, messageDto: $messageDto);
@@ -72,7 +72,7 @@ class SendDirectMessageTest extends BaseChatableTestCase
         $this->joinConversation(conversation: $conversation, participant: $recipient);
         $messageDto = new MessageDto(
             type: 'text',
-            content: 'test',
+            content: 'Hello World!',
         );
 
         $sender->sendDirectMessage(recipient: $recipient, messageDto: $messageDto);
