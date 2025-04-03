@@ -2,11 +2,11 @@
 
 namespace TMSPerera\HeadlessChat\DataTransferObjects;
 
-class MessageDto
+readonly class MessageDto
 {
     public function __construct(
-        readonly public string $type,
-        readonly public string $content,
-        readonly public array $metadata = [],
+        public string $type,
+        public string $content,
+        public array $metadata = [],
     ) {}
 }
