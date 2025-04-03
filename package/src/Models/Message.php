@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
@@ -106,14 +107,12 @@ class Message extends Model
      */
     public function reply(
         Participant $sender,
-        string $content,
-        array $messageMetadata = [],
+        MessageDto $messageDto,
     ): Message {
         return HeadlessChat::replyToMessage(
             parentMessage: $this,
             sender: $sender,
-            content: $content,
-            messageMetadata: $messageMetadata,
+            messageDto: $messageDto,
         );
     }
 }

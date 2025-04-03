@@ -4,6 +4,8 @@ namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Events\MessageSentEvent;
 use TMSPerera\HeadlessChat\Models\Conversation;
@@ -25,10 +27,15 @@ class SendDirectMessageTest extends BaseChatableTestCase
 
     public function test_when_no_conversation_exist()
     {
+        /** @var Participant $sender */
         $sender = UserFactory::new()->create();
         $recipient = UserFactory::new()->create();
+        $messageDto = new MessageDto(
+            type: 'text',
+            content: 'Hello World!',
+        );
 
-        $sender->sendDirectMessage($recipient, $content = 'test');
+        $sender->sendDirectMessage(recipient: $recipient, messageDto: $messageDto);
 
         $this->assertDatabaseCount('conversations', 1);
         $conversation = Conversation::query()
@@ -48,7 +55,8 @@ class SendDirectMessageTest extends BaseChatableTestCase
         $message = Message::query()
             ->where('conversation_id', $conversation->id)
             ->where('participation_id', $senderParticipation->id)
-            ->where('content', $content)
+            ->where('content', $messageDto->content)
+            ->where('type', $messageDto->type)
             ->firstOrFail();
         Event::assertDispatched(function (MessageSentEvent $event) use ($message) {
             return $event->message->is($message);
@@ -62,15 +70,20 @@ class SendDirectMessageTest extends BaseChatableTestCase
         $conversation = ConversationFactory::new()->directMessage()->create();
         $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
         $this->joinConversation(conversation: $conversation, participant: $recipient);
+        $messageDto = new MessageDto(
+            type: 'text',
+            content: 'Hello World!',
+        );
 
-        $sender->sendDirectMessage($recipient, $content = 'test');
+        $sender->sendDirectMessage(recipient: $recipient, messageDto: $messageDto);
 
         $this->assertDatabaseCount('conversations', 1);
         $this->assertDatabaseCount('participations', 2);
         $message = Message::query()
             ->where('conversation_id', $conversation->id)
             ->where('participation_id', $senderParticipation->id)
-            ->where('content', $content)
+            ->where('content', $messageDto->content)
+            ->where('type', $messageDto->type)
             ->firstOrFail();
         Event::assertDispatched(function (MessageSentEvent $event) use ($message) {
             return $event->message->is($message);

@@ -14,6 +14,7 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
+            'type' => 'text',
             'content' => $this->faker->realText(),
             'conversation_id' => ConversationFactory::new(),
             'participation_id' => ParticipationFactory::new(),

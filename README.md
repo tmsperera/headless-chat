@@ -13,9 +13,9 @@ A flexible, customizable and headless package designed to integrate chat functio
 - [Installation](#installation)
 - [Usage](#usage)
   - [Send a direct message](#send-a-direct-message)
-  - [Delete a sent message](#delete-a-sent-message)
-  - [Mark message as read](#mark-message-as-read)
   - [Reply to a message](#reply-to-a-message)
+  - [Mark message as read](#mark-message-as-read)
+  - [Delete a sent message](#delete-a-sent-message)
   - [Get conversations](#get-conversations)
   - [Get conversations with metrics](#get-conversations-with-metrics)
   - [Get unread conversation count](#get-unread-conversation-count)
@@ -98,13 +98,18 @@ Sends a message using the chat package.
 ### Example: 
 
 ```php
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
+
 $sender = User::query()->find(1);
 $recipient = User::query()->find(2);
 
 $message = $sender->sendDirectMessage(
-   recipient: $recipient, 
-   message: 'Hello World!', 
-   messageMetadata: [ 'foo' => 'bar' ],
+    recipient: $recipient, 
+    messageDto: new MessageDto(
+        type: 'text',
+        content: 'Hello!',
+        metadata: [ 'foo' => 'bar' ],
+    ), 
 );
 ```
 
@@ -112,9 +117,8 @@ $message = $sender->sendDirectMessage(
 
 ```php
 public function sendDirectMessage(
-   Participant $recipient, // Recipient
-   string $message, // Message content
-   array $messageMetadata = [], // Metadata to be stored in messages table
+    Participant $recipient,
+    MessageDto $messageDto,
 ): Message;
 ```
 
@@ -122,28 +126,36 @@ public function sendDirectMessage(
 
 - `TMSPerera\HeadlessChat\Events\MessageSentEvent`
 
-## Delete a sent message
+## Reply to a message
 
-Delete a message sent by a Participant.
+Headless Chat also supports message replies.
 
 ### Example:
 
 ```php
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
+
 $sender = User::query()->find(1);
 $message = $sender->conversations->messages->first();
 
-$sender->deleteSentMessage($message);
+$sender->replyToMessage(
+    parentMessage: $message,
+    messageDto: new MessageDto(
+        type: 'text',
+        content: 'Reply Message',
+        metadata: [ 'foo' => 'bar' ],
+    ), 
+);
 ```
 
 ### Signature:
 
 ```php
-public function deleteSentMessage(Message $message): void;
+public function replyToMessage(
+    Message $parentMessage,
+    MessageDto $messageDto,
+): Message;
 ```
-
-### Events
-
-- `TMSPerera\HeadlessChat\Events\MessageDeletedEvent`
 
 ## Mark message as read
 
@@ -169,9 +181,9 @@ public function readMessage(Message $message): ReadReceipt;
 
 - `TMSPerera\HeadlessChat\Events\MessageReadEvent`
 
-## Reply to a message
+## Delete a sent message
 
-Headless Chat also supports message replies.
+Delete a message sent by a Participant.
 
 ### Example:
 
@@ -179,22 +191,18 @@ Headless Chat also supports message replies.
 $sender = User::query()->find(1);
 $message = $sender->conversations->messages->first();
 
-$sender->replyToMessage(
-    parentMessage: $message,
-    content: 'Reply Message',
-    messageMetadata: [ 'foo' => 'bar' ],
-);
+$sender->deleteSentMessage($message);
 ```
 
 ### Signature:
 
 ```php
-public function replyToMessage(
-   Message $parentMessage, // The parent message the reply should relate to
-   string $message, // Message content
-   array $messageMetadata = [], // Metadata to be stored in messages table
-): Message;
+public function deleteSentMessage(Message $message): void;
 ```
+
+### Events
+
+- `TMSPerera\HeadlessChat\Events\MessageDeletedEvent`
 
 ## Get conversations
 

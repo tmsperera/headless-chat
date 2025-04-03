@@ -5,6 +5,7 @@ namespace Tests\Feature\Chatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Events\MessageSentEvent;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use Workbench\App\Models\User;
@@ -29,11 +30,15 @@ class ReplyToMessageTest extends BaseChatableTestCase
         $conversation = ConversationFactory::new()->directMessage()->createOne();
         $participation = $this->joinConversation(conversation: $conversation, participant: $user);
         $parentMessage = $this->sendMessage(conversation: $conversation, senderParticipation: $participation);
+        $messageDto = new MessageDto(
+            type: 'text',
+            content: 'Hello World!',
+            metadata: ['foo' => 'bar'],
+        );
 
         $messageReply = $user->replyToMessage(
             parentMessage: $parentMessage,
-            content: $content = 'Hello World!',
-            messageMetadata: $metadata = ['foo' => 'bar'],
+            messageDto: $messageDto,
         );
 
         $this->assertTrue($messageReply->parentMessage->is($parentMessage));
@@ -43,8 +48,9 @@ class ReplyToMessageTest extends BaseChatableTestCase
             'parent_id' => $parentMessage->getKey(),
             'conversation_id' => $conversation->getKey(),
             'participation_id' => $participation->getKey(),
-            'content' => $content,
-            'metadata' => $this->castAsJson($metadata),
+            'type' => $messageDto->type,
+            'content' => $messageDto->content,
+            'metadata' => $this->castAsJson($messageDto->metadata),
         ]);
         Event::assertDispatched(MessageSentEvent::class, function (MessageSentEvent $event) use ($messageReply, $participation, $parentMessage) {
             return $event->message->is($messageReply)
@@ -63,11 +69,15 @@ class ReplyToMessageTest extends BaseChatableTestCase
         $participation1 = $this->joinConversation(conversation: $conversation, participant: $sender);
         $participation2 = $this->joinConversation(conversation: $conversation, participant: $participant);
         $parentMessage = $this->sendMessage(conversation: $conversation, senderParticipation: $participation1);
+        $messageDto = new MessageDto(
+            type: 'text',
+            content: 'Hello World!',
+            metadata: ['foo' => 'bar'],
+        );
 
         $messageReply = $participant->replyToMessage(
             parentMessage: $parentMessage,
-            content: $content = 'Hello World!',
-            messageMetadata: $metadata = ['foo' => 'bar'],
+            messageDto: $messageDto,
         );
 
         $this->assertDatabaseCount('messages', 2);
@@ -75,8 +85,9 @@ class ReplyToMessageTest extends BaseChatableTestCase
             'parent_id' => $parentMessage->getKey(),
             'conversation_id' => $conversation->getKey(),
             'participation_id' => $participation2->getKey(),
-            'content' => $content,
-            'metadata' => $this->castAsJson($metadata),
+            'type' => $messageDto->type,
+            'content' => $messageDto->content,
+            'metadata' => $this->castAsJson($messageDto->metadata),
         ]);
         Event::assertDispatched(MessageSentEvent::class, function (MessageSentEvent $event) use ($messageReply, $participation2, $parentMessage) {
             return $event->message->is($messageReply)
@@ -94,11 +105,16 @@ class ReplyToMessageTest extends BaseChatableTestCase
         $conversation = ConversationFactory::new()->directMessage()->createOne();
         $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
         $parentMessage = $this->sendMessage(conversation: $conversation, senderParticipation: $senderParticipation);
+        $messageDto = new MessageDto(
+            type: 'text',
+            content: 'Hello World!',
+            metadata: ['foo' => 'bar'],
+        );
 
         $this->expectException(InvalidParticipationException::class);
         $user->replyToMessage(
             parentMessage: $parentMessage,
-            content: 'Hello World!',
+            messageDto: $messageDto
         );
 
         $this->assertDatabaseCount('messages', 1);

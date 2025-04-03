@@ -1,6 +1,6 @@
 {
     "name": "tmsperera/headless-chat",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "type": "library",
     "license": "MIT",
     "description": "Integrate chat for Laravel applications.",

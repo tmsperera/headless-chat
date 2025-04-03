@@ -11,6 +11,7 @@ use Illuminate\Database\Query\JoinClause;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
@@ -125,14 +126,26 @@ trait Chatable
      */
     public function sendDirectMessage(
         Participant $recipient,
-        string $message,
-        array $messageMetadata = [],
+        MessageDto $messageDto,
     ): Message {
         return HeadlessChat::sendDirectMessage(
             sender: $this,
             recipient: $recipient,
-            content: $message,
-            messageMetadata: $messageMetadata,
+            messageDto: $messageDto,
+        );
+    }
+
+    /**
+     * @throws InvalidParticipationException
+     */
+    public function replyToMessage(
+        Message $parentMessage,
+        MessageDto $messageDto,
+    ): Message {
+        return HeadlessChat::replyToMessage(
+            parentMessage: $parentMessage,
+            sender: $this,
+            messageDto: $messageDto,
         );
     }
 
@@ -164,22 +177,6 @@ trait Chatable
             participant: $this,
             conversation: $conversation,
             participationMetadata: $participationMetadata,
-        );
-    }
-
-    /**
-     * @throws InvalidParticipationException
-     */
-    public function replyToMessage(
-        Message $parentMessage,
-        string $content,
-        array $messageMetadata = [],
-    ): Message {
-        return HeadlessChat::replyToMessage(
-            parentMessage: $parentMessage,
-            sender: $this,
-            content: $content,
-            messageMetadata: $messageMetadata,
         );
     }
 }

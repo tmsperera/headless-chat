@@ -4,6 +4,7 @@ namespace TMSPerera\HeadlessChat\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
@@ -22,9 +23,13 @@ interface Participant extends EloquentModel
     public function getParticipationIn(Conversation $conversation): ?Participation;
 
     public function sendDirectMessage(
-        Participant $recipient, // Recipient
-        string $message, // Message content
-        array $messageMetadata = [], // Metadata to be stored in messages table
+        Participant $recipient,
+        MessageDto $messageDto,
+    ): Message;
+
+    public function replyToMessage(
+        Message $parentMessage,
+        MessageDto $messageDto,
     ): Message;
 
     public function readMessage(Message $message): ReadReceipt;
@@ -35,10 +40,4 @@ interface Participant extends EloquentModel
         Conversation $conversation,
         array $participationMetadata = [],
     ): Participation;
-
-    public function replyToMessage(
-        Message $parentMessage, // The parent message the reply should relate to
-        string $message, // Message content
-        array $messageMetadata = [], // Metadata to be stored in messages table
-    ): Message;
 }

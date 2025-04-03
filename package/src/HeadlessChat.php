@@ -11,6 +11,7 @@ use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
 use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
 use TMSPerera\HeadlessChat\Actions\SendMessageAction;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
@@ -43,14 +44,33 @@ class HeadlessChat
     }
 
     /**
+     * @throws InvalidParticipationException
+     */
+    public static function sendMessage(
+        Conversation $conversation,
+        Participant $sender,
+        MessageDto $messageDto,
+        ?Message $parentMessage = null,
+    ): Message {
+        /** @var SendMessageAction $action */
+        $action = App::make(SendMessageAction::class);
+
+        return $action(
+            conversation: $conversation,
+            sender: $sender,
+            messageDto: $messageDto,
+            parentMessage: $parentMessage,
+        );
+    }
+
+    /**
      * @throws ParticipationLimitExceededException
      * @throws InvalidParticipationException
      */
     public static function sendDirectMessage(
         Participant $sender,
         Participant $recipient,
-        string $content,
-        array $messageMetadata = [],
+        MessageDto $messageDto,
     ): Message {
         /** @var SendDirectMessageAction $action */
         $action = App::make(SendDirectMessageAction::class);
@@ -58,8 +78,26 @@ class HeadlessChat
         return $action(
             sender: $sender,
             recipient: $recipient,
-            content: $content,
-            messageMetadata: $messageMetadata,
+            messageDto: $messageDto,
+        );
+    }
+
+    /**
+     * @throws InvalidParticipationException
+     */
+    public static function replyToMessage(
+        Message $parentMessage,
+        Participant $sender,
+        MessageDto $messageDto,
+    ): Message {
+        /** @var SendMessageAction $action */
+        $action = App::make(SendMessageAction::class);
+
+        return $action(
+            conversation: $parentMessage->conversation,
+            sender: $sender,
+            messageDto: $messageDto,
+            parentMessage: $parentMessage,
         );
     }
 
@@ -118,48 +156,5 @@ class HeadlessChat
         $action = App::make(DeleteSentMessageAction::class);
 
         $action(message: $message, participant: $participant);
-    }
-
-    /**
-     * @throws InvalidParticipationException
-     */
-    public static function sendMessage(
-        Conversation $conversation,
-        Participant $sender,
-        string $content,
-        array $messageMetadata = [],
-        ?Message $parentMessage = null,
-    ): Message {
-        /** @var SendMessageAction $action */
-        $action = App::make(SendMessageAction::class);
-
-        return $action(
-            conversation: $conversation,
-            sender: $sender,
-            content: $content,
-            messageMetadata: $messageMetadata,
-            parentMessage: $parentMessage,
-        );
-    }
-
-    /**
-     * @throws InvalidParticipationException
-     */
-    public static function replyToMessage(
-        Message $parentMessage,
-        Participant $sender,
-        string $content,
-        array $messageMetadata = [],
-    ): Message {
-        /** @var SendMessageAction $action */
-        $action = App::make(SendMessageAction::class);
-
-        return $action(
-            conversation: $parentMessage->conversation,
-            sender: $sender,
-            content: $content,
-            messageMetadata: $messageMetadata,
-            parentMessage: $parentMessage,
-        );
     }
 }
