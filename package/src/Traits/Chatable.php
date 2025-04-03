@@ -173,7 +173,7 @@ trait Chatable
      */
     public function deleteSentMessage(Message $message): void
     {
-        HeadlessChat::deleteSentMessage(message: $message, participant: $this);
+        HeadlessChat::deleteSentMessage(message: $message, deleter: $this);
     }
 
     /**
