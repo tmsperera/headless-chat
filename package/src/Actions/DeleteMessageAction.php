@@ -12,11 +12,13 @@ class DeleteMessageAction
     /**
      * @throws InvalidParticipationException
      */
-    public function __invoke(Message $message, Participation $participation): void
-    {
+    public function __invoke(
+        Message $message,
+        Participation $deleterParticipation,
+    ): void {
         $message->loadMissing(['conversation.participations']);
 
-        $conversationParticipation = $message->conversation->participations->find($participation);
+        $conversationParticipation = $message->conversation->participations->find($deleterParticipation);
 
         if (! $conversationParticipation) {
             throw new InvalidParticipationException;
@@ -24,6 +26,6 @@ class DeleteMessageAction
 
         $message->delete();
 
-        MessageDeletedEvent::dispatch($message, $participation);
+        MessageDeletedEvent::dispatch($message, $deleterParticipation);
     }
 }

@@ -28,6 +28,6 @@ class DeleteSentMessageAction
             throw new MessageOwnershipException;
         }
 
-        HeadlessChat::deleteMessage(message: $message, participation: $participation);
+        HeadlessChat::deleteMessage(message: $message, deleterParticipation: $participation);
     }
 }

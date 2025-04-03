@@ -148,12 +148,12 @@ class HeadlessChat
 
     public static function deleteMessage(
         Message $message,
-        Participation $participation,
+        Participation $deleterParticipation,
     ): void {
         /** @var DeleteMessageAction $action */
         $action = App::make(DeleteMessageAction::class);
 
-        $action(message: $message, participation: $participation);
+        $action(message: $message, deleterParticipation: $deleterParticipation);
     }
 
     /**
