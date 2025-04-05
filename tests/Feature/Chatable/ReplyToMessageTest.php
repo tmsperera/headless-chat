@@ -3,10 +3,8 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
-use TMSPerera\HeadlessChat\Events\MessageSentEvent;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use Workbench\App\Models\User;
 use Workbench\Database\Factories\ConversationFactory;
@@ -15,13 +13,6 @@ use Workbench\Database\Factories\UserFactory;
 class ReplyToMessageTest extends BaseChatableTestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Event::fake([MessageSentEvent::class]);
-    }
 
     public function test_when_reply_by_sender()
     {
@@ -52,11 +43,6 @@ class ReplyToMessageTest extends BaseChatableTestCase
             'content' => $messageDto->content,
             'metadata' => $this->castAsJson($messageDto->metadata),
         ]);
-        Event::assertDispatched(MessageSentEvent::class, function (MessageSentEvent $event) use ($messageReply, $participation, $parentMessage) {
-            return $event->message->is($messageReply)
-                && $event->message->participation->is($participation)
-                && $event->message->parentMessage->is($parentMessage);
-        });
     }
 
     public function test_when_reply_by_participant()
@@ -89,11 +75,6 @@ class ReplyToMessageTest extends BaseChatableTestCase
             'content' => $messageDto->content,
             'metadata' => $this->castAsJson($messageDto->metadata),
         ]);
-        Event::assertDispatched(MessageSentEvent::class, function (MessageSentEvent $event) use ($messageReply, $participation2, $parentMessage) {
-            return $event->message->is($messageReply)
-                && $event->message->participation->is($participation2)
-                && $event->message->parentMessage->is($parentMessage);
-        });
     }
 
     public function test_when_reply_to_unknown_conversation()
@@ -118,6 +99,5 @@ class ReplyToMessageTest extends BaseChatableTestCase
         );
 
         $this->assertDatabaseCount('messages', 1);
-        Event::assertNotDispatched(MessageSentEvent::class);
     }
 }

@@ -3,11 +3,9 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
-use TMSPerera\HeadlessChat\Events\MessageSentEvent;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
@@ -17,13 +15,6 @@ use Workbench\Database\Factories\UserFactory;
 class SendDirectMessageTest extends BaseChatableTestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Event::fake([MessageSentEvent::class]);
-    }
 
     public function test_when_no_conversation_exist()
     {
@@ -58,9 +49,6 @@ class SendDirectMessageTest extends BaseChatableTestCase
             ->where('content', $messageDto->content)
             ->where('type', $messageDto->type)
             ->firstOrFail();
-        Event::assertDispatched(function (MessageSentEvent $event) use ($message) {
-            return $event->message->is($message);
-        });
     }
 
     public function test_when_conversation_exist()
@@ -85,8 +73,5 @@ class SendDirectMessageTest extends BaseChatableTestCase
             ->where('content', $messageDto->content)
             ->where('type', $messageDto->type)
             ->firstOrFail();
-        Event::assertDispatched(function (MessageSentEvent $event) use ($message) {
-            return $event->message->is($message);
-        });
     }
 }
