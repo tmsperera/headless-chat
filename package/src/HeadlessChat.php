@@ -115,6 +115,9 @@ class HeadlessChat
         );
     }
 
+    /**
+     * @throws InvalidParticipationException
+     */
     public static function deleteMessage(
         Message $message,
         Participation $deleterParticipation,
