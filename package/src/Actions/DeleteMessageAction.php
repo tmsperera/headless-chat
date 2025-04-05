@@ -2,7 +2,6 @@
 
 namespace TMSPerera\HeadlessChat\Actions;
 
-use TMSPerera\HeadlessChat\Events\MessageDeletedEvent;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
@@ -25,7 +24,5 @@ class DeleteMessageAction
         }
 
         $message->delete();
-
-        MessageDeletedEvent::dispatch($message, $deleterParticipation);
     }
 }

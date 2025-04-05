@@ -65,7 +65,7 @@ trait Chatable
     }
 
     /**
-     * To get detailed conversation with more metrics.
+     * To get detailed conversations with more metrics.
      * Results contains aggregated values.
      * Results contains pivot values of participations table.
      */
@@ -121,39 +121,32 @@ trait Chatable
     }
 
     /**
-     * @param  null|callable(Message):void  $afterMessageCreated
-     *
      * @throws InvalidParticipationException
      * @throws ParticipationLimitExceededException
      */
     public function sendDirectMessage(
         Participant $recipient,
         MessageDto $messageDto,
-        ?callable $afterMessageCreated = null,
     ): Message {
-        return HeadlessChat::sendDirectMessage(
+        return HeadlessChat::storeDirectMessage(
             sender: $this,
             recipient: $recipient,
             messageDto: $messageDto,
-            afterMessageCreated: $afterMessageCreated,
         );
     }
 
     /**
-     * @param  null|callable(Message):void  $afterMessageCreated
-     *
      * @throws InvalidParticipationException
      */
     public function replyToMessage(
         Message $parentMessage,
         MessageDto $messageDto,
-        ?callable $afterMessageCreated = null,
     ): Message {
-        return HeadlessChat::replyToMessage(
-            parentMessage: $parentMessage,
+        return HeadlessChat::storeMessage(
+            conversation: $parentMessage->conversation,
             sender: $this,
             messageDto: $messageDto,
-            afterMessageCreated: $afterMessageCreated,
+            parentMessage: $parentMessage,
         );
     }
 

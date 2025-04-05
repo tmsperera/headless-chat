@@ -3,8 +3,6 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
-use TMSPerera\HeadlessChat\Events\MessageDeletedEvent;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
 use Workbench\Database\Factories\ConversationFactory;
@@ -13,13 +11,6 @@ use Workbench\Database\Factories\UserFactory;
 class DeleteSentMessageTest extends BaseChatableTestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Event::fake([MessageDeletedEvent::class]);
-    }
 
     public function test_when_delete_by_unrelated_participant()
     {
@@ -33,7 +24,6 @@ class DeleteSentMessageTest extends BaseChatableTestCase
         $user->deleteSentMessage($message);
 
         $this->assertNotSoftDeleted($message);
-        Event::assertNotDispatched(MessageDeletedEvent::class);
     }
 
     public function test_when_delete_by_other_participant()
@@ -49,7 +39,6 @@ class DeleteSentMessageTest extends BaseChatableTestCase
         $recipient->deleteSentMessage($message);
 
         $this->assertNotSoftDeleted($message);
-        Event::assertNotDispatched(MessageDeletedEvent::class);
     }
 
     public function test_when_deleted_by_sender()
@@ -64,9 +53,5 @@ class DeleteSentMessageTest extends BaseChatableTestCase
         $sender->deleteSentMessage($message);
 
         $this->assertSoftDeleted($message);
-        Event::assertDispatched(MessageDeletedEvent::class, function (MessageDeletedEvent $event) use ($message, $senderParticipation) {
-            return $event->message->is($message)
-                && $event->participation->is($senderParticipation);
-        });
     }
 }
