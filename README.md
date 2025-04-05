@@ -4,7 +4,6 @@ A flexible, customizable and headless package designed to integrate chat functio
 
 # Why Headless Chat?
 
- - Emits Events
  - Models and database tables can be overridden 
  - Uses Actions resolved from Service Container
 
@@ -83,13 +82,12 @@ A flexible, customizable and headless package designed to integrate chat functio
 
 Having [Chatable](/package/src/Traits/Chatable.php) trait inside the User model gives you important abilities. And also this package provides standalone [Actions](package/src/Actions) to use anywhere your application needs.
 
-🏗️ Feel free to refer the following until the documentation gets completed
+🏗️ Feel free to refer the following component to have a better understanding
 
 - [Participant](/package/src/Contracts/Participant.php) Contract
 - [Chatable](/package/src/Traits/Chatable.php) Trait
 - [HeadlessChat](/package/src/HeadlessChat.php) Class
 - [Actions/](package/src/Actions) Directory
-- [Events/](package/src/Events) Directory
 
 ## Send a direct message
 
@@ -121,10 +119,6 @@ public function sendDirectMessage(
     MessageDto $messageDto,
 ): Message;
 ```
-
-### Events
-
-- `TMSPerera\HeadlessChat\Events\MessageSentEvent`
 
 ## Reply to a message
 
@@ -177,10 +171,6 @@ $recipient->readMessage($message);
 public function readMessage(Message $message): ReadReceipt;
 ```
 
-### Events
-
-- `TMSPerera\HeadlessChat\Events\MessageReadEvent`
-
 ## Delete a sent message
 
 Delete a message sent by a Participant.
@@ -199,10 +189,6 @@ $sender->deleteSentMessage($message);
 ```php
 public function deleteSentMessage(Message $message): void;
 ```
-
-### Events
-
-- `TMSPerera\HeadlessChat\Events\MessageDeletedEvent`
 
 ## Get conversations
 
