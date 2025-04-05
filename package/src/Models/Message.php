@@ -110,7 +110,7 @@ class Message extends Model
         MessageDto $messageDto,
         ?callable $afterMessageCreated = null,
     ): Message {
-        return HeadlessChat::replyToMessage(
+        return HeadlessChat::storeReplyMessage(
             parentMessage: $this,
             sender: $sender,
             messageDto: $messageDto,

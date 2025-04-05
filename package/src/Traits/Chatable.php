@@ -128,7 +128,7 @@ trait Chatable
         Participant $recipient,
         MessageDto $messageDto,
     ): Message {
-        return HeadlessChat::sendDirectMessage(
+        return HeadlessChat::storeDirectMessage(
             sender: $this,
             recipient: $recipient,
             messageDto: $messageDto,
@@ -142,10 +142,11 @@ trait Chatable
         Message $parentMessage,
         MessageDto $messageDto,
     ): Message {
-        return HeadlessChat::replyToMessage(
-            parentMessage: $parentMessage,
+        return HeadlessChat::storeMessage(
+            conversation: $parentMessage->conversation,
             sender: $this,
             messageDto: $messageDto,
+            parentMessage: $parentMessage,
         );
     }
 

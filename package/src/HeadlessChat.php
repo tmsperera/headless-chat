@@ -8,8 +8,8 @@ use TMSPerera\HeadlessChat\Actions\DeleteMessageAction;
 use TMSPerera\HeadlessChat\Actions\DeleteSentMessageAction;
 use TMSPerera\HeadlessChat\Actions\JoinConversationAction;
 use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
-use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
-use TMSPerera\HeadlessChat\Actions\SendMessageAction;
+use TMSPerera\HeadlessChat\Actions\StoreDirectMessageAction;
+use TMSPerera\HeadlessChat\Actions\StoreMessageAction;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
@@ -46,14 +46,14 @@ class HeadlessChat
     /**
      * @throws InvalidParticipationException
      */
-    public static function sendMessage(
+    public static function storeMessage(
         Conversation $conversation,
         Participant $sender,
         MessageDto $messageDto,
         ?Message $parentMessage = null,
     ): Message {
-        /** @var SendMessageAction $action */
-        $action = App::make(SendMessageAction::class);
+        /** @var StoreMessageAction $action */
+        $action = App::make(StoreMessageAction::class);
 
         return $action(
             conversation: $conversation,
@@ -67,37 +67,18 @@ class HeadlessChat
      * @throws InvalidParticipationException
      * @throws ParticipationLimitExceededException
      */
-    public static function sendDirectMessage(
+    public static function storeDirectMessage(
         Participant $sender,
         Participant $recipient,
         MessageDto $messageDto,
     ): Message {
-        /** @var SendDirectMessageAction $action */
-        $action = App::make(SendDirectMessageAction::class);
+        /** @var StoreDirectMessageAction $action */
+        $action = App::make(StoreDirectMessageAction::class);
 
         return $action(
             sender: $sender,
             recipient: $recipient,
             messageDto: $messageDto,
-        );
-    }
-
-    /**
-     * @throws InvalidParticipationException
-     */
-    public static function replyToMessage(
-        Message $parentMessage,
-        Participant $sender,
-        MessageDto $messageDto,
-    ): Message {
-        /** @var SendMessageAction $action */
-        $action = App::make(SendMessageAction::class);
-
-        return $action(
-            conversation: $parentMessage->conversation,
-            sender: $sender,
-            messageDto: $messageDto,
-            parentMessage: $parentMessage,
         );
     }
 

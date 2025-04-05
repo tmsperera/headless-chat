@@ -352,13 +352,13 @@ namespace App\Providers;
 
 use App\Actions\CustomSendDirectMessageAction;
 use Illuminate\Support\ServiceProvider;
-use TMSPerera\HeadlessChat\Actions\SendDirectMessageAction;
+use TMSPerera\HeadlessChat\Actions\StoreDirectMessageAction;
 
 class AppServiceProvider extends ServiceProvider
 {
       public function register(): void
       {
-          $this->app->bind(SendDirectMessageAction::class, function ($app) {
+          $this->app->bind(StoreDirectMessageAction::class, function ($app) {
               return $app->make(CustomSendDirectMessageAction::class);
           });
       }

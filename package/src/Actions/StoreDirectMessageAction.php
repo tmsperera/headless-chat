@@ -12,7 +12,7 @@ use TMSPerera\HeadlessChat\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 
-class SendDirectMessageAction
+class StoreDirectMessageAction
 {
     /**
      * @throws InvalidParticipationException
@@ -31,7 +31,7 @@ class SendDirectMessageAction
 
         $conversation->load('participations.participant');
 
-        return HeadlessChat::sendMessage(
+        return HeadlessChat::storeMessage(
             conversation: $conversation,
             sender: $sender,
             messageDto: $messageDto,
