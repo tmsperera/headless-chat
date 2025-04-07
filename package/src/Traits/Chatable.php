@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\JoinClause;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
-use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
@@ -17,7 +16,7 @@ use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
-use TMSPerera\HeadlessChat\HeadlessChat;
+use TMSPerera\HeadlessChat\Facades\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
@@ -43,15 +42,15 @@ trait Chatable
     public function participations(): MorphMany
     {
         return $this->morphMany(
-            related: HeadlessChatConfig::participationInstance()::class,
+            related: HeadlessChat::config()->participationModel()::class,
             name: 'participant',
         );
     }
 
     public function conversations(): BelongsToMany
     {
-        $conversation = HeadlessChatConfig::conversationInstance();
-        $participation = HeadlessChatConfig::participationInstance();
+        $conversation = HeadlessChat::config()->conversationModel();
+        $participation = HeadlessChat::config()->participationModel();
 
         return $this
             ->belongsToMany(
@@ -71,10 +70,10 @@ trait Chatable
      */
     public function conversationsWithMetrics(): BelongsToMany
     {
-        $conversation = HeadlessChatConfig::conversationInstance();
-        $participation = HeadlessChatConfig::participationInstance();
-        $message = HeadlessChatConfig::messageInstance();
-        $readReceipt = HeadlessChatConfig::readReceiptInstance();
+        $conversation = HeadlessChat::config()->conversationModel();
+        $participation = HeadlessChat::config()->participationModel();
+        $message = HeadlessChat::config()->messageModel();
+        $readReceipt = HeadlessChat::config()->readReceiptModel();
 
         return $this->conversations()
             ->select($conversation->qualifyColumn('*'))

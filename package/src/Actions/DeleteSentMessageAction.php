@@ -5,7 +5,7 @@ namespace TMSPerera\HeadlessChat\Actions;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
-use TMSPerera\HeadlessChat\HeadlessChat;
+use TMSPerera\HeadlessChat\Facades\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Message;
 
 class DeleteSentMessageAction
@@ -28,6 +28,9 @@ class DeleteSentMessageAction
             throw new MessageOwnershipException;
         }
 
-        HeadlessChat::deleteMessage(message: $message, deleterParticipation: $participation);
+        HeadlessChat::deleteMessage(
+            message: $message,
+            deleterParticipation: $participation,
+        );
     }
 }

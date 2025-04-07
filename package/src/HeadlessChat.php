@@ -2,7 +2,6 @@
 
 namespace TMSPerera\HeadlessChat;
 
-use Illuminate\Support\Facades\App;
 use TMSPerera\HeadlessChat\Actions\CreateConversationAction;
 use TMSPerera\HeadlessChat\Actions\DeleteMessageAction;
 use TMSPerera\HeadlessChat\Actions\DeleteSentMessageAction;
@@ -10,6 +9,7 @@ use TMSPerera\HeadlessChat\Actions\JoinConversationAction;
 use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
 use TMSPerera\HeadlessChat\Actions\StoreDirectMessageAction;
 use TMSPerera\HeadlessChat\Actions\StoreMessageAction;
+use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
@@ -25,18 +25,31 @@ use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
 class HeadlessChat
 {
+    public function __construct(
+        protected HeadlessChatConfig $headlessChatConfig,
+        protected CreateConversationAction $createConversationAction,
+        protected StoreMessageAction $storeMessageAction,
+        protected StoreDirectMessageAction $storeDirectMessageAction,
+        protected ReadMessageAction $readMessageAction,
+        protected JoinConversationAction $joinConversationAction,
+        protected DeleteMessageAction $deleteMessageAction,
+        protected DeleteSentMessageAction $deleteSentMessageAction,
+    ) {}
+
+    public function config(): HeadlessChatConfig
+    {
+        return $this->headlessChatConfig;
+    }
+
     /**
      * @throws ParticipationLimitExceededException
      */
-    public static function createConversation(
+    public function createConversation(
         array $participants,
         ConversationType $conversationType,
         array $conversationMetadata = [],
     ): Conversation {
-        /** @var CreateConversationAction $action */
-        $action = App::make(CreateConversationAction::class);
-
-        return $action(
+        return ($this->createConversationAction)(
             participants: $participants,
             conversationType: $conversationType,
             conversationMetadata: $conversationMetadata,
@@ -46,16 +59,13 @@ class HeadlessChat
     /**
      * @throws InvalidParticipationException
      */
-    public static function storeMessage(
+    public function storeMessage(
         Conversation $conversation,
         Participant $sender,
         MessageDto $messageDto,
         ?Message $parentMessage = null,
     ): Message {
-        /** @var StoreMessageAction $action */
-        $action = App::make(StoreMessageAction::class);
-
-        return $action(
+        return ($this->storeMessageAction)(
             conversation: $conversation,
             sender: $sender,
             messageDto: $messageDto,
@@ -67,15 +77,12 @@ class HeadlessChat
      * @throws InvalidParticipationException
      * @throws ParticipationLimitExceededException
      */
-    public static function storeDirectMessage(
+    public function storeDirectMessage(
         Participant $sender,
         Participant $recipient,
         MessageDto $messageDto,
     ): Message {
-        /** @var StoreDirectMessageAction $action */
-        $action = App::make(StoreDirectMessageAction::class);
-
-        return $action(
+        return ($this->storeDirectMessageAction)(
             sender: $sender,
             recipient: $recipient,
             messageDto: $messageDto,
@@ -87,28 +94,22 @@ class HeadlessChat
      * @throws InvalidParticipationException
      * @throws MessageAlreadyReadException
      */
-    public static function readMessage(
+    public function readMessage(
         Message $message,
         Participant $reader
     ): ReadReceipt {
-        /** @var ReadMessageAction $action */
-        $action = App::make(ReadMessageAction::class);
-
-        return $action(message: $message, reader: $reader);
+        return ($this->readMessageAction)(message: $message, reader: $reader);
     }
 
     /**
      * @throws ParticipationLimitExceededException
      */
-    public static function joinConversation(
+    public function joinConversation(
         Participant $participant,
         Conversation $conversation,
         array $participationMetadata = [],
     ): Participation {
-        /** @var JoinConversationAction $action */
-        $action = App::make(JoinConversationAction::class);
-
-        return $action(
+        return ($this->joinConversationAction)(
             participant: $participant,
             conversation: $conversation,
             participationMetadata: $participationMetadata,
@@ -118,27 +119,21 @@ class HeadlessChat
     /**
      * @throws InvalidParticipationException
      */
-    public static function deleteMessage(
+    public function deleteMessage(
         Message $message,
         Participation $deleterParticipation,
     ): void {
-        /** @var DeleteMessageAction $action */
-        $action = App::make(DeleteMessageAction::class);
-
-        $action(message: $message, deleterParticipation: $deleterParticipation);
+        ($this->deleteMessageAction)(message: $message, deleterParticipation: $deleterParticipation);
     }
 
     /**
      * @throws InvalidParticipationException
      * @throws MessageOwnershipException
      */
-    public static function deleteSentMessage(
+    public function deleteSentMessage(
         Message $message,
         Participant $deleter,
     ): void {
-        /** @var DeleteSentMessageAction $action */
-        $action = App::make(DeleteSentMessageAction::class);
-
-        $action(message: $message, deleter: $deleter);
+        ($this->deleteSentMessageAction)(message: $message, deleter: $deleter);
     }
 }

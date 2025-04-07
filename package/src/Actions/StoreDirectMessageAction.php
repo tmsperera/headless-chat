@@ -2,13 +2,12 @@
 
 namespace TMSPerera\HeadlessChat\Actions;
 
-use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
-use TMSPerera\HeadlessChat\HeadlessChat;
+use TMSPerera\HeadlessChat\Facades\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 
@@ -40,7 +39,7 @@ class StoreDirectMessageAction
 
     protected function getExistingConversation(Participant $sender, Participant $recipient): ?Conversation
     {
-        return HeadlessChatConfig::conversationInstance()->newQuery()
+        return HeadlessChat::config()->conversationModel()->newQuery()
             ->whereDirectMessage()
             ->whereHasParticipant($sender)
             ->whereHasParticipant($recipient)

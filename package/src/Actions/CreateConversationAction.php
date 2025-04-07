@@ -3,10 +3,10 @@
 namespace TMSPerera\HeadlessChat\Actions;
 
 use Illuminate\Support\Facades\DB;
-use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
+use TMSPerera\HeadlessChat\Facades\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
 
 class CreateConversationAction
@@ -23,7 +23,7 @@ class CreateConversationAction
 
         return DB::transaction(function () use ($participants, $conversationType, $conversationMetadata) {
             /** @var Conversation $conversation */
-            $conversation = HeadlessChatConfig::conversationInstance()->newQuery()
+            $conversation = HeadlessChat::config()->conversationModel()->newQuery()
                 ->create([
                     'type' => $conversationType,
                     'metadata' => $conversationMetadata,
