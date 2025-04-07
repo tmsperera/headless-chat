@@ -9,13 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
-use TMSPerera\HeadlessChat\HeadlessChat;
+use TMSPerera\HeadlessChat\Facades\HeadlessChat;
 
 /**
  * @property Conversation $conversation
@@ -51,7 +50,7 @@ class Message extends Model
     public function conversation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::conversationInstance()::class,
+            related: HeadlessChat::config()->conversationModel()::class,
             foreignKey: 'conversation_id',
             ownerKey: $this->getKeyName(),
         );
@@ -63,7 +62,7 @@ class Message extends Model
     public function participation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::participationInstance()::class,
+            related: HeadlessChat::config()->participationModel()::class,
             foreignKey: 'participation_id',
         );
     }
@@ -71,7 +70,7 @@ class Message extends Model
     public function readReceipts(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChatConfig::readReceiptInstance()::class,
+            related: HeadlessChat::config()->readReceiptModel()::class,
             foreignKey: 'message_id',
         );
     }

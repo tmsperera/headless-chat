@@ -11,55 +11,39 @@ use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
 class HeadlessChatConfig
 {
-    public static function conversationInstance(): Conversation
+    public string $conversationModelClass;
+
+    public string $participationModelClass;
+
+    public string $messageModelClass;
+
+    public string $readReceiptModelClass;
+
+    public function __construct()
     {
-        return App::make(static::conversationModelClass());
+        $this->conversationModelClass = Config::get('headless-chat.models.conversation', Conversation::class);
+        $this->participationModelClass = Config::get('headless-chat.models.participation', Participation::class);
+        $this->messageModelClass = Config::get('headless-chat.models.message', Message::class);
+        $this->readReceiptModelClass = Config::get('headless-chat.models.read_receipt', ReadReceipt::class);
     }
 
-    public static function participationInstance(): Participation
+    public function conversationModel(): Conversation
     {
-        return App::make(static::participationModelClass());
+        return App::make($this->conversationModelClass);
     }
 
-    public static function messageInstance(): Message
+    public function participationModel(): Participation
     {
-        return App::make(static::messageModelClass());
+        return App::make($this->participationModelClass);
     }
 
-    public static function readReceiptInstance(): ReadReceipt
+    public function messageModel(): Message
     {
-        return App::make(static::readReceiptModelClass());
+        return App::make($this->messageModelClass);
     }
 
-    /**
-     * @return class-string<Conversation>
-     */
-    protected static function conversationModelClass(): string
+    public function readReceiptModel(): ReadReceipt
     {
-        return Config::get('headless-chat.models.conversation', Conversation::class);
-    }
-
-    /**
-     * @return class-string<Participation>
-     */
-    protected static function participationModelClass(): string
-    {
-        return Config::get('headless-chat.models.participation', Participation::class);
-    }
-
-    /**
-     * @return class-string<Message>
-     */
-    protected static function messageModelClass(): string
-    {
-        return Config::get('headless-chat.models.message', Message::class);
-    }
-
-    /**
-     * @return class-string<ReadReceipt>
-     */
-    protected static function readReceiptModelClass(): string
-    {
-        return Config::get('headless-chat.models.read_receipt', ReadReceipt::class);
+        return App::make($this->readReceiptModelClass);
     }
 }

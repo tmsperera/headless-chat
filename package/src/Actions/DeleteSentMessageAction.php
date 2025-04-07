@@ -10,6 +10,10 @@ use TMSPerera\HeadlessChat\Models\Message;
 
 class DeleteSentMessageAction
 {
+    public function __construct(
+        protected HeadlessChat $headlessChat,
+    ) {}
+
     /**
      * @throws InvalidParticipationException
      * @throws MessageOwnershipException
@@ -28,6 +32,9 @@ class DeleteSentMessageAction
             throw new MessageOwnershipException;
         }
 
-        HeadlessChat::deleteMessage(message: $message, deleterParticipation: $participation);
+        $this->headlessChat->deleteMessage(
+            message: $message,
+            deleterParticipation: $participation,
+        );
     }
 }
