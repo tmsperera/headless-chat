@@ -3,8 +3,6 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
-use TMSPerera\HeadlessChat\Events\MessageReadEvent;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
@@ -16,13 +14,6 @@ use Workbench\Database\Factories\UserFactory;
 class ReadMessageTest extends BaseChatableTestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Event::fake([MessageReadEvent::class]);
-    }
 
     public function test_when_read_by_other_participant()
     {
@@ -40,10 +31,6 @@ class ReadMessageTest extends BaseChatableTestCase
             ->where('participation_id', $recipientParticipation->id)
             ->firstOrFail();
         $this->assertNotNull($messageRead);
-        Event::assertDispatched(MessageReadEvent::class, function (MessageReadEvent $event) use ($message, $recipient) {
-            return $event->message->is($message)
-                && $event->reader->is($recipient);
-        });
     }
 
     public function test_when_read_by_sender()
@@ -57,8 +44,6 @@ class ReadMessageTest extends BaseChatableTestCase
 
         $this->expectException(ReadBySenderException::class);
         $sender->readMessage($message);
-
-        Event::assertNotDispatched(MessageReadEvent::class);
     }
 
     public function test_when_read_by_other_invalid_participant()
@@ -68,8 +53,6 @@ class ReadMessageTest extends BaseChatableTestCase
 
         $this->expectException(InvalidParticipationException::class);
         $user->readMessage($message);
-
-        Event::assertNotDispatched(MessageReadEvent::class);
     }
 
     public function test_when_read_again()
@@ -86,6 +69,5 @@ class ReadMessageTest extends BaseChatableTestCase
         $recipient->readMessage($message);
 
         $this->assertDatabaseCount('read_receipts', 1);
-        Event::assertNotDispatched(MessageReadEvent::class);
     }
 }

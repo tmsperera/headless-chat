@@ -12,11 +12,9 @@ use TMSPerera\HeadlessChat\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 
-class SendDirectMessageAction
+class StoreDirectMessageAction
 {
     /**
-     * @param  null|callable(Message):void  $afterMessageCreated
-     *
      * @throws InvalidParticipationException
      * @throws ParticipationLimitExceededException
      */
@@ -24,7 +22,6 @@ class SendDirectMessageAction
         Participant $sender,
         Participant $recipient,
         MessageDto $messageDto,
-        ?callable $afterMessageCreated = null,
     ): Message {
         $conversation = $this->getExistingConversation(sender: $sender, recipient: $recipient)
             ?: HeadlessChat::createConversation(
@@ -34,11 +31,10 @@ class SendDirectMessageAction
 
         $conversation->load('participations.participant');
 
-        return HeadlessChat::sendMessage(
+        return HeadlessChat::storeMessage(
             conversation: $conversation,
             sender: $sender,
             messageDto: $messageDto,
-            afterMessageCreated: $afterMessageCreated,
         );
     }
 

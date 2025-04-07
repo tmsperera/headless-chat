@@ -3,7 +3,6 @@
 namespace TMSPerera\HeadlessChat\Actions;
 
 use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\Events\MessageReadEvent;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
@@ -35,8 +34,6 @@ class ReadMessageAction
         $readReceipt = $message->readReceipts()->create([
             'participation_id' => $participation->getKey(),
         ]);
-
-        MessageReadEvent::dispatch($message, $reader);
 
         return $readReceipt;
     }
