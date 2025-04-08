@@ -11,8 +11,8 @@ use TMSPerera\HeadlessChat\Actions\JoinConversationAction;
 use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
-use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
@@ -46,13 +46,11 @@ class HeadlessChat
      */
     public function createConversation(
         array $participants,
-        ConversationType $conversationType,
-        array $conversationMetadata = [],
+        ConversationDto $conversationDto,
     ): Conversation {
         return ($this->createConversationAction)(
             participants: $participants,
-            conversationType: $conversationType,
-            conversationMetadata: $conversationMetadata,
+            conversationDto: $conversationDto,
         );
     }
 

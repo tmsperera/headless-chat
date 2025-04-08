@@ -3,6 +3,7 @@
 namespace TMSPerera\HeadlessChat\Actions;
 
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
@@ -25,7 +26,7 @@ class CreateDirectMessageAction
         $conversation = $this->getExistingConversation(sender: $sender, recipient: $recipient)
             ?: HeadlessChat::createConversation(
                 participants: [$sender, $recipient],
-                conversationType: ConversationType::DIRECT_MESSAGE,
+                conversationDto: new ConversationDto(conversationType: ConversationType::DIRECT_MESSAGE),
             );
 
         $conversation->load('participations.participant');

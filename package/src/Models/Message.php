@@ -83,7 +83,7 @@ class Message extends Model
         );
     }
 
-    public function replyMessages(): HasMany
+    public function messages(): HasMany
     {
         return $this->hasMany(
             related: static::class,

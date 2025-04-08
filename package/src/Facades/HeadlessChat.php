@@ -5,8 +5,8 @@ namespace TMSPerera\HeadlessChat\Facades;
 use Illuminate\Support\Facades\Facade;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
-use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
@@ -14,7 +14,7 @@ use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
 /**
  * @method static HeadlessChatConfig config()
- * @method static Conversation createConversation(array $participants, ConversationType $conversationType, array $conversationMetadata = [])
+ * @method static Conversation createConversation(array $participants, ConversationDto $conversationDto)
  * @method static Message createMessage(Conversation $conversation, Participant $sender, MessageDto $messageDto, ?Message $parentMessage = null)
  * @method static Message createDirectMessage(Participant $sender, Participant $recipient, MessageDto $messageDto)
  * @method static ReadReceipt readMessage(Message $message, Participant $reader)

@@ -4,6 +4,7 @@ namespace TMSPerera\HeadlessChat\Actions;
 
 use Illuminate\Support\Facades\DB;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\Facades\HeadlessChat;
@@ -16,17 +17,18 @@ class CreateConversationAction
      */
     public function __invoke(
         array $participants,
-        ConversationType $conversationType,
-        array $conversationMetadata = [],
+        ConversationDto $conversationDto,
     ): Conversation {
-        $this->validate(participants: $participants, conversationType: $conversationType);
+        $this->validate(participants: $participants, conversationDto: $conversationDto);
 
-        return DB::transaction(function () use ($participants, $conversationType, $conversationMetadata) {
+        return DB::transaction(function () use ($participants, $conversationDto) {
             /** @var Conversation $conversation */
             $conversation = HeadlessChat::config()->conversationModel()->newQuery()
                 ->create([
-                    'type' => $conversationType,
-                    'metadata' => $conversationMetadata,
+                    'type' => $conversationDto->conversationType,
+                    'metadata' => $conversationDto->metadata,
+                    'parent_id' => $conversationDto->parentConversation?->getKey(),
+                    'message_id' => $conversationDto->message?->getKey(),
                 ]);
 
             $participations = array_map(function (Participant $participant) {
@@ -45,10 +47,10 @@ class CreateConversationAction
     /**
      * @throws ParticipationLimitExceededException
      */
-    protected function validate(array $participants, ConversationType $conversationType): void
+    protected function validate(array $participants, ConversationDto $conversationDto): void
     {
         if (
-            $conversationType === ConversationType::DIRECT_MESSAGE
+            $conversationDto->conversationType === ConversationType::DIRECT_MESSAGE
             && count($participants) > 2
         ) {
             throw new ParticipationLimitExceededException;

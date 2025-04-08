@@ -33,7 +33,7 @@ class ReplyToMessageTest extends BaseChatableTestCase
         );
 
         $this->assertTrue($messageReply->parentMessage->is($parentMessage));
-        $this->assertTrue($messageReply->is($parentMessage->replyMessages->first()));
+        $this->assertTrue($messageReply->is($parentMessage->messages->first()));
         $this->assertDatabaseCount('messages', 2);
         $this->assertDatabaseHas('messages', [
             'parent_id' => $parentMessage->getKey(),
