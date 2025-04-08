@@ -4,7 +4,7 @@ namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\DataTransferObjects\MessageContentDto;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
@@ -12,7 +12,7 @@ use TMSPerera\HeadlessChat\Models\Participation;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class SendDirectMessageTest extends BaseChatableTestCase
+class CreateDirectMessageTest extends BaseChatableTestCase
 {
     use RefreshDatabase;
 
@@ -21,12 +21,15 @@ class SendDirectMessageTest extends BaseChatableTestCase
         /** @var Participant $sender */
         $sender = UserFactory::new()->create();
         $recipient = UserFactory::new()->create();
-        $messageContentDto = new MessageContentDto(
+        $messageDto = new MessageDto(
             type: 'text',
             content: 'Hello World!',
         );
 
-        $sender->createDirectMessage(recipient: $recipient, messageContentDto: $messageContentDto);
+        $sender->createDirectMessage(
+            recipient: $recipient,
+            messageDto: $messageDto,
+        );
 
         $this->assertDatabaseCount('conversations', 1);
         $conversation = Conversation::query()
@@ -46,8 +49,8 @@ class SendDirectMessageTest extends BaseChatableTestCase
         $message = Message::query()
             ->where('conversation_id', $conversation->id)
             ->where('participation_id', $senderParticipation->id)
-            ->where('content', $messageContentDto->content)
-            ->where('type', $messageContentDto->type)
+            ->where('content', $messageDto->content)
+            ->where('type', $messageDto->type)
             ->firstOrFail();
     }
 
@@ -59,20 +62,23 @@ class SendDirectMessageTest extends BaseChatableTestCase
         $conversation = ConversationFactory::new()->directMessage()->create();
         $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
         $this->joinConversation(conversation: $conversation, participant: $recipient);
-        $messageContentDto = new MessageContentDto(
+        $messageDto = new MessageDto(
             type: 'text',
             content: 'Hello World!',
         );
 
-        $sender->createDirectMessage(recipient: $recipient, messageContentDto: $messageContentDto);
+        $sender->createDirectMessage(
+            recipient: $recipient,
+            messageDto: $messageDto,
+        );
 
         $this->assertDatabaseCount('conversations', 1);
         $this->assertDatabaseCount('participations', 2);
         $message = Message::query()
             ->where('conversation_id', $conversation->id)
             ->where('participation_id', $senderParticipation->id)
-            ->where('content', $messageContentDto->content)
-            ->where('type', $messageContentDto->type)
+            ->where('content', $messageDto->content)
+            ->where('type', $messageDto->type)
             ->firstOrFail();
     }
 }

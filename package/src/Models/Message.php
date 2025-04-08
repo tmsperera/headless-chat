@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDtoOld;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
@@ -106,7 +106,7 @@ class Message extends Model
      */
     public function reply(
         Participant $sender,
-        MessageDto $messageDto,
+        MessageDtoOld $messageDto,
         ?callable $afterMessageCreated = null,
     ): Message {
         return HeadlessChat::storeReplyMessage(

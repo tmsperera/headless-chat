@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\JoinClause;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\DataTransferObjects\MessageContentDto;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
@@ -127,12 +127,12 @@ trait Chatable
      */
     public function createDirectMessage(
         Participant $recipient,
-        MessageContentDto $messageContentDto,
+        MessageDto $messageDto,
     ): Message {
         return HeadlessChatActions::make()->createDirectMessageAction->handle(
             sender: $this,
             recipient: $recipient,
-            messageContentDto: $messageContentDto,
+            messageDto: $messageDto,
         );
     }
 
@@ -141,12 +141,12 @@ trait Chatable
      */
     public function createReplyMessage(
         Message $parentMessage,
-        MessageContentDto $messageContentDto,
+        MessageDto $messageDto,
     ): Message {
         return HeadlessChatActions::make()->createMessageAction->handle(
             conversation: $parentMessage->conversation,
             sender: $this,
-            messageContentDto: $messageContentDto,
+            messageDto: $messageDto,
             parentMessage: $parentMessage,
         );
     }

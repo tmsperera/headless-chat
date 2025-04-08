@@ -18,11 +18,11 @@ readonly class HeadlessChatActions
         public CreateConversationAction $createConversationAction,
         public CreateMessageAction $createMessageAction,
         public CreateDirectMessageAction $createDirectMessageAction,
+        public StoreMessageAction $storeMessageAction,
         public ReadMessageAction $readMessageAction,
         public JoinConversationAction $joinConversationAction,
         public DeleteMessageAction $deleteMessageAction,
         public DeleteSentMessageAction $deleteSentMessageAction,
-        public StoreMessageAction $storeMessageAction,
     ) {}
 
     public static function make(): static

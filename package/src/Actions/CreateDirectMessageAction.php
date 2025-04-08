@@ -4,7 +4,6 @@ namespace TMSPerera\HeadlessChat\Actions;
 
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
-use TMSPerera\HeadlessChat\DataTransferObjects\MessageContentDto;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
@@ -26,7 +25,7 @@ class CreateDirectMessageAction
     public function handle(
         Participant $sender,
         Participant $recipient,
-        MessageContentDto $messageContentDto,
+        MessageDto $messageDto,
     ): Message {
         $conversation = $this->getExistingConversation(
             sender: $sender,
@@ -39,16 +38,10 @@ class CreateDirectMessageAction
         $conversation->load('participations.participant');
         $senderParticipation = $conversation->getParticipationOf($sender);
 
-        $messageDto = new MessageDto(
-            messageContentDto: new MessageContentDto(
-                type: $messageContentDto->type,
-                content: $messageContentDto->content,
-                metadata: $messageContentDto->metadata,
-            ),
+        return $this->storeMessageAction->handle(
+            messageDto: $messageDto,
             senderParticipation: $senderParticipation,
         );
-
-        return $this->storeMessageAction->handle($messageDto);
     }
 
     protected function getExistingConversation(Participant $sender, Participant $recipient): ?Conversation

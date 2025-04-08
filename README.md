@@ -93,7 +93,7 @@ Having [Chatable](/package/src/Traits/Chatable.php) trait inside the User model 
 
 Sends a message using the chat package.
 
-### Example: 
+### Example:
 
 ```php
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
