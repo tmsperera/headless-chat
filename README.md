@@ -101,7 +101,7 @@ use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 $sender = User::query()->find(1);
 $recipient = User::query()->find(2);
 
-$message = $sender->sendDirectMessage(
+$message = $sender->createDirectMessage(
     recipient: $recipient, 
     messageDto: new MessageDto(
         type: 'text',
@@ -114,7 +114,7 @@ $message = $sender->sendDirectMessage(
 ### Signature:
 
 ```php
-public function sendDirectMessage(
+public function createDirectMessage(
     Participant $recipient,
     MessageDto $messageDto,
 ): Message;
@@ -132,7 +132,7 @@ use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 $sender = User::query()->find(1);
 $message = $sender->conversations->messages->first();
 
-$sender->replyToMessage(
+$sender->createReplyMessage(
     parentMessage: $message,
     messageDto: new MessageDto(
         type: 'text',
@@ -145,7 +145,7 @@ $sender->replyToMessage(
 ### Signature:
 
 ```php
-public function replyToMessage(
+public function createReplyMessage(
     Message $parentMessage,
     MessageDto $messageDto,
 ): Message;
@@ -338,13 +338,13 @@ namespace App\Providers;
 
 use App\Actions\CustomSendDirectMessageAction;
 use Illuminate\Support\ServiceProvider;
-use TMSPerera\HeadlessChat\Actions\StoreDirectMessageAction;
+use TMSPerera\HeadlessChat\Actions\CreateDirectMessageAction;
 
 class AppServiceProvider extends ServiceProvider
 {
       public function register(): void
       {
-          $this->app->bind(StoreDirectMessageAction::class, function ($app) {
+          $this->app->bind(CreateDirectMessageAction::class, function ($app) {
               return $app->make(CustomSendDirectMessageAction::class);
           });
       }

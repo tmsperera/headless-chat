@@ -3,12 +3,12 @@
 namespace TMSPerera\HeadlessChat;
 
 use TMSPerera\HeadlessChat\Actions\CreateConversationAction;
+use TMSPerera\HeadlessChat\Actions\CreateDirectMessageAction;
+use TMSPerera\HeadlessChat\Actions\CreateMessageAction;
 use TMSPerera\HeadlessChat\Actions\DeleteMessageAction;
 use TMSPerera\HeadlessChat\Actions\DeleteSentMessageAction;
 use TMSPerera\HeadlessChat\Actions\JoinConversationAction;
 use TMSPerera\HeadlessChat\Actions\ReadMessageAction;
-use TMSPerera\HeadlessChat\Actions\StoreDirectMessageAction;
-use TMSPerera\HeadlessChat\Actions\StoreMessageAction;
 use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
@@ -28,8 +28,8 @@ class HeadlessChat
     public function __construct(
         protected HeadlessChatConfig $headlessChatConfig,
         protected CreateConversationAction $createConversationAction,
-        protected StoreMessageAction $storeMessageAction,
-        protected StoreDirectMessageAction $storeDirectMessageAction,
+        protected CreateMessageAction $createMessageAction,
+        protected CreateDirectMessageAction $createDirectMessageAction,
         protected ReadMessageAction $readMessageAction,
         protected JoinConversationAction $joinConversationAction,
         protected DeleteMessageAction $deleteMessageAction,
@@ -59,13 +59,13 @@ class HeadlessChat
     /**
      * @throws InvalidParticipationException
      */
-    public function storeMessage(
+    public function createMessage(
         Conversation $conversation,
         Participant $sender,
         MessageDto $messageDto,
         ?Message $parentMessage = null,
     ): Message {
-        return ($this->storeMessageAction)(
+        return ($this->createMessageAction)(
             conversation: $conversation,
             sender: $sender,
             messageDto: $messageDto,
@@ -77,12 +77,12 @@ class HeadlessChat
      * @throws InvalidParticipationException
      * @throws ParticipationLimitExceededException
      */
-    public function storeDirectMessage(
+    public function createDirectMessage(
         Participant $sender,
         Participant $recipient,
         MessageDto $messageDto,
     ): Message {
-        return ($this->storeDirectMessageAction)(
+        return ($this->createDirectMessageAction)(
             sender: $sender,
             recipient: $recipient,
             messageDto: $messageDto,

@@ -26,7 +26,7 @@ class SendDirectMessageTest extends BaseChatableTestCase
             content: 'Hello World!',
         );
 
-        $sender->sendDirectMessage(recipient: $recipient, messageDto: $messageDto);
+        $sender->createDirectMessage(recipient: $recipient, messageDto: $messageDto);
 
         $this->assertDatabaseCount('conversations', 1);
         $conversation = Conversation::query()

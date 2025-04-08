@@ -15,8 +15,8 @@ use TMSPerera\HeadlessChat\Models\ReadReceipt;
 /**
  * @method static HeadlessChatConfig config()
  * @method static Conversation createConversation(array $participants, ConversationType $conversationType, array $conversationMetadata = [])
- * @method static Message storeMessage(Conversation $conversation, Participant $sender, MessageDto $messageDto, ?Message $parentMessage = null)
- * @method static Message storeDirectMessage(Participant $sender, Participant $recipient, MessageDto $messageDto)
+ * @method static Message createMessage(Conversation $conversation, Participant $sender, MessageDto $messageDto, ?Message $parentMessage = null)
+ * @method static Message createDirectMessage(Participant $sender, Participant $recipient, MessageDto $messageDto)
  * @method static ReadReceipt readMessage(Message $message, Participant $reader)
  * @method static Participation joinConversation(Participant $participant, Conversation $conversation, array $participationMetadata = [])
  * @method static void deleteMessage(Message $message, Participation $deleterParticipation)

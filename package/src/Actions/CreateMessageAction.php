@@ -9,7 +9,7 @@ use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
 
-class StoreMessageAction
+class CreateMessageAction
 {
     /**
      * @throws InvalidParticipationException
