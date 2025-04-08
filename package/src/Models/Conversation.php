@@ -5,7 +5,6 @@ namespace TMSPerera\HeadlessChat\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -63,22 +62,6 @@ class Conversation extends Model
         return $this->hasMany(
             related: HeadlessChat::config()->messageModel()::class,
             foreignKey: 'conversation_id',
-        );
-    }
-
-    public function parentConversation(): BelongsTo
-    {
-        return $this->belongsTo(
-            related: static::class,
-            foreignKey: 'parent_id',
-        );
-    }
-
-    public function conversations(): HasMany
-    {
-        return $this->hasMany(
-            related: static::class,
-            foreignKey: 'parent_id',
         );
     }
 

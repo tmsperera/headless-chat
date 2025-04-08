@@ -18,10 +18,6 @@ return new class extends Migration
     {
         Schema::create(self::CONVERSATIONS_TABLE, function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->nullable()
-                ->constrained(table: static::CONVERSATIONS_TABLE, column: 'id');
-            $table->foreignId('message_id')->nullable()
-                ->constrained(table: static::MESSAGES_TABLE, column: 'id');
             $table->string('type');
             $table->json('metadata')->nullable();
             $table->timestamps();

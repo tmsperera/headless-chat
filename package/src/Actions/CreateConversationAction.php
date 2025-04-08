@@ -27,8 +27,6 @@ class CreateConversationAction
                 ->create([
                     'type' => $conversationDto->conversationType,
                     'metadata' => $conversationDto->metadata,
-                    'parent_id' => $conversationDto->parentConversation?->getKey(),
-                    'message_id' => $conversationDto->message?->getKey(),
                 ]);
 
             $participations = array_map(function (Participant $participant) {
