@@ -1,6 +1,6 @@
 <?php
 
-namespace TMSPerera\HeadlessChat\Config;
+namespace TMSPerera\HeadlessChat;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
@@ -9,7 +9,7 @@ use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
 use TMSPerera\HeadlessChat\Models\ReadReceipt;
 
-class HeadlessChatConfig
+readonly class HeadlessChatConfig
 {
     public string $conversationModelClass;
 
@@ -25,6 +25,11 @@ class HeadlessChatConfig
         $this->participationModelClass = Config::get('headless-chat.models.participation', Participation::class);
         $this->messageModelClass = Config::get('headless-chat.models.message', Message::class);
         $this->readReceiptModelClass = Config::get('headless-chat.models.read_receipt', ReadReceipt::class);
+    }
+
+    public static function make(): static
+    {
+        return App::make(self::class);
     }
 
     public function conversationModel(): Conversation

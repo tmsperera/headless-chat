@@ -4,7 +4,7 @@ namespace TMSPerera\HeadlessChat\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageContentDto;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
@@ -24,12 +24,12 @@ interface Participant extends EloquentModel
 
     public function createDirectMessage(
         Participant $recipient,
-        MessageDto $messageDto,
+        MessageContentDto $messageContentDto,
     ): Message;
 
     public function createReplyMessage(
         Message $parentMessage,
-        MessageDto $messageDto,
+        MessageContentDto $messageContentDto,
     ): Message;
 
     public function readMessage(Message $message): ReadReceipt;

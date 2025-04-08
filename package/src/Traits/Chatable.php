@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\JoinClause;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageContentDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
-use TMSPerera\HeadlessChat\Facades\HeadlessChat;
+use TMSPerera\HeadlessChat\HeadlessChatActions;
+use TMSPerera\HeadlessChat\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
@@ -42,15 +43,16 @@ trait Chatable
     public function participations(): MorphMany
     {
         return $this->morphMany(
-            related: HeadlessChat::config()->participationModel()::class,
+            related: HeadlessChatConfig::make()->participationModel()::class,
             name: 'participant',
         );
     }
 
     public function conversations(): BelongsToMany
     {
-        $conversation = HeadlessChat::config()->conversationModel();
-        $participation = HeadlessChat::config()->participationModel();
+        $config = HeadlessChatConfig::make();
+        $conversation = $config->conversationModel();
+        $participation = $config->participationModel();
 
         return $this
             ->belongsToMany(
@@ -70,10 +72,11 @@ trait Chatable
      */
     public function conversationsWithMetrics(): BelongsToMany
     {
-        $conversation = HeadlessChat::config()->conversationModel();
-        $participation = HeadlessChat::config()->participationModel();
-        $message = HeadlessChat::config()->messageModel();
-        $readReceipt = HeadlessChat::config()->readReceiptModel();
+        $config = HeadlessChatConfig::make();
+        $conversation = $config->conversationModel();
+        $participation = $config->participationModel();
+        $message = $config->messageModel();
+        $readReceipt = $config->readReceiptModel();
 
         return $this->conversations()
             ->select($conversation->qualifyColumn('*'))
@@ -120,17 +123,16 @@ trait Chatable
     }
 
     /**
-     * @throws InvalidParticipationException
      * @throws ParticipationLimitExceededException
      */
     public function createDirectMessage(
         Participant $recipient,
-        MessageDto $messageDto,
+        MessageContentDto $messageContentDto,
     ): Message {
-        return HeadlessChat::createDirectMessage(
+        return HeadlessChatActions::make()->createDirectMessageAction->handle(
             sender: $this,
             recipient: $recipient,
-            messageDto: $messageDto,
+            messageContentDto: $messageContentDto,
         );
     }
 
@@ -139,12 +141,12 @@ trait Chatable
      */
     public function createReplyMessage(
         Message $parentMessage,
-        MessageDto $messageDto,
+        MessageContentDto $messageContentDto,
     ): Message {
-        return HeadlessChat::createMessage(
+        return HeadlessChatActions::make()->createMessageAction->handle(
             conversation: $parentMessage->conversation,
             sender: $this,
-            messageDto: $messageDto,
+            messageContentDto: $messageContentDto,
             parentMessage: $parentMessage,
         );
     }
@@ -156,7 +158,10 @@ trait Chatable
      */
     public function readMessage(Message $message): ReadReceipt
     {
-        return HeadlessChat::readMessage(message: $message, reader: $this);
+        return HeadlessChatActions::make()->readMessageAction->handle(
+            message: $message,
+            reader: $this,
+        );
     }
 
     /**
@@ -165,7 +170,10 @@ trait Chatable
      */
     public function deleteSentMessage(Message $message): void
     {
-        HeadlessChat::deleteSentMessage(message: $message, deleter: $this);
+        HeadlessChatActions::make()->deleteSentMessageAction->handle(
+            message: $message,
+            deleter: $this,
+        );
     }
 
     /**
@@ -173,7 +181,7 @@ trait Chatable
      */
     public function joinConversation(Conversation $conversation, array $participationMetadata = []): Participation
     {
-        return HeadlessChat::joinConversation(
+        return HeadlessChatActions::make()->joinConversationAction->handle(
             participant: $this,
             conversation: $conversation,
             participationMetadata: $participationMetadata,

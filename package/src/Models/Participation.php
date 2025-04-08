@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\Facades\HeadlessChat;
+use TMSPerera\HeadlessChat\HeadlessChatConfig;
 
 /**
  * @property Conversation $conversation
@@ -46,7 +46,7 @@ class Participation extends Model
     public function conversation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChat::config()->conversationModel()::class,
+            related: HeadlessChatConfig::make()->conversationModel()::class,
             foreignKey: 'conversation_id',
         );
     }
@@ -54,7 +54,7 @@ class Participation extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChat::config()->messageModel()::class,
+            related: HeadlessChatConfig::make()->messageModel()::class,
             foreignKey: 'participation_id',
         );
     }

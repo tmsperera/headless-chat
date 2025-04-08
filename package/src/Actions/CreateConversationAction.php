@@ -7,7 +7,7 @@ use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
-use TMSPerera\HeadlessChat\Facades\HeadlessChat;
+use TMSPerera\HeadlessChat\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Models\Conversation;
 
 class CreateConversationAction
@@ -15,7 +15,7 @@ class CreateConversationAction
     /**
      * @throws ParticipationLimitExceededException
      */
-    public function __invoke(
+    public function handle(
         array $participants,
         ConversationDto $conversationDto,
     ): Conversation {
@@ -23,7 +23,7 @@ class CreateConversationAction
 
         return DB::transaction(function () use ($participants, $conversationDto) {
             /** @var Conversation $conversation */
-            $conversation = HeadlessChat::config()->conversationModel()->newQuery()
+            $conversation = HeadlessChatConfig::make()->conversationModel()->newQuery()
                 ->create([
                     'type' => $conversationDto->conversationType,
                     'metadata' => $conversationDto->metadata,

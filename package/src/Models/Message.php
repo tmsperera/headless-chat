@@ -14,7 +14,7 @@ use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
-use TMSPerera\HeadlessChat\Facades\HeadlessChat;
+use TMSPerera\HeadlessChat\HeadlessChatConfig;
 
 /**
  * @property Conversation $conversation
@@ -50,7 +50,7 @@ class Message extends Model
     public function conversation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChat::config()->conversationModel()::class,
+            related: HeadlessChatConfig::make()->conversationModel()::class,
             foreignKey: 'conversation_id',
             ownerKey: $this->getKeyName(),
         );
@@ -62,7 +62,7 @@ class Message extends Model
     public function participation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChat::config()->participationModel()::class,
+            related: HeadlessChatConfig::make()->participationModel()::class,
             foreignKey: 'participation_id',
         );
     }
@@ -70,7 +70,7 @@ class Message extends Model
     public function readReceipts(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChat::config()->readReceiptModel()::class,
+            related: HeadlessChatConfig::make()->readReceiptModel()::class,
             foreignKey: 'message_id',
         );
     }

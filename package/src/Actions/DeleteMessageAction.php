@@ -11,7 +11,7 @@ class DeleteMessageAction
     /**
      * @throws InvalidParticipationException
      */
-    public function __invoke(
+    public function handle(
         Message $message,
         Participation $deleterParticipation,
     ): void {

@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
-use TMSPerera\HeadlessChat\Facades\HeadlessChat;
+use TMSPerera\HeadlessChat\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 /**
@@ -52,7 +52,7 @@ class Conversation extends Model
     public function participations(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChat::config()->participationModel()::class,
+            related: HeadlessChatConfig::make()->participationModel()::class,
             foreignKey: 'conversation_id',
         );
     }
@@ -60,7 +60,7 @@ class Conversation extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChat::config()->messageModel()::class,
+            related: HeadlessChatConfig::make()->messageModel()::class,
             foreignKey: 'conversation_id',
         );
     }

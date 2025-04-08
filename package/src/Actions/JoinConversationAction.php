@@ -13,7 +13,7 @@ class JoinConversationAction
     /**
      * @throws ParticipationLimitExceededException
      */
-    public function __invoke(
+    public function handle(
         Participant $participant,
         Conversation $conversation,
         array $participationMetadata = [],

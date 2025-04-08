@@ -3,7 +3,7 @@
 namespace TMSPerera\HeadlessChat\Actions;
 
 use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageContentDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
@@ -14,10 +14,10 @@ class CreateMessageAction
     /**
      * @throws InvalidParticipationException
      */
-    public function __invoke(
+    public function handle(
         Conversation $conversation,
         Participant $sender,
-        MessageDto $messageDto,
+        MessageContentDto $messageContentDto,
         ?Message $parentMessage = null,
     ): Message {
         $participation = $this->resolveParticipation(participant: $sender, conversation: $conversation);
@@ -25,9 +25,9 @@ class CreateMessageAction
         return $participation->messages()->create([
             'conversation_id' => $conversation->getKey(),
             'parent_id' => $parentMessage?->getKey(),
-            'type' => $messageDto->type,
-            'content' => $messageDto->content,
-            'metadata' => $messageDto->metadata,
+            'type' => $messageContentDto->type,
+            'content' => $messageContentDto->content,
+            'metadata' => $messageContentDto->metadata,
         ]);
     }
 
