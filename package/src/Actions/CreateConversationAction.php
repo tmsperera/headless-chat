@@ -3,10 +3,11 @@
 namespace TMSPerera\HeadlessChat\Actions;
 
 use Illuminate\Support\Facades\DB;
-use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
+use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
+use TMSPerera\HeadlessChat\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Models\Conversation;
 
 class CreateConversationAction
@@ -14,19 +15,18 @@ class CreateConversationAction
     /**
      * @throws ParticipationLimitExceededException
      */
-    public function __invoke(
+    public function handle(
         array $participants,
-        ConversationType $conversationType,
-        array $conversationMetadata = [],
+        ConversationDto $conversationDto,
     ): Conversation {
-        $this->validate(participants: $participants, conversationType: $conversationType);
+        $this->validate(participants: $participants, conversationDto: $conversationDto);
 
-        return DB::transaction(function () use ($participants, $conversationType, $conversationMetadata) {
+        return DB::transaction(function () use ($participants, $conversationDto) {
             /** @var Conversation $conversation */
-            $conversation = HeadlessChatConfig::conversationInstance()->newQuery()
+            $conversation = HeadlessChatConfig::make()->conversationModel()->newQuery()
                 ->create([
-                    'type' => $conversationType,
-                    'metadata' => $conversationMetadata,
+                    'type' => $conversationDto->conversationType,
+                    'metadata' => $conversationDto->metadata,
                 ]);
 
             $participations = array_map(function (Participant $participant) {
@@ -45,10 +45,10 @@ class CreateConversationAction
     /**
      * @throws ParticipationLimitExceededException
      */
-    protected function validate(array $participants, ConversationType $conversationType): void
+    protected function validate(array $participants, ConversationDto $conversationDto): void
     {
         if (
-            $conversationType === ConversationType::DIRECT_MESSAGE
+            $conversationDto->conversationType === ConversationType::DIRECT_MESSAGE
             && count($participants) > 2
         ) {
             throw new ParticipationLimitExceededException;

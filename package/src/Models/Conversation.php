@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use TMSPerera\HeadlessChat\Collections\ParticipationCollection;
-use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
+use TMSPerera\HeadlessChat\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\QueryBuilders\ConversationBuilder;
 
 /**
@@ -52,7 +52,7 @@ class Conversation extends Model
     public function participations(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChatConfig::participationInstance()::class,
+            related: HeadlessChatConfig::make()->participationModel()::class,
             foreignKey: 'conversation_id',
         );
     }
@@ -60,7 +60,7 @@ class Conversation extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChatConfig::messageInstance()::class,
+            related: HeadlessChatConfig::make()->messageModel()::class,
             foreignKey: 'conversation_id',
         );
     }

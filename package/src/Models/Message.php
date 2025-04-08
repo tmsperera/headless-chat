@@ -9,13 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use TMSPerera\HeadlessChat\Config\HeadlessChatConfig;
 use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDtoOld;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
-use TMSPerera\HeadlessChat\HeadlessChat;
+use TMSPerera\HeadlessChat\HeadlessChatConfig;
 
 /**
  * @property Conversation $conversation
@@ -51,7 +50,7 @@ class Message extends Model
     public function conversation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::conversationInstance()::class,
+            related: HeadlessChatConfig::make()->conversationModel()::class,
             foreignKey: 'conversation_id',
             ownerKey: $this->getKeyName(),
         );
@@ -63,7 +62,7 @@ class Message extends Model
     public function participation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::participationInstance()::class,
+            related: HeadlessChatConfig::make()->participationModel()::class,
             foreignKey: 'participation_id',
         );
     }
@@ -71,7 +70,7 @@ class Message extends Model
     public function readReceipts(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChatConfig::readReceiptInstance()::class,
+            related: HeadlessChatConfig::make()->readReceiptModel()::class,
             foreignKey: 'message_id',
         );
     }
@@ -84,7 +83,7 @@ class Message extends Model
         );
     }
 
-    public function replyMessages(): HasMany
+    public function messages(): HasMany
     {
         return $this->hasMany(
             related: static::class,
@@ -107,7 +106,7 @@ class Message extends Model
      */
     public function reply(
         Participant $sender,
-        MessageDto $messageDto,
+        MessageDtoOld $messageDto,
         ?callable $afterMessageCreated = null,
     ): Message {
         return HeadlessChat::storeReplyMessage(

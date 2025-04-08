@@ -22,12 +22,12 @@ interface Participant extends EloquentModel
 
     public function getParticipationIn(Conversation $conversation): ?Participation;
 
-    public function sendDirectMessage(
+    public function createDirectMessage(
         Participant $recipient,
         MessageDto $messageDto,
     ): Message;
 
-    public function replyToMessage(
+    public function createReplyMessage(
         Message $parentMessage,
         MessageDto $messageDto,
     ): Message;

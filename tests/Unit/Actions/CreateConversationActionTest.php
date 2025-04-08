@@ -4,9 +4,10 @@ namespace Tests\Unit\Actions;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use TMSPerera\HeadlessChat\Actions\CreateConversationAction;
+use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
+use TMSPerera\HeadlessChat\HeadlessChatActions;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TypeError;
 use Workbench\Database\Factories\UserFactory;
@@ -18,8 +19,10 @@ class CreateConversationActionTest extends TestCase
     public function test_when_invalid_participant_provided()
     {
         $this->expectException(TypeError::class);
-        $action = $this->app->make(CreateConversationAction::class);
-        $action(['invalid type'], ConversationType::DIRECT_MESSAGE);
+        HeadlessChatActions::make()->createConversationAction->handle(
+            participants: ['invalid participant'],
+            conversationDto: new ConversationDTO(conversationType: ConversationType::DIRECT_MESSAGE),
+        );
 
         $this->assertDatabaseCount('conversations', 0);
         $this->assertDatabaseCount('participations', 0);
@@ -32,8 +35,10 @@ class CreateConversationActionTest extends TestCase
         $participant3 = UserFactory::new()->create();
 
         $this->expectException(ParticipationLimitExceededException::class);
-        $action = $this->app->make(CreateConversationAction::class);
-        $action([$participant1, $participant2, $participant3], ConversationType::DIRECT_MESSAGE);
+        HeadlessChatActions::make()->createConversationAction->handle(
+            participants: [$participant1, $participant2, $participant3],
+            conversationDto: new ConversationDTO(conversationType: ConversationType::DIRECT_MESSAGE),
+        );
 
         $this->assertDatabaseCount('conversations', 0);
         $this->assertDatabaseCount('participations', 0);
@@ -44,8 +49,10 @@ class CreateConversationActionTest extends TestCase
         $participant1 = UserFactory::new()->create();
         $participant2 = UserFactory::new()->create();
 
-        $action = $this->app->make(CreateConversationAction::class);
-        $conversation = $action([$participant1, $participant2], ConversationType::DIRECT_MESSAGE);
+        $conversation = HeadlessChatActions::make()->createConversationAction->handle(
+            participants: [$participant1, $participant2],
+            conversationDto: new ConversationDTO(conversationType: ConversationType::DIRECT_MESSAGE),
+        );
 
         $this->assertDatabaseCount('conversations', 1);
         $this->assertDatabaseCount('participations', 2);

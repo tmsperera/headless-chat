@@ -17,7 +17,7 @@ class ReadMessageAction
      * @throws ReadBySenderException
      * @throws MessageAlreadyReadException
      */
-    public function __invoke(Message $message, Participant $reader): ReadReceipt
+    public function handle(Message $message, Participant $reader): ReadReceipt
     {
         $message->load([
             'participation',

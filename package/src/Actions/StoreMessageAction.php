@@ -2,48 +2,23 @@
 
 namespace TMSPerera\HeadlessChat\Actions;
 
-use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
-use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
-use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
 
 class StoreMessageAction
 {
-    /**
-     * @throws InvalidParticipationException
-     */
-    public function __invoke(
-        Conversation $conversation,
-        Participant $sender,
+    public function handle(
         MessageDto $messageDto,
+        Participation $senderParticipation,
         ?Message $parentMessage = null,
     ): Message {
-        $participation = $this->resolveParticipation(participant: $sender, conversation: $conversation);
-
-        return $participation->messages()->create([
-            'conversation_id' => $conversation->getKey(),
+        return $senderParticipation->messages()->create([
+            'conversation_id' => $senderParticipation->getAttribute($senderParticipation->conversation()->getForeignKeyName()),
             'parent_id' => $parentMessage?->getKey(),
             'type' => $messageDto->type,
             'content' => $messageDto->content,
             'metadata' => $messageDto->metadata,
         ]);
-    }
-
-    /**
-     * @throws InvalidParticipationException
-     */
-    protected function resolveParticipation(Participant $participant, Conversation $conversation): Participation
-    {
-        $conversation->loadMissing('participations.participant');
-
-        $participation = $conversation->participations->whereParticipant($participant)->first();
-
-        if (! $participation) {
-            throw new InvalidParticipationException;
-        }
-
-        return $participation;
     }
 }

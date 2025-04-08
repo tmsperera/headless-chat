@@ -27,13 +27,13 @@ class ReplyToMessageTest extends BaseChatableTestCase
             metadata: ['foo' => 'bar'],
         );
 
-        $messageReply = $user->replyToMessage(
+        $messageReply = $user->createReplyMessage(
             parentMessage: $parentMessage,
             messageDto: $messageDto,
         );
 
         $this->assertTrue($messageReply->parentMessage->is($parentMessage));
-        $this->assertTrue($messageReply->is($parentMessage->replyMessages->first()));
+        $this->assertTrue($messageReply->is($parentMessage->messages->first()));
         $this->assertDatabaseCount('messages', 2);
         $this->assertDatabaseHas('messages', [
             'parent_id' => $parentMessage->getKey(),
@@ -61,7 +61,7 @@ class ReplyToMessageTest extends BaseChatableTestCase
             metadata: ['foo' => 'bar'],
         );
 
-        $messageReply = $participant->replyToMessage(
+        $messageReply = $participant->createReplyMessage(
             parentMessage: $parentMessage,
             messageDto: $messageDto,
         );
@@ -93,9 +93,9 @@ class ReplyToMessageTest extends BaseChatableTestCase
         );
 
         $this->expectException(InvalidParticipationException::class);
-        $user->replyToMessage(
+        $user->createReplyMessage(
             parentMessage: $parentMessage,
-            messageDto: $messageDto
+            messageDto: $messageDto,
         );
 
         $this->assertDatabaseCount('messages', 1);
