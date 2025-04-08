@@ -27,7 +27,7 @@ class ReplyToMessageTest extends BaseChatableTestCase
             metadata: ['foo' => 'bar'],
         );
 
-        $messageReply = $user->replyToMessage(
+        $messageReply = $user->createReplyMessage(
             parentMessage: $parentMessage,
             messageDto: $messageDto,
         );
@@ -61,7 +61,7 @@ class ReplyToMessageTest extends BaseChatableTestCase
             metadata: ['foo' => 'bar'],
         );
 
-        $messageReply = $participant->replyToMessage(
+        $messageReply = $participant->createReplyMessage(
             parentMessage: $parentMessage,
             messageDto: $messageDto,
         );
@@ -93,7 +93,7 @@ class ReplyToMessageTest extends BaseChatableTestCase
         );
 
         $this->expectException(InvalidParticipationException::class);
-        $user->replyToMessage(
+        $user->createReplyMessage(
             parentMessage: $parentMessage,
             messageDto: $messageDto
         );

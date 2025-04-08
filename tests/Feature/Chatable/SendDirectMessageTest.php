@@ -26,7 +26,7 @@ class SendDirectMessageTest extends BaseChatableTestCase
             content: 'Hello World!',
         );
 
-        $sender->sendDirectMessage(recipient: $recipient, messageDto: $messageDto);
+        $sender->createDirectMessage(recipient: $recipient, messageDto: $messageDto);
 
         $this->assertDatabaseCount('conversations', 1);
         $conversation = Conversation::query()
@@ -53,6 +53,7 @@ class SendDirectMessageTest extends BaseChatableTestCase
 
     public function test_when_conversation_exist()
     {
+        /** @var Participant $sender */
         $sender = UserFactory::new()->create();
         $recipient = UserFactory::new()->create();
         $conversation = ConversationFactory::new()->directMessage()->create();
@@ -63,7 +64,7 @@ class SendDirectMessageTest extends BaseChatableTestCase
             content: 'Hello World!',
         );
 
-        $sender->sendDirectMessage(recipient: $recipient, messageDto: $messageDto);
+        $sender->createDirectMessage(recipient: $recipient, messageDto: $messageDto);
 
         $this->assertDatabaseCount('conversations', 1);
         $this->assertDatabaseCount('participations', 2);

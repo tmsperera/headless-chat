@@ -123,11 +123,11 @@ trait Chatable
      * @throws InvalidParticipationException
      * @throws ParticipationLimitExceededException
      */
-    public function sendDirectMessage(
+    public function createDirectMessage(
         Participant $recipient,
         MessageDto $messageDto,
     ): Message {
-        return HeadlessChat::storeDirectMessage(
+        return HeadlessChat::createDirectMessage(
             sender: $this,
             recipient: $recipient,
             messageDto: $messageDto,
@@ -137,11 +137,11 @@ trait Chatable
     /**
      * @throws InvalidParticipationException
      */
-    public function replyToMessage(
+    public function createReplyMessage(
         Message $parentMessage,
         MessageDto $messageDto,
     ): Message {
-        return HeadlessChat::storeMessage(
+        return HeadlessChat::createMessage(
             conversation: $parentMessage->conversation,
             sender: $this,
             messageDto: $messageDto,
