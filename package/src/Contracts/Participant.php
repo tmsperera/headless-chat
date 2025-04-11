@@ -30,7 +30,6 @@ interface Participant extends EloquentModel
     public function createMessage(
         Conversation $conversation,
         MessageDto $messageDto,
-        ?Message $parentMessage = null,
     ): Message;
 
     public function createReplyMessage(

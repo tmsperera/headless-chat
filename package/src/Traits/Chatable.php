@@ -142,13 +142,11 @@ trait Chatable
     public function createMessage(
         Conversation $conversation,
         MessageDto $messageDto,
-        ?Message $parentMessage = null,
     ): Message {
         return HeadlessChatActions::make()->createMessageAction->handle(
             conversation: $conversation,
             sender: $this,
             messageDto: $messageDto,
-            parentMessage: $parentMessage,
         );
     }
 
