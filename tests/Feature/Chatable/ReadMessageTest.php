@@ -3,6 +3,7 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
@@ -69,5 +70,41 @@ class ReadMessageTest extends BaseChatableTestCase
         $recipient->readMessage($message);
 
         $this->assertDatabaseCount('read_receipts', 1);
+    }
+
+    public function test_when_no_one_read()
+    {
+        $sender = UserFactory::new()->create();
+        $user2 = UserFactory::new()->create();
+        $user3 = UserFactory::new()->create();
+        $conversation = ConversationFactory::new()->directMessage()->create();
+        $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
+        $this->joinConversation(conversation: $conversation, participant: $user2);
+        $this->joinConversation(conversation: $conversation, participant: $user3);
+        $this->sendMessage(conversation: $conversation, senderParticipation: $senderParticipation);
+
+        $this->assertDatabaseEmpty('read_receipts');
+    }
+
+    public function test_when_only_one_read()
+    {
+        $sender = UserFactory::new()->create();
+        /** @var Participant $reader */
+        $reader = UserFactory::new()->create();
+        $user3 = UserFactory::new()->create();
+        $conversation = ConversationFactory::new()->directMessage()->create();
+        $senderParticipation = $this->joinConversation(conversation: $conversation, participant: $sender);
+        $readerParticipation = $this->joinConversation(conversation: $conversation, participant: $reader);
+        $this->joinConversation(conversation: $conversation, participant: $user3);
+        $message = $this->sendMessage(conversation: $conversation, senderParticipation: $senderParticipation);
+
+        $readReceipt = $reader->readMessage($message);
+
+        $this->assertDatabaseCount('read_receipts', 1);
+        $this->assertDatabaseHas('read_receipts', [
+            'id' => $readReceipt->id,
+            'message_id' => $message->id,
+            'participation_id' => $readerParticipation->id,
+        ]);
     }
 }

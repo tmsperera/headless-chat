@@ -9,11 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use TMSPerera\HeadlessChat\Contracts\Participant;
-use TMSPerera\HeadlessChat\DataTransferObjects\MessageDtoOld;
-use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
-use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
-use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\HeadlessChatConfig;
 
 /**
@@ -88,32 +83,6 @@ class Message extends Model
         return $this->hasMany(
             related: static::class,
             foreignKey: 'parent_id',
-        );
-    }
-
-    /**
-     * @throws ReadBySenderException
-     * @throws InvalidParticipationException
-     * @throws MessageAlreadyReadException
-     */
-    public function read(Participant $reader): ReadReceipt
-    {
-        return HeadlessChat::readMessage($this, $reader);
-    }
-
-    /**
-     * @throws InvalidParticipationException
-     */
-    public function reply(
-        Participant $sender,
-        MessageDtoOld $messageDto,
-        ?callable $afterMessageCreated = null,
-    ): Message {
-        return HeadlessChat::storeReplyMessage(
-            parentMessage: $this,
-            sender: $sender,
-            messageDto: $messageDto,
-            afterMessageCreated: $afterMessageCreated,
         );
     }
 }
