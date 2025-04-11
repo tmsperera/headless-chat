@@ -139,6 +139,22 @@ trait Chatable
     /**
      * @throws InvalidParticipationException
      */
+    public function createMessage(
+        Conversation $conversation,
+        MessageDto $messageDto,
+        ?Message $parentMessage = null,
+    ): Message {
+        return HeadlessChatActions::make()->createMessageAction->handle(
+            conversation: $conversation,
+            sender: $this,
+            messageDto: $messageDto,
+            parentMessage: $parentMessage,
+        );
+    }
+
+    /**
+     * @throws InvalidParticipationException
+     */
     public function createReplyMessage(
         Message $parentMessage,
         MessageDto $messageDto,

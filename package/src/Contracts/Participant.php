@@ -27,6 +27,12 @@ interface Participant extends EloquentModel
         MessageDto $messageDto,
     ): Message;
 
+    public function createMessage(
+        Conversation $conversation,
+        MessageDto $messageDto,
+        ?Message $parentMessage = null,
+    ): Message;
+
     public function createReplyMessage(
         Message $parentMessage,
         MessageDto $messageDto,
