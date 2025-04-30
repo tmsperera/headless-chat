@@ -26,6 +26,15 @@ class ConversationFactory extends Factory
         });
     }
 
+    public function group(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'type' => ConversationType::GROUP,
+            ];
+        });
+    }
+
     public function hasParticipations(ParticipationFactory $participationFactory): static
     {
         return $this->has($participationFactory, 'participations');
