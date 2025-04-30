@@ -14,6 +14,7 @@ use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
+use TMSPerera\HeadlessChat\Exceptions\ParticipationAlreadyExistsException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\Exceptions\ReadBySenderException;
 use TMSPerera\HeadlessChat\HeadlessChatActions;
@@ -192,6 +193,7 @@ trait Chatable
 
     /**
      * @throws ParticipationLimitExceededException
+     * @throws ParticipationAlreadyExistsException
      */
     public function joinConversation(Conversation $conversation, array $participationMetadata = []): Participation
     {

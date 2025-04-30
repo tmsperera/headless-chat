@@ -7,6 +7,7 @@ use Tests\Feature\Chatable\BaseChatableTestCase;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
+use TMSPerera\HeadlessChat\Exceptions\ParticipationAlreadyExistsException;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use TMSPerera\HeadlessChat\HeadlessChatActions;
 use Workbench\Database\Factories\ConversationFactory;
@@ -93,6 +94,44 @@ class GroupConversationTest extends BaseChatableTestCase
             'conversation_id' => $conversation->id,
             'participant_type' => $user3->getMorphClass(),
             'participant_id' => $user3->getKey(),
+        ]);
+    }
+
+    //    public function test_when_re_joining_group_conversation1()
+    //    {
+    //        /** @var Participant $user */
+    //        $user = UserFactory::new()->createOne();
+    //        $conversation = ConversationFactory::new()->group()->createOne();
+    //        $this->joinConversation(conversation: $conversation, participant: $user);
+    //        $this->assertDatabaseCount('participations', 1);
+    //
+    //        $participation = $user->joinConversation($conversation);
+    //
+    //        $this->assertDatabaseCount('participations', 1);
+    //        $this->assertDatabaseHas('participations', [
+    //            'id' => $participation->id,
+    //            'conversation_id' => $conversation->id,
+    //            'participant_type' => $user->getMorphClass(),
+    //            'participant_id' => $user->getKey(),
+    //        ]);
+    //    }
+
+    public function test_when_re_joining_group_conversation()
+    {
+        /** @var Participant $user */
+        $user = UserFactory::new()->createOne();
+        $conversation = ConversationFactory::new()->group()->createOne();
+        $this->joinConversation(conversation: $conversation, participant: $user);
+        $this->assertDatabaseCount('participations', 1);
+
+        $this->expectException(ParticipationAlreadyExistsException::class);
+        $user->joinConversation($conversation);
+
+        $this->assertDatabaseCount('participations', 1);
+        $this->assertDatabaseHas('participations', [
+            'conversation_id' => $conversation->id,
+            'participant_type' => $user->getMorphClass(),
+            'participant_id' => $user->getKey(),
         ]);
     }
 }
