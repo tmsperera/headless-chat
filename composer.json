@@ -1,9 +1,9 @@
 {
     "name": "tmsperera/headless-chat",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "type": "library",
     "license": "MIT",
-    "description": "Integrate chat for Laravel applications.",
+    "description": "Integrate chat on Laravel applications.",
     "keywords": [
         "tmsperera",
         "laravel",
@@ -26,7 +26,7 @@
     },
     "authors": [
         {
-            "name": "Mahesh Perera (TMS Perera)",
+            "name": "Mahesh Perera",
             "email": "tmsperera@gmail.com",
             "homepage": "https://github.com/tmsperera",
             "role": "Developer"
