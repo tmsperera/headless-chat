@@ -97,25 +97,6 @@ class GroupConversationTest extends BaseChatableTestCase
         ]);
     }
 
-    //    public function test_when_re_joining_group_conversation1()
-    //    {
-    //        /** @var Participant $user */
-    //        $user = UserFactory::new()->createOne();
-    //        $conversation = ConversationFactory::new()->group()->createOne();
-    //        $this->joinConversation(conversation: $conversation, participant: $user);
-    //        $this->assertDatabaseCount('participations', 1);
-    //
-    //        $participation = $user->joinConversation($conversation);
-    //
-    //        $this->assertDatabaseCount('participations', 1);
-    //        $this->assertDatabaseHas('participations', [
-    //            'id' => $participation->id,
-    //            'conversation_id' => $conversation->id,
-    //            'participant_type' => $user->getMorphClass(),
-    //            'participant_id' => $user->getKey(),
-    //        ]);
-    //    }
-
     public function test_when_re_joining_group_conversation()
     {
         /** @var Participant $user */
