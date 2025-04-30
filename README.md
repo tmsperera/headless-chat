@@ -18,6 +18,7 @@ A flexible, customizable and headless package designed to integrate chat functio
   - [Get conversations](#get-conversations)
   - [Get conversations with metrics](#get-conversations-with-metrics)
   - [Get unread conversation count](#get-unread-conversation-count)
+  - [Group Messages](#group-messages) 
 - [Advanced Usage](#advanced-usage)
   - [Override Models](#override-models)
   - [Override Actions](#override-actions)
@@ -251,6 +252,37 @@ $sender->getUnreadConversationCount();
 
 ```php
 public function getUnreadConversationCount(): int;
+```
+
+## Group Messages
+
+Headless Chat package is designed to support group chats. Here is how to create group chat...
+
+1. Create a group conversation
+
+```php
+use TMSPerera\HeadlessChat\HeadlessChatActions;
+
+$user1 = User::query()->find(1);
+$user2 = User::query()->find(1);
+
+$conversation = HeadlessChatActions::make()->createConversationAction->handle(
+    participants: [$user1, $user2],
+    conversationDto: new ConversationDTO(
+        conversationType: ConversationType::GROUP,
+    ),
+);
+```
+
+2. Join a group conversation
+
+```php
+use TMSPerera\HeadlessChat\HeadlessChatActions;
+
+$user3 = User::query()->find(3);
+$conversation = Conversation::query()->find(1);
+
+$participation = $user3->joinConversation($conversation);
 ```
 
 # Advanced Usage
