@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use TMSPerera\HeadlessChat\HeadlessChatConfig;
+use TMSPerera\HeadlessChat\HeadlessChat;
 
 /**
  * @property Message $message
@@ -23,7 +23,7 @@ class ReadReceipt extends Model
     public function message(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::make()->messageModel()::class,
+            related: HeadlessChat::config()->messageModel()::class,
             foreignKey: 'message_id',
         );
     }
@@ -34,7 +34,7 @@ class ReadReceipt extends Model
     public function participation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::make()->participationModel()::class,
+            related: HeadlessChat::config()->participationModel()::class,
             foreignKey: 'participation_id',
         );
     }

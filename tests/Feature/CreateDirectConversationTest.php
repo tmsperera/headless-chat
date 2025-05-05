@@ -7,7 +7,7 @@ use Tests\BaseHeadlessChatTestCase;
 use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
-use TMSPerera\HeadlessChat\HeadlessChatActions;
+use TMSPerera\HeadlessChat\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TypeError;
 use Workbench\Database\Factories\UserFactory;
@@ -19,7 +19,7 @@ class CreateDirectConversationTest extends BaseHeadlessChatTestCase
     public function test_when_invalid_participant_provided()
     {
         $this->expectException(TypeError::class);
-        HeadlessChatActions::make()->createConversationAction->handle(
+        HeadlessChat::createConversation(
             participants: ['invalid participant'],
             conversationDto: new ConversationDTO(conversationType: ConversationType::DIRECT_MESSAGE),
         );
@@ -35,7 +35,7 @@ class CreateDirectConversationTest extends BaseHeadlessChatTestCase
         $participant3 = UserFactory::new()->create();
 
         $this->expectException(ParticipationLimitExceededException::class);
-        HeadlessChatActions::make()->createConversationAction->handle(
+        HeadlessChat::createConversation(
             participants: [$participant1, $participant2, $participant3],
             conversationDto: new ConversationDTO(conversationType: ConversationType::DIRECT_MESSAGE),
         );
@@ -49,7 +49,7 @@ class CreateDirectConversationTest extends BaseHeadlessChatTestCase
         $participant1 = UserFactory::new()->create();
         $participant2 = UserFactory::new()->create();
 
-        $conversation = HeadlessChatActions::make()->createConversationAction->handle(
+        $conversation = HeadlessChat::createConversation(
             participants: [$participant1, $participant2],
             conversationDto: new ConversationDTO(conversationType: ConversationType::DIRECT_MESSAGE),
         );

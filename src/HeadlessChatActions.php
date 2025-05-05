@@ -2,7 +2,6 @@
 
 namespace TMSPerera\HeadlessChat;
 
-use Illuminate\Support\Facades\App;
 use TMSPerera\HeadlessChat\Actions\CreateConversationAction;
 use TMSPerera\HeadlessChat\Actions\CreateDirectMessageAction;
 use TMSPerera\HeadlessChat\Actions\CreateMessageAction;
@@ -24,9 +23,4 @@ readonly class HeadlessChatActions
         public DeleteMessageAction $deleteMessageAction,
         public DeleteSentMessageAction $deleteSentMessageAction,
     ) {}
-
-    public static function make(): static
-    {
-        return App::make(static::class);
-    }
 }

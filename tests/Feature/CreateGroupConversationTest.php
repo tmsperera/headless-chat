@@ -7,7 +7,7 @@ use Tests\BaseHeadlessChatTestCase;
 use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
-use TMSPerera\HeadlessChat\HeadlessChatActions;
+use TMSPerera\HeadlessChat\HeadlessChat;
 use Workbench\Database\Factories\UserFactory;
 
 class CreateGroupConversationTest extends BaseHeadlessChatTestCase
@@ -21,7 +21,7 @@ class CreateGroupConversationTest extends BaseHeadlessChatTestCase
         $user3 = UserFactory::new()->createOne();
 
         $this->expectException(ParticipationLimitExceededException::class);
-        HeadlessChatActions::make()->createConversationAction->handle(
+        HeadlessChat::createConversation(
             participants: [$user1, $user2, $user3],
             conversationDto: new ConversationDTO(
                 conversationType: ConversationType::DIRECT_MESSAGE,
@@ -38,7 +38,7 @@ class CreateGroupConversationTest extends BaseHeadlessChatTestCase
         $user2 = UserFactory::new()->createOne();
         $user3 = UserFactory::new()->createOne();
 
-        $conversation = HeadlessChatActions::make()->createConversationAction->handle(
+        $conversation = HeadlessChat::createConversation(
             participants: [$user1, $user2, $user3],
             conversationDto: new ConversationDTO(
                 conversationType: ConversationType::GROUP,

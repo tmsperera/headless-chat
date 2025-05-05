@@ -5,14 +5,11 @@ namespace TMSPerera\HeadlessChat\Actions;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
+use TMSPerera\HeadlessChat\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Message;
 
 class DeleteSentMessageAction
 {
-    public function __construct(
-        protected DeleteMessageAction $deleteMessageAction,
-    ) {}
-
     /**
      * @throws InvalidParticipationException
      * @throws MessageOwnershipException
@@ -33,7 +30,7 @@ class DeleteSentMessageAction
             throw new MessageOwnershipException;
         }
 
-        $this->deleteMessageAction->handle(
+        HeadlessChat::deleteMessage(
             message: $message,
             deleterParticipation: $participation,
         );

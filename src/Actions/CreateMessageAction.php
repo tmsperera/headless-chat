@@ -5,16 +5,13 @@ namespace TMSPerera\HeadlessChat\Actions;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
+use TMSPerera\HeadlessChat\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 use TMSPerera\HeadlessChat\Models\Participation;
 
 class CreateMessageAction
 {
-    public function __construct(
-        protected StoreMessageAction $storeMessageAction,
-    ) {}
-
     /**
      * @throws InvalidParticipationException
      */
@@ -26,7 +23,7 @@ class CreateMessageAction
     ): Message {
         $senderParticipation = $this->resolveParticipation(participant: $sender, conversation: $conversation);
 
-        return $this->storeMessageAction->handle(
+        return HeadlessChat::storeMessage(
             messageDto: $messageDto,
             senderParticipation: $senderParticipation,
             parentMessage: $parentMessage,
