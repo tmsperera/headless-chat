@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Feature\Chatable;
+namespace Tests;
 
-use Tests\TestCase;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
@@ -12,7 +11,7 @@ use Workbench\Database\Factories\MessageFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\ReadReceiptFactory;
 
-abstract class BaseChatableTestCase extends TestCase
+abstract class BaseHeadlessChatTestCase extends TestCase
 {
     protected function joinConversation(Conversation $conversation, Participant $participant): Participation
     {

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\BaseHeadlessChatTestCase;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageAlreadyReadException;
@@ -12,7 +13,7 @@ use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\MessageFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class ReadMessageTest extends BaseChatableTestCase
+class ReadMessageTest extends BaseHeadlessChatTestCase
 {
     use RefreshDatabase;
 

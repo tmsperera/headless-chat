@@ -3,12 +3,13 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\BaseHeadlessChatTestCase;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
 use TMSPerera\HeadlessChat\Exceptions\MessageOwnershipException;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class DeleteSentMessageTest extends BaseChatableTestCase
+class DeleteSentMessageTest extends BaseHeadlessChatTestCase
 {
     use RefreshDatabase;
 

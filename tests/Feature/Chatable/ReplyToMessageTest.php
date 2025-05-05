@@ -3,6 +3,7 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\BaseHeadlessChatTestCase;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Exceptions\InvalidParticipationException;
@@ -10,7 +11,7 @@ use Workbench\App\Models\User;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class ReplyToMessageTest extends BaseChatableTestCase
+class ReplyToMessageTest extends BaseHeadlessChatTestCase
 {
     use RefreshDatabase;
 

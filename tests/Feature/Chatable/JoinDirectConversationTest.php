@@ -3,12 +3,13 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\BaseHeadlessChatTestCase;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class JoinDirectConversationTest extends BaseChatableTestCase
+class JoinDirectConversationTest extends BaseHeadlessChatTestCase
 {
     use RefreshDatabase;
 
