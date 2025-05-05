@@ -17,8 +17,10 @@ class DeleteSentMessageAction
      * @throws InvalidParticipationException
      * @throws MessageOwnershipException
      */
-    public function handle(Message $message, Participant $deleter): void
-    {
+    public function handle(
+        Message $message,
+        Participant $deleter,
+    ): void {
         $message->loadMissing(['conversation.participations.participant']);
 
         $participation = $message->conversation->getParticipationOf($deleter);
