@@ -295,16 +295,13 @@ $conversation = HeadlessChat::createConversation(
 #### Signature:
 
 ```php
-class CreateConversationAction
-{
-    /**
-     * @throws ParticipationLimitExceededException
-     */
-    public function handle(
-        array $participants,
-        ConversationDto $conversationDto,
-    ): Conversation;
-}
+/**
+ * @throws ParticipationLimitExceededException
+ */
+public static function createConversation(
+    array $participants,
+    ConversationDto $conversationDto,
+): Conversation;
 ```
 
 ### Join a group conversation
