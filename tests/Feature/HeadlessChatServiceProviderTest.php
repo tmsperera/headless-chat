@@ -52,4 +52,25 @@ class HeadlessChatServiceProviderTest extends TestCase
         $this->assertTrue(File::exists($filePath));
         File::delete($filePath);
     }
+
+    public function test_when_publishes_all()
+    {
+        $migrationsPath = database_path('migrations/create_headless_chat_tables.php');
+        $configPath = config_path('headless-chat.php');
+        if (File::exists($configPath)) {
+            File::delete($configPath);
+        }
+        if (File::exists($migrationsPath)) {
+            File::delete($migrationsPath);
+        }
+
+        Artisan::call('vendor:publish', [
+            '--tag' => 'headless-chat',
+        ]);
+
+        $this->assertTrue(File::exists($migrationsPath));
+        $this->assertTrue(File::exists($configPath));
+        File::delete($migrationsPath);
+        File::delete($configPath);
+    }
 }
