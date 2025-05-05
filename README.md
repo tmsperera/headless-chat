@@ -57,7 +57,7 @@ A flexible, customizable and headless package designed to integrate chat functio
     php artisan migrate
     ```
 
-5. Implement your "User" Model from [Participant]([Chatable](/package/src/Contracts/Participant.php)) contract.
+5. Implement your "User" Model from [Participant]([Chatable](/src/Contracts/Participant.php)) contract.
 
     ```php
     use TMSPerera\HeadlessChat\Contracts\Participant;
@@ -69,7 +69,7 @@ A flexible, customizable and headless package designed to integrate chat functio
     ```
    > ℹ️ Any Eloquent Model can be used as a Participant
 
-5. Use [Chatable](/package/src/Traits/Chatable.php) trait in User Model.
+5. Use [Chatable](/src/Traits/Chatable.php) trait in User Model.
 
     ```php
     use TMSPerera\HeadlessChat\Contracts\Participant;
@@ -84,14 +84,14 @@ A flexible, customizable and headless package designed to integrate chat functio
 
 # Usage
 
-Having [Chatable](/package/src/Traits/Chatable.php) trait inside the User model gives you important abilities. And also this package provides standalone [Actions](package/src/Actions) to use anywhere your application needs.
+Having [Chatable](/src/Traits/Chatable.php) trait inside the User model gives you important abilities. And also this package provides standalone [Actions](/src/Actions) to use anywhere your application needs.
 
-🏗️ Feel free to refer the following component to have a better understanding
+Feel free to refer source code to have a better understanding
 
-- [Participant](/package/src/Contracts/Participant.php) Contract
-- [Chatable](/package/src/Traits/Chatable.php) Trait
-- [HeadlessChat](/package/src/HeadlessChat.php) Class
-- [Actions/](package/src/Actions) Directory
+- [/src/Contracts/Participant.php](/src/Contracts/Participant.php)
+- [/src/Traits/Chatable.php](/src/Traits/Chatable.php)
+- [/src/HeadlessChat.php](/src/HeadlessChat.php)
+- [/src/Actions](/src/Actions)
 
 ## Send a direct message
 
@@ -279,12 +279,12 @@ Headless Chat package is designed to support group chats. Here is how to create 
 ### Create a group conversation
 
 ```php
-use TMSPerera\HeadlessChat\HeadlessChatActions;
+use TMSPerera\HeadlessChat\HeadlessChat;
 
 $user1 = User::query()->find(1);
 $user2 = User::query()->find(1);
 
-$conversation = HeadlessChatActions::make()->createConversationAction->handle(
+$conversation = HeadlessChat::createConversation(
     participants: [$user1, $user2],
     conversationDto: new ConversationDTO(
         conversationType: ConversationType::GROUP,
@@ -310,8 +310,6 @@ class CreateConversationAction
 ### Join a group conversation
 
 ```php
-use TMSPerera\HeadlessChat\HeadlessChatActions;
-
 $user3 = User::query()->find(3);
 $conversation = Conversation::query()->find(1);
 
@@ -392,7 +390,7 @@ To swap a database table or model used in package follow the below steps:
     });
     ```
 
-3. Create new custom Model extending from the [Models](/package/src/Models) defined in Headless Chat package.
+3. Create new custom Model extending from the [Models](/src/Models) defined in Headless Chat package.
 
     ```php
     use TMSPerera\HeadlessChat\Models\Message;

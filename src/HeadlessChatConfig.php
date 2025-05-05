@@ -27,11 +27,6 @@ readonly class HeadlessChatConfig
         $this->readReceiptModelClass = Config::get('headless-chat.models.read_receipt', ReadReceipt::class);
     }
 
-    public static function make(): static
-    {
-        return App::make(self::class);
-    }
-
     public function conversationModel(): Conversation
     {
         return App::make($this->conversationModelClass);

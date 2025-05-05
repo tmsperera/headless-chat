@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use TMSPerera\HeadlessChat\HeadlessChatConfig;
+use TMSPerera\HeadlessChat\HeadlessChat;
 
 /**
  * @property Conversation $conversation
@@ -45,7 +45,7 @@ class Message extends Model
     public function conversation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::make()->conversationModel()::class,
+            related: HeadlessChat::config()->conversationModel()::class,
             foreignKey: 'conversation_id',
             ownerKey: $this->getKeyName(),
         );
@@ -57,7 +57,7 @@ class Message extends Model
     public function participation(): BelongsTo
     {
         return $this->belongsTo(
-            related: HeadlessChatConfig::make()->participationModel()::class,
+            related: HeadlessChat::config()->participationModel()::class,
             foreignKey: 'participation_id',
         );
     }
@@ -65,7 +65,7 @@ class Message extends Model
     public function readReceipts(): HasMany
     {
         return $this->hasMany(
-            related: HeadlessChatConfig::make()->readReceiptModel()::class,
+            related: HeadlessChat::config()->readReceiptModel()::class,
             foreignKey: 'message_id',
         );
     }

@@ -7,18 +7,12 @@ use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
-use TMSPerera\HeadlessChat\HeadlessChatConfig;
+use TMSPerera\HeadlessChat\HeadlessChat;
 use TMSPerera\HeadlessChat\Models\Conversation;
 use TMSPerera\HeadlessChat\Models\Message;
 
 class CreateDirectMessageAction
 {
-    public function __construct(
-        protected HeadlessChatConfig $headlessChatConfig,
-        protected CreateConversationAction $createConversationAction,
-        protected StoreMessageAction $storeMessageAction,
-    ) {}
-
     /**
      * @throws ParticipationLimitExceededException
      */
@@ -30,7 +24,7 @@ class CreateDirectMessageAction
         $conversation = $this->getExistingConversation(
             sender: $sender,
             recipient: $recipient,
-        ) ?: $this->createConversationAction->handle(
+        ) ?: HeadlessChat::createConversation(
             participants: [$sender, $recipient],
             conversationDto: new ConversationDto(conversationType: ConversationType::DIRECT_MESSAGE),
         );
@@ -38,7 +32,7 @@ class CreateDirectMessageAction
         $conversation->load('participations.participant');
         $senderParticipation = $conversation->getParticipationOf($sender);
 
-        return $this->storeMessageAction->handle(
+        return HeadlessChat::storeMessage(
             messageDto: $messageDto,
             senderParticipation: $senderParticipation,
         );
@@ -46,7 +40,7 @@ class CreateDirectMessageAction
 
     protected function getExistingConversation(Participant $sender, Participant $recipient): ?Conversation
     {
-        return $this->headlessChatConfig->conversationModel()->newQuery()
+        return HeadlessChat::config()->conversationModel()->newQuery()
             ->whereDirectMessage()
             ->whereHasParticipant($sender)
             ->whereHasParticipant($recipient)

@@ -17,8 +17,10 @@ class ReadMessageAction
      * @throws ReadBySenderException
      * @throws MessageAlreadyReadException
      */
-    public function handle(Message $message, Participant $reader): ReadReceipt
-    {
+    public function handle(
+        Message $message,
+        Participant $reader,
+    ): ReadReceipt {
         $message->load([
             'participation',
             'conversation.participations.participant',
