@@ -18,6 +18,10 @@ A flexible, customizable and headless package designed to integrate chat functio
   - [Get conversations](#get-conversations)
   - [Get conversations with metrics](#get-conversations-with-metrics)
   - [Get unread conversation count](#get-unread-conversation-count)
+  - [Group Messages](#group-messages) 
+    - [Create a group conversation](#create-a-group-conversation)
+    - [Join a group conversation](#join-a-group-conversation)
+    - [Send message to a group conversation](#send-message-to-a-group-conversation)
 - [Advanced Usage](#advanced-usage)
   - [Override Models](#override-models)
   - [Override Actions](#override-actions)
@@ -114,6 +118,9 @@ $message = $sender->createDirectMessage(
 ### Signature:
 
 ```php
+/**
+ * @throws InvalidParticipationException
+ */
 public function createDirectMessage(
     Participant $recipient,
     MessageDto $messageDto,
@@ -145,6 +152,9 @@ $sender->createReplyMessage(
 ### Signature:
 
 ```php
+/**
+ * @throws InvalidParticipationException
+ */
 public function createReplyMessage(
     Message $parentMessage,
     MessageDto $messageDto,
@@ -168,6 +178,11 @@ $recipient->readMessage($message);
 ### Signature:
 
 ```php
+/**
+ * @throws ReadBySenderException
+ * @throws InvalidParticipationException
+ * @throws MessageAlreadyReadException
+ */
 public function readMessage(Message $message): ReadReceipt;
 ```
 
@@ -187,6 +202,10 @@ $sender->deleteSentMessage($message);
 ### Signature:
 
 ```php
+/**
+ * @throws InvalidParticipationException
+ * @throws MessageOwnershipException
+ */
 public function deleteSentMessage(Message $message): void;
 ```
 
@@ -251,6 +270,95 @@ $sender->getUnreadConversationCount();
 
 ```php
 public function getUnreadConversationCount(): int;
+```
+
+## Group Messages
+
+Headless Chat package is designed to support group chats. Here is how to create group chat...
+
+### Create a group conversation
+
+```php
+use TMSPerera\HeadlessChat\HeadlessChatActions;
+
+$user1 = User::query()->find(1);
+$user2 = User::query()->find(1);
+
+$conversation = HeadlessChatActions::make()->createConversationAction->handle(
+    participants: [$user1, $user2],
+    conversationDto: new ConversationDTO(
+        conversationType: ConversationType::GROUP,
+    ),
+);
+```
+
+#### Signature:
+
+```php
+class CreateConversationAction
+{
+    /**
+     * @throws ParticipationLimitExceededException
+     */
+    public function handle(
+        array $participants,
+        ConversationDto $conversationDto,
+    ): Conversation;
+}
+```
+
+### Join a group conversation
+
+```php
+use TMSPerera\HeadlessChat\HeadlessChatActions;
+
+$user3 = User::query()->find(3);
+$conversation = Conversation::query()->find(1);
+
+$participation = $user3->joinConversation($conversation);
+```
+
+#### Signature:
+
+```php
+/**
+ * @throws ParticipationLimitExceededException
+ * @throws ParticipationAlreadyExistsException
+ */
+public function joinConversation(
+    Conversation $conversation,
+    array $participationMetadata = [],
+): Participation;
+```
+
+### Send message to a group conversation
+
+```php
+use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
+
+$sender = User::query()->find(1);
+$conversation = Conversation::query()->find(1);
+
+$message = $sender->createMessage(
+    conversation: $conversation, 
+    messageDto: new MessageDto(
+        type: 'text',
+        content: 'Hello!',
+        metadata: [ 'foo' => 'bar' ],
+    ), 
+);
+```
+
+#### Signature:
+
+```php
+/**
+ * @throws InvalidParticipationException
+ */
+public function createMessage(
+    Conversation $conversation,
+    MessageDto $messageDto,
+): Message;
 ```
 
 # Advanced Usage

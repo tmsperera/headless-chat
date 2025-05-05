@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\Actions;
+namespace Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\BaseHeadlessChatTestCase;
 use TMSPerera\HeadlessChat\DataTransferObjects\ConversationDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
 use TMSPerera\HeadlessChat\Exceptions\ParticipationLimitExceededException;
@@ -12,7 +12,7 @@ use TMSPerera\HeadlessChat\Models\Conversation;
 use TypeError;
 use Workbench\Database\Factories\UserFactory;
 
-class CreateConversationActionTest extends TestCase
+class CreateDirectConversationTest extends BaseHeadlessChatTestCase
 {
     use RefreshDatabase;
 

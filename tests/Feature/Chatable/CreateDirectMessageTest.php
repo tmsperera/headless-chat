@@ -3,6 +3,7 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\BaseHeadlessChatTestCase;
 use TMSPerera\HeadlessChat\Contracts\Participant;
 use TMSPerera\HeadlessChat\DataTransferObjects\MessageDto;
 use TMSPerera\HeadlessChat\Enums\ConversationType;
@@ -12,7 +13,7 @@ use TMSPerera\HeadlessChat\Models\Participation;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class CreateDirectMessageTest extends BaseChatableTestCase
+class CreateDirectMessageTest extends BaseHeadlessChatTestCase
 {
     use RefreshDatabase;
 

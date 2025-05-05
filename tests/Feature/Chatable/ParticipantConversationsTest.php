@@ -3,13 +3,14 @@
 namespace Tests\Feature\Chatable;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\BaseHeadlessChatTestCase;
 use Workbench\Database\Factories\ConversationFactory;
 use Workbench\Database\Factories\MessageFactory;
 use Workbench\Database\Factories\ParticipationFactory;
 use Workbench\Database\Factories\ReadReceiptFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class ParticipantConversationsTest extends BaseChatableTestCase
+class ParticipantConversationsTest extends BaseHeadlessChatTestCase
 {
     use RefreshDatabase;
 
